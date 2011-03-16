@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- generator="FeedCreator 1.7.2" -->
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://haarlem.watstemtmijnraad.nl/rss">
+        <title>Wat stemt mijn raad raadstukken</title>
+        <description>Raadstukken</description>
+        <link>http://haarlem.watstemtmijnraad.nl/rss/</link>
+       <dc:date>2010-02-24T15:39:48+01:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12792"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12793"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12797"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12795"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12799"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12784"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12785"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12786"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12787"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12788"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12789"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12791"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12783"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12359"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12367"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12009"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12012"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/11734"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12349"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12350"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12351"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12352"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12353"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12354"/>
+                <rdf:li rdf:resource="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12355"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12792">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Vaststelling bestemmingsplan Schalkwijkerweg</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12792</link>
+        <description>&lt;p&gt;Voor gehele tekst: klik hier&lt;/p&gt;&lt;p&gt;Besluit is aangenomen met in achtneming van bovengenoemde brief en de aangenomen amendementen en moties&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12793">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Bestemming woonschip De Onderneming</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12793</link>
+        <description>&lt;p&gt;Voor tekst amendement: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12797">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Bestemmingsplan Schalkwijkerweg Zwakke Dijk</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12797</link>
+        <description>&lt;p&gt;Voor gehele tekst amendement: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12795">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Bestemmingsplan Schalkwijkerweg Steigers</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12795</link>
+        <description>&lt;p&gt;Voor gehele tekst amendement: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12799">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Bestemmingsplan Schalkwijkerweg Tjadenterrein</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12799</link>
+        <description>&lt;p&gt;Voor gehele tekst amendement&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12784">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Besteding middelen intensivering handhaving II</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12784</link>
+        <description>&lt;p&gt;Voor tekst raadsvoorstel: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12785">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Verkoop grond nabij Jan Prinslaan 2</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12785</link>
+        <description>&lt;p&gt;Voor gehele tekst collegebesluit: klikhier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12786">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Beleidsnota participatiebudbet</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12786</link>
+        <description>&lt;p&gt;Voor tekst gehele raadsvoorstel: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12787">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Beheervisie Haarlemmerhout</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12787</link>
+        <description>&lt;p&gt;Voor gehele tekst raadsvoorstel: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12788">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Actieplan Omgevingslawaai Haarlem 2009-2013</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12788</link>
+        <description>&lt;p&gt;Voor gehele tekst raadsvoorstel: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12789">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Vaststellen DO en aanvraag krediet Integrale vernieuwing openbare ruimte Europawijk Zuid</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12789</link>
+        <description>&lt;p&gt;Voor tekst/inhoud raadsstuk: klikhier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12791">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Maatschappelijke participatie door kinderen</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12791</link>
+        <description>&lt;p&gt;Voor gehele tekst: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12783">
+        <dc:format>text/html</dc:format>
+        <dc:date>2010-01-28T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Verordening inrichting antidiscriminatievoorziening</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12783</link>
+        <description>&lt;p&gt;Voor tekst raadsvoorstel: klik hier&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12359">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-17T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Invoering gemeentelijke basisadministratie personen en vaststellen nieuwe verordening</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12359</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12367">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-17T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Verordening Voorzieningen Maatschappelijke ondersteuning Gemeente Haarlem 2010</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12367</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12009">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Vaststellen definitief ontwerp (DO) herinrichting Oranjeplein</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12009</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12012">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Plan van aanpak Gebiedsvisies</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12012</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/11734">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Wijziging Monumentenverordening 2006</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/11734</link>
+        <description>&lt;p&gt;Voor gehele voorstel: &lt;a href=&quot;http://e-diensten.haarlem.nl/infoman/getdocument/getdocument.asp?id=E9A44499-5D4E-47CF-B4D6-7C6CB4DC13F6&quot; target=&quot;_blank&quot;&gt;klik hier&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12349">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Beheer perceellozingen in de openbare ruimte</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12349</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12350">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Vaststelling afvalstoffenverordening en uitvoeringsbesluit 2009</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12350</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12351">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Jaarverslag 2009 RMC Voortijdig Schoolverlaten Midden- en Zuid Kennemerland en jaarverslag leerplicht Haarlem 2007-2008</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12351</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12352">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Kredietaanvraag Frans Halsmuseum</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12352</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12353">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Aanbrengen C-2000 communicatiesysteem in het gebouw Appelaar en in parkeergarage Cronjé</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12353</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12354">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Verkoop ondergrond Westhof E1 Ripperda Fase 3</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12354</link>
+        <description></description>
+    </item>
+    <item rdf:about="http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12355">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-12-03T00:00:00+01:00</dc:date>
+        <dc:source>http://haarlem.watstemtmijnraad.nl/</dc:source>
+        <title>Verkoop appartementsrecht Grote Houtstraat 1A en 1B</title>
+        <link>http://haarlem.watstemtmijnraad.nl/raadsstukken/raadsstuk/12355</link>
+        <description></description>
+    </item>
+</rdf:RDF>
