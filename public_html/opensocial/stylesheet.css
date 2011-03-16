@@ -1,0 +1,368 @@
+/*   basic styling    */
+
+body {
+	font-family:"Trebuchet MS",Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin:0;
+	padding:0;
+	}
+
+#errors, #errors div {
+    display: none;
+    }
+
+/* container with open id, will be shown if politician is not recognized. */
+#open_id {
+    font-size: 20px;
+}
+
+.widget {
+	display:block;
+	overflow:hidden;_zoom:1;
+	padding: 19px 0px 0;
+	margin:0;
+	}
+
+	.widget .top {
+		display:block;
+		}
+
+	.widget img {
+		float:left;
+		margin:0 10px 10px 10px;
+		}
+
+	.widget .politician {
+		float:left;
+		width: 72%;
+		}
+
+		.widget .politician h1 {
+			margin:-3px 0 0 0;
+			padding:0;
+			font-size: 1.7em;
+			font-weight: bold;
+			display: block;
+			}
+
+		.widget .politician p {
+			margin:0;
+			padding:0;
+			font-size: 1.1em;
+			line-height: 12px;
+			}
+
+		.widget a.logo {
+			background: url(images/wsmr_logo.png) no-repeat;
+			display:block;
+			height:44px;
+			width:44px;
+			text-indent:-9999px;
+			float:right;
+			margin-right:10px;
+			}
+
+		.widget ul {
+			clear:both;
+			margin:0;
+			padding:0 10px 27px;
+			}
+
+			.widget ul li {
+				list-style-type: none;
+				list-style-position:outside;
+				padding:10px 0;
+				margin:0;
+				overflow:hidden;_zoom:1;
+				display:list-item;
+				}		
+
+			.widget ul li:hover {
+				margin:-1px -10px 0;
+				padding:10px 10px;
+				}
+
+				.widget ul li a {
+					text-decoration: none;
+					display:block;
+					width:80%;
+					}
+
+				.widget ul li a:hover {
+					text-decoration: underline;
+					}
+
+				.widget ul li a h2 {
+					margin:0;
+					padding:0;
+					}
+
+				.widget ul li a p {
+					margin:0;
+					padding:0;
+					}
+
+				.widget ul li span.pol_voted {
+					float:right;
+					/*margin-top:6px;*/
+					}
+
+				.widget ul li span.result {
+					clear:both;
+					float:right;
+					margin-top:7px;
+					}
+
+				.widget ul li span.pro {
+					background: #04B2D9;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+				
+				.widget ul li span.contra {
+					background: #999966;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+                
+                /* politician didn't vote explicitly */
+                .widget ul li span.abstain {
+					background: #cfb62e;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+                
+                /* politician didn't vote, was absent */
+                .widget ul li span.absent {
+					background: #a9a9a9;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+                
+                /* new raadsstuk (no votes), currently not used. */
+                .widget ul li span.new {
+					background: #91cf2e;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+					
+	.widget button {
+		background:#04B2D9;
+		border:none;
+		color:#FFFFFF;
+		cursor:pointer;
+		font-weight:bold;
+		height:2em;
+		padding:2px 4px;
+		margin:0 10px 10px 0;
+		float:left;
+		}
+	.widget .error {
+		background:url(images/error.png) left center no-repeat;
+		padding-left:24px;
+		}
+					
+	.widget #errors,
+	.widget #configplatf {
+		padding:0 10px;
+		font-size:1.1em;
+		}
+		
+	.widget .cdat_openid {
+		font:1.2em "Courier New", Courier, monospace;
+		}
+	.widget #configplatf ul,
+	.widget #configure_platf ul {
+		background:none;
+		padding:10px 0;
+		}
+		.widget #configplatf li,
+		.widget #configure_platf li {
+			padding:5px 0;
+			}
+		.widget #configplatf li:hover,
+		.widget #configure_platf li:hover {
+			background:none;
+			margin:0;
+			border-top:0;
+			}
+	.widget #configplatf a,
+	.widget #configure_platf a {
+		display:inline;
+		text-decoration:underline;
+		}
+		.widget #configplatf a:hover,
+		.widget #configure_platf a:hover {
+			text-decoration:none;
+			}
+	
+	.widget #region_list a.sub,
+	.widget #party_list a.sub,
+	.widget #politician_list a.sub {
+		float:right;
+		width:auto;
+		margin-right:.5em;
+		}
+	.widget .sub {
+		background:url(images/next.png) right center no-repeat;
+		padding-right:12px;
+		}
+	.widget .back {
+		background-image:url(images/prev.png);
+		background-position:4px center;
+		background-repeat:no-repeat;
+		padding-left:12px;
+		padding-bottom:4px;
+		}
+	.widget #configure_platf a.config {
+		display:block;
+		background:#04b2d9;
+		color:#fff;
+		padding:10px 0;
+		margin-top:10px;
+		text-align:center;
+		font-size:1.2em;
+		text-transform:uppercase;
+		}
+		.widget #configure_platf a.config:hover {
+			background:#fff;
+			color:#04b2d9;
+			}
+	.widget h2 {
+		font-size:18px;
+		font-weight:normal;
+		margin:0 0 1em;
+		}
+	#contplatf h2 {
+		font-size:15px;
+		font-weight:bold;
+		}
+	#contplatf h2.welcome {
+		padding:0 10px;
+		}
+	
+		
+	
+													
+/*   widgetbox dark    */
+
+div.dark {
+	background:#666255;
+	}
+div.dark .widget {
+	background: #666255 url(images/widget_bg.gif) repeat-x top left;
+	color: #fff;
+	}
+
+    div.dark .error {
+
+		font-weight:bold;
+        }
+    div.dark a {
+		color:#04B2D9;
+		font-weight:bold;
+		}
+	    
+	div.dark .widget img {
+		border:1px solid #c5c5c4;
+		}
+	div.dark button {
+		background:#04B2D9;
+		color:#FFFFFF;
+		}
+
+		div.dark .widget ul {
+			/*background:url(images/bg_bottom.gif) repeat-x bottom left;*/
+			}
+
+			div.dark .widget ul li {
+				border-bottom:1px solid #8e8a7c;
+				}
+			
+			div.dark .widget ul li.first {
+				border-top:1px solid #8e8a7c;
+				}
+
+			div.dark .widget ul li:hover {
+				background: #777368;
+				border-top:1px solid #8e8a7c;
+				}
+
+				div.dark .widget ul li a {
+					color: #fff;
+					}
+
+				div.dark .widget ul li span.contra {
+					background: #999966;
+					}
+
+
+/*   widgetbox light    */
+
+div.light {
+	background:#fff;
+	}
+
+div.light .widget {
+	background: #fff url(images/widget_bg_light.gif) repeat-x top left;
+	color: #363636;
+	}
+	
+    div.light .error {
+
+        color: red;
+        }
+	div.light a {
+		color:#04B2D9;
+		font-weight:bold;
+		}
+	div.light .sub {
+		background:url(images/next-blue.png) right center no-repeat;
+		}
+	.widget #configplatf a,
+	.widget #configure_platf a {
+		color:#04B2D9;
+		}
+        
+	div.light .widget img {
+		border:1px solid #a1a1a1;
+		}
+
+		div.light .widget ul {
+			/*background:url(images/bg_bottom_light.gif) repeat-x bottom left;*/
+			}
+
+			div.light .widget ul li {
+				border-bottom:1px solid #dddddd;
+				}
+
+			div.light .widget ul li.first {
+				border-top:1px solid #dddddd;
+				}
+
+			div.light .widget ul li:hover {
+				background: #f2f2f2;
+				border-top:1px solid #dddddd;
+				}
+
+				div.light .widget ul li a {
+					color: #363636;
+					}
+
+				div.light .widget ul li a:hover {
+					text-decoration: underline;
+					}
+				
+				div.light .widget ul li span.contra {
+					background: #666558;
+					}

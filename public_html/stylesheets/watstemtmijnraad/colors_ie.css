@@ -1,0 +1,12 @@
+.voting .results { background-image:url(/images/results_border.gif);}
+.home-votings .results {background-image: url(/images/results_border-home.gif);}
+.voting .results .pro {background-image: url(/images/pro_border.gif);}
+.voting .results .contra {background-image: url(/images/contra_border.gif);}
+.voting .results .verdict {background-image: url(/images/verdict_bg.gif);}
+.sidebar .mod {background-image: url(/images/nav-parties-bottom.gif);}
+.sidebar .mod h3 {background-image: url(/images/nav-parties-top.gif);}
+.nav-parties li {background-image: url(/images/nav-parties-bg.gif);}
+.nav-parties a:hover {background-image: url(/images/nav-parties-bg-hover.gif);}
+.nav-parties ul.party li {background-image: url(/images/nav-party-bg.gif);}
+.nav-parties ul.party li a:hover {background-image: url(/images/nav-party-bg-hover.gif);}
+	

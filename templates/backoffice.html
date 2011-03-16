@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Watstemtmijnraad.nl Backoffice</title>
+	<link rel="stylesheet" href="/stylesheets/main.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/datepicker.css"/>
+    
+    <!--[if IE 6]>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/ie6.css" media="screen" />
+	<![endif]-->
+    
+{*	<!--DEBUG MOOTOOLS--><script src="/javascripts/mootools/mootools.v1.11_uncompressed.js" type="text/javascript"></script>*}
+	<script src="/javascripts/mootools/moo.tools.v1.11.js" type="text/javascript"></script>
+	<script src="/javascripts/ie.js" type="text/javascript"></script>
+	<script src="/javascripts/formlib.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="/javascripts/jquery.js"></script>
+        <script src="/javascripts/datepicker.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		jQuery.noConflict();
+	</script>
+
+	{if $smartyData.headerFile != ''}{include file=$smartyData.headerFile}{/if}
+</head>
+<body>
+    <div id="wrapper">
+			<div id="header">
+                <div class="login">
+                    {if $global->user->loggedIn}<a href ="/files/Handleiding_backoffice_wsmr_V1.0_hstl.pdf"> handleiding </a> -{/if}
+                    {if $global->user->loggedIn}<a href="/logout/">logout</a>{/if}
+                </div>
+                <a href="/"><img src="/images/wsmr-logo-text.gif" height="27" width="248" class="logotext" alt="Wat stemt mijn raad?" /><img src="/images/wsmr-logo.png" height="44" width="44" class="logo" alt="Wat stemt mijn raad?"/></a>
+                
+                {if $smarty.session.regionTitle}
+                <div class="menu-select">
+                    <h1>{$smarty.session.regionTitle}
+                    	{if $global->user->rights.selection->access}<a href="/selection/">andere griffie selecteren</a>{/if}
+                    </h1>
+                </div>
+                {/if}
+                
+				{capture name=admin_menu}
+					{if isset($smarty.session.role)}
+						{if $global->user->isSuperAdmin()}<li><a href="/party/" {if $global->pageInfo.module == 'party'}class="current_item"{/if}>Partijen</a></li>{/if}
+						{if $global->user->isSuperAdmin()}<li><a href="/politicians/" {if $global->pageInfo.module == 'politicians'}class="current_item"{/if}>Politici</a></li>{/if}
+                        {if $global->user->rights.categories->access}<li><a href="/categories/" {if $global->pageInfo.module == 'categories'}class="current_item"{/if}>Beleidsvelden</a></li>{/if}
+					{else}
+						{if $global->user->loggedIn}<li><a href="/selection/" {if $global->pageInfo.module == 'selection'}class="current_item"{/if}>Regio selectie</a></li>{/if}
+					{/if}
+					{if $global->user->rights.user->access}<li><a href="/user/" {if $global->pageInfo.module == 'user'}class="current_item"{/if}>Gebruikers</a></li>{/if}
+					{* Replace by link to static page with explanation about the pre-defined rolles and access {if $global->user->rights.users->access}<li><a href="/users/roles/">Rollen</a></li>{/if} *}
+				{/capture}
+
+				{if !preg_match('/^\s+$/', $smarty.capture.admin_menu)}
+					<div class="admin-menu">
+	                	<ul>
+	                    	<li class="bg"><p>Admin navigatie:</p></li>
+	                    	{$smarty.capture.admin_menu}
+	                    </ul>
+	                </div>
+                {/if}
+
+                <div class="menu">
+                    {capture name=menu}
+                        {if $smartyData.role}	
+                        	{if $smartyData.role instanceof BOUserRoleClerk}
+                                {if $global->user->rights.raadsstukken->access}<li><a href="/raadsstukken/" {if $global->pageInfo.module == 'raadsstukken'}class="current_item"{/if}>Raadsstukken</a></li>{/if}
+                            {/if}
+                            {if $global->user->rights.appointments->access}<li><a href="/appointments/" {if $global->pageInfo.module == 'appointments'}class="current_item"{/if}>De raad</a></li>{/if}
+							{if $global->user->rights.style->access}<li><a href="/style/" {if $global->pageInfo.module == 'style'}class="current_item"{/if}>Huisstijl</a></li>{/if}
+							{if $global->user->rights.pages->access}<li><a href="/pages/" {if $global->pageInfo.module == 'pages'}class="current_item"{/if}>Statische Pagina's</a></li>{/if}
+                            <li><a href="/statistics/">Statistieken</a></li>
+                            <li><a href="/forum">Forum</a></li>
+                            {if $smarty.session.regionHidden}
+                            <li><a href="http://www.{$global->domain}.{$global->tld}/regions/region/{$smarty.session.regionID}?preview=1">Preview</a></li>
+                            {/if}
+                        {/if}
+                    {/capture}
+                    {if !preg_match('/^\s+$/', $smarty.capture.menu)}
+                    <ul>
+                        {$smarty.capture.menu}
+                    </ul>
+                    {/if}
+                </div>
+			</div>
+            					
+			<div id="content">
+				<div class="leftColumn">
+
+					<div class="block" style="zoom: 1;">
+							{include file=$smartyData.contentFile}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+<!-- 
+{*
+	<div id="branding">
+		<h1><a href="/">Watstemtmijnraad.nl</a></h1>
+	</div>
+
+
+	<div id="filter">
+		<div id="filtered">			
+			{$blocks->login()}
+			{if $global->user->loggedIn}
+				{ *include_php file=$smarty.server.DOCUMENT_ROOT|cat:'/../pages/admin/filter/php/filter.php'* }
+			{/if}
+		</div>
+	</div>
+
+
+	{if $global->user->loggedIn}
+	<ul id="main_nav">						
+			{ *<li><a href="/template/">Template</a></li>* }
+						
+			{if $global->user->rights.selection->access}	<a href="/selection/">Selectie</a></li>{/if}
+			{if $smartyData.role}	
+				{if $global->user->rights.appointments->access}	<a href="/appointments/">Aanstellingen</a></li>{/if}
+				{if $smartyData.role instanceof BOUserRoleClerk}
+					{if $global->user->rights.raadsstukken->access} <a href="/raadsstukken/">Raadsstukken</a></li>{/if}
+					{if !$global->user->isSuperAdmin() && $global->user->rights.party->access}		<a href="/party/">Partijen</a></li>{/if}
+					{if !$global->user->isSuperAdmin() && $global->user->rights.politicians->access}	<a href="/politicians/">Politici</a></li>{/if}
+					{if $global->user->rights.style->access}	<a href="/style/">Opmaak</a></li>{/if}
+					{if $global->user->rights.pages->access}		<a href="/pages/">Statische Pagina's</a></li>{/if}
+				{/if}
+			{/if}
+			
+			{if $global->user->rights.regions->access}		<a href="/regions/">Regio's</a></li>{/if}
+			{if $global->user->rights.categories->access}	<a href="/categories/">Categorieen</a></li>{/if}
+			{if $global->user->isSuperAdmin() && $global->user->rights.party->access}		<a href="/party/">Partijen</a></li>{/if}					
+			{if $global->user->isSuperAdmin() && $global->user->rights.politicians->access}	<a href="/politicians/">Politici</a></li>{/if}					
+			{if $global->user->rights.user->access}			<a href="/user/">Gebruikers</a></li>{/if}
+			{if $global->user->rights.users->access}		<a href="/users/roles/">Rollen</a></li>{/if}
+	</ul>
+	{/if}
+
+	<ul id="sec_nav">
+		<li class="reload" ><a href="#" onclick="window.location.reload()">Reload</a></li>
+	</ul>
+
+	<div id="content">
+		{if count($messages) > 0}
+		<div id="messages">
+			{foreach from=$messages item=message key=content}
+			<div class="message {$message->getTypeName()|lower}">
+				<table>
+					<tr>
+						<td class="image" rowspan="2"><img src="/images/{$message->getTypeName()|lower}.gif" alt=""/></td>
+						<td><span class="title">{$message->title}</span></td>
+					</tr>
+					<tr>
+						<td>{$message->message}</td>
+					</tr>
+				</table>
+			</div>
+			{/foreach}
+		</div>
+		{/if}
+		{include file=$smartyData.contentFile}
+	</div>
+*}  -->
+</body>
+</html>

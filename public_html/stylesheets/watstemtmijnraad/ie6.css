@@ -1,0 +1,6 @@
+#footer .wrap ul.extra_links li a {
+	display:inline;
+}
+#footer .wrap ul.extra_links li a:hover {
+	text-decoration: underline;
+	}

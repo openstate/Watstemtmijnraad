@@ -1,0 +1,66 @@
+/*  donkergrijs   */
+
+body, h5, div.party-voting, div.party-voting span.this-party a, div.voteinfo span.pol-name a, .voting .meta-info, .voting .results .v-contra, div.nav-mun ul li a, div.party-compare {color:#666558;}
+
+div.voting-info h5, .voting-info h5.contra, .voting-info span.contra, .voting .results .contra, .voting .vote .vote-contra, .voting .pol-results .contra, span.contra, span.r2, div.party-compare .little {background-color: #666558;}
+
+
+
+/*  Groen  */
+
+h2, h3, div.filter .expand_filter, div.voting-info {border-bottom:2px solid #999966;}
+
+div.search input {border-color:#999966;}
+
+div.search a.more, div.filter .expand_filter ul li a, .voting .date, .voting .results .v-not-voted, .voting a.more2 {color:#999966;}
+
+.voting {border-bottom:1px solid #999966;}
+
+.voting .results, .voting .results .not-voted, div.home-votings, .voting .pol-results .not-voted, .sidebar .mod, span.not-voted, div.party-compare .medium {background-color:#999966;}
+
+.nav-parties ul.party li a img {border: 1px solid #999966;}
+
+
+
+/*  blauw  */
+
+h1,h2,h3,h4,h5,h6, a, .voting .results .v-pro, div.nav-mun ul li a:hover, .sidebar h1.blue a, a.back {color:#04b2d9;}
+
+button, .voting-info h5.pro, .voting-info span.pro, .voting .results .pro, .voting .vote .vote-pro, .voting .pol-results .pro, .nav-parties a:hover, .nav-parties ul.party a:hover, .sidebar .nav-mun-info, span.pro, span.r1, div.party-compare .much, ul.results_ul li a:hover {background-color:#04b2d9;}
+
+
+
+/*  wit  */
+
+html, div.search label, div.filter .expand_filter, div.politician-info, div.voting-info, .voting-info h5.other, div.party-voting, .voting .results .verdict, div.home-votings .voting, .nav-parties li, .nav-parties ul.party li, a.party-photo, a.party-photo:hover, div.party-compare, div.party-compare .zero, ul.results_ul li a {background-color:#ffffff;}
+
+button, p.error, .branding h1, .branding a.choose, div.voting-info h5, .voting-info span.pro, .voting-info span.contra, .voting .results .pro, .voting .results .contra, .voting .results .not-voted, .voting .vote .vote-contra, div.home-votings h2, div.home-votings a.mod-more-big, .voting .pol-results span, .sidebar .mod, .sidebar a, .nav-parties a.has-img, .nav-parties a:hover, .nav-parties ul.party a:hover, span.result, span.pro, span.contra, span.not-voted, div.party-compare .percentage, ul.results_ul li a:hover {color:#fff;}
+
+div.search label {border:2px solid #fff;}
+
+.voting .results .contra {border-left:4px solid #fff;}
+
+
+
+/*   plaatjes   */
+
+div.filter a.advanced {background-image:url(/images/arrow-d-blue-md.png);}
+a.back {background-image: url(/images/arrow-l-blue-md.png);}
+.voting .vote {background-image:url(/images/arrow-l-blue-xbg.png);}
+.branding a.choose {background-image:url(/images/arrow-l-white-bg.gif);}
+div.more_results a {background-image: url(../images/arrow-r-blue-md.png);}
+a.more {background-image:url(/images/arrow-r-blue-md.png);}
+a.mod-more-big {background-image:url(/images/arrow-r-blue-md.png);}
+a.more_link {background-image:url(/images/arrow-r-blue-md.png);}
+a.mod-more {background-image:url(/images/arrow-r-blue-xbg.png);}
+.nav-parties li {background-image:url(/images/arrow-r-blue-xbg.png);}
+.nav-parties ul.party li {background-image:url(/images/arrow-r-blue-xbg.png);}
+.nav-breadcrumbs li.root {background-image:url(/images/arrow-r-brown-bg.png);}
+.voting a.more2 {background-image:url(/images/arrow-r-brown-bg.png);}
+.nav-breadcrumbs li {background-image:url(/images/arrow-r-brown-sm.png);}
+div.search a.more {background-image:url(/images/arrow-r-brown-sm.png);}
+div.home-votings a.mod-more-big {background-image:url(/images/arrow-r-white-md.gif);}
+.nav-parties a:hover {background-image: url(/images/arrow-r-white-xbg.png);}
+.nav-parties ul.party a:hover {background-image: url(/images/arrow-r-white-xbg.png);}
+.nav-breadcrumbs {background-image:url(/images/breadcrumbs.gif);}
+h2 a.remove-filter {background-image: url(../images/close.png);}

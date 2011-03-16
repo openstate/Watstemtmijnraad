@@ -1,0 +1,39 @@
+span.metageg {display: block; color: #aaa;}
+
+/* css for movie */
+.moviecontent, .audiocontent { width: 466px; background:#666256; } /* a default value will be replaced by movie width */
+.moviecontent ul, .audiocontent ul {border: 0;overflow:hidden;margin:0;padding:0 0 1px 0; list-style:none; }
+.moviecontent li, .audiocontent li {background-image:none;padding:0;margin:0;border:0;}
+
+.moviecontent h3, .audiocontent h3 { border-bottom:1px solid #dedede; color: #000; margin: 0; padding: 0; font-size: 100%;}
+.moviecontent li h3 a, .audiocontent li h3 a {border: 1px solid #FFF; color: #000;}
+.moviecontent li h3 a:hover, .audiocontent li h3 a:hover {color: #000;}
+
+.moviecontent li a, .audiocontent li a {display: block; padding: 2px 15px 3px 0; font-weight: bold; border-bottom:1px solid #dedede; background:url("images/pijl.gif") right top no-repeat;height:1%; text-decoration: none; color: #000;}
+.moviecontent li li a, .audiocontent li li a { font-weight: normal; padding: 2px 15px 3px 0;}
+.moviecontent li a:hover, .audiocontent li a:hover {color: #000; border-bottom: 1px solid #000; background:url("images/pijl-hover.gif") right top no-repeat;}
+
+.moviecontent li p a, .audiocontent li p a {display: inline; text-decoration: underline; color: blue; background: #FFF; border: 0; padding: 0; margin: 0; font-weight: normal;}
+.moviecontent li p a:hover, .audiocontent li p a:hover {display: inline; text-decoration: underline; color: blue; background: #FFF; border: 0; padding: 0; margin: 0;}
+
+.moviecontent li img, .audiocontent li img { margin-bottom: -4px;}
+
+.moviecontent li a.open, .audiocontent li a.open { background:url("images/pijl-open.gif") right top no-repeat; }
+.moviecontent li a.open:hover, .audiocontent li a.open:hover { background:url("images/pijl-open-hover.gif") right top no-repeat; }
+.moviecontent ul.open, .moviecontent div.open, .moviecontent p.open,
+.audiocontent ul.open, .audiocontent div.open, .audiocontent p.open {display: block; }
+.moviecontent li a.close, .audiocontent li a.close { background:url("images/pijl.gif") right top no-repeat; }
+.moviecontent li a.close:hover, .audiocontent li.close:hover { background:url("images/pijl-hover.gif") right top no-repeat; }
+.moviecontent ul.close, .moviecontent div.close, .moviecontent p.close,
+.audiocontent ul.close, .audiocontent div.close, .audiocontent p.close  {display:none;}
+.moviecontent li.transcription div, .audiocontent li.transcription div { margin:0; padding:0; border-bottom: 1px solid #EEE;}
+
+.moviecontent li.transcription span.actor, .audiocontent li.transcription span.actor { font-weight: bold;}
+.moviecontent li.transcription span.handeling, .moviecontent li.transcription span.audiobeschrijving, 
+.moviecontent li.transcription span.gebaar, .moviecontent li.transcription span.sfeer, 
+.moviecontent li.transcription span.geschreventekst,
+.audiocontent li.transcription span.handeling, .audiocontent li.transcription span.audiobeschrijving, 
+.audiocontent li.transcription span.gebaar, .audiocontent li.transcription span.sfeer, 
+.audiocontent li.transcription span.geschreventekst  { font-style: italic;}
+
+#movie a { display:block;}

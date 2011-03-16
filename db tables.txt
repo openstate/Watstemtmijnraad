@@ -1,0 +1,155 @@
+-- Sessions --
+
+CREATE TABLE sys_sessions (
+    id character varying(32) NOT NULL,
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    data bytea NOT NULL
+);
+
+ALTER TABLE ONLY sys_sessions
+    ADD CONSTRAINT sys_sessions_pkey PRIMARY KEY (id);
+
+
+-- Users --
+
+CREATE TABLE usr_users (
+    id bigserial NOT NULL,
+    username character varying(40) NOT NULL,
+    "password" character varying(40) NOT NULL,
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    email character varying(100) NOT NULL
+);
+
+ALTER TABLE ONLY usr_users
+    ADD CONSTRAINT usr_users_pkey PRIMARY KEY (id);
+
+
+-- User preferences --
+
+CREATE TABLE usr_users_prefs (
+    userid integer NOT NULL,
+    "key" character varying(30) NOT NULL,
+    value character varying(50) NOT NULL
+);
+
+ALTER TABLE ONLY usr_users_prefs
+    ADD CONSTRAINT usr_userpreferences_pkey PRIMARY KEY (userid, "key");
+
+ALTER TABLE ONLY usr_users_prefs
+    ADD CONSTRAINT usr_userpreferences_userid_fkey FOREIGN KEY (userid) REFERENCES usr_users(id) ON DELETE CASCADE;
+
+
+-- User roles --
+
+CREATE TABLE usr_roles (
+    id serial NOT NULL,
+    title character varying(40) NOT NULL
+);
+
+ALTER TABLE ONLY usr_roles
+    ADD CONSTRAINT usr_roles_pkey PRIMARY KEY (id);
+
+CREATE TABLE usr_roles_access (
+    roleid integer NOT NULL,
+    module character varying(20) NOT NULL,
+    "access" character varying(40) NOT NULL
+);
+
+ALTER TABLE ONLY usr_roles_access
+    ADD CONSTRAINT usr_roles_access_pkey PRIMARY KEY (roleid, module, "access");
+
+ALTER TABLE ONLY usr_roles_access
+    ADD CONSTRAINT usr_roles_access_roleid_fkey FOREIGN KEY (roleid) REFERENCES usr_roles(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+CREATE TABLE usr_users_roles (
+    userid bigint NOT NULL,
+    roleid bigint NOT NULL
+);
+
+ALTER TABLE ONLY usr_users_roles
+    ADD CONSTRAINT usr_userroles_pkey PRIMARY KEY (userid, roleid);
+
+ALTER TABLE ONLY usr_users_roles
+    ADD CONSTRAINT usr_userroles_userid_fkey FOREIGN KEY (userid) REFERENCES usr_users(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY usr_users_roles
+    ADD CONSTRAINT usr_users_roles_roleid_fkey FOREIGN KEY (roleid) REFERENCES usr_roles(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
+-- WSMR sync --
+
+CREATE TABLE sys_hns_ids (
+    record_type character varying(40) NOT NULL,
+    record_id integer NOT NULL,
+    hns_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sys_hns_ids OWNER TO wsmr;
+
+--
+-- Name: sys_hns_ids_pkey; Type: CONSTRAINT; Schema: public; Owner: wsmr; Tablespace:
+--
+
+ALTER TABLE ONLY sys_hns_ids
+    ADD CONSTRAINT sys_hns_ids_pkey PRIMARY KEY (record_type, record_id);
+
+
+--
+-- Name: sys_hns_ids_record_type_key; Type: CONSTRAINT; Schema: public; Owner: wsmr; Tablespace:
+--
+
+ALTER TABLE ONLY sys_hns_ids
+    ADD CONSTRAINT sys_hns_ids_record_type_key UNIQUE (record_type, hns_id);
+
+
+
+
+
+
+CREATE TABLE sys_hns_log (
+    id integer NOT NULL,
+    stamp timestamp without time zone DEFAULT now(),
+    class character varying(32),
+    message character varying(2048)
+);
+
+
+ALTER TABLE public.sys_hns_log OWNER TO wsmr;
+
+--
+-- Name: sys_hns_log_id_seq; Type: SEQUENCE; Schema: public; Owner: wsmr
+--
+
+CREATE SEQUENCE sys_hns_log_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sys_hns_log_id_seq OWNER TO wsmr;
+
+--
+-- Name: sys_hns_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: wsmr
+--
+
+ALTER SEQUENCE sys_hns_log_id_seq OWNED BY sys_hns_log.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: wsmr
+--
+
+ALTER TABLE sys_hns_log ALTER COLUMN id SET DEFAULT nextval('sys_hns_log_id_seq'::regclass);
+
+
+--
+-- Name: sys_hns_log_pkey; Type: CONSTRAINT; Schema: public; Owner: wsmr; Tablespace:
+--
+
+ALTER TABLE ONLY sys_hns_log
+    ADD CONSTRAINT sys_hns_log_pkey PRIMARY KEY (id);
+
+

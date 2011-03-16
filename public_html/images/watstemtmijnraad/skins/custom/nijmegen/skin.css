@@ -1,0 +1,77 @@
+/*  donkergrijs   */
+
+body, h5, div.party-voting, div.party-voting span.this-party a, div.voteinfo span.pol-name a, .voting .meta-info, .voting .results .v-contra, div.nav-mun ul li a, div.party-compare, .sidebar .nav-parties a, .nav-breadcrumbs li {color:#616263;}
+
+div.voting-info h5, .voting-info h5.contra, .voting-info span.contra, .voting .results .contra, .voting .vote .vote-contra, .voting .pol-results .contra, span.contra, span.r2, div.party-compare .little, #header {background-color: #616263;}
+
+
+
+/*  Groen  */
+
+h2, h3, div.filter .expand_filter, div.voting-info {border-bottom:2px solid #780d23;}
+
+div.search input, div.voting-info {border-color:#780d23;}
+
+div.search a.more, div.filter .expand_filter ul li a, .voting .date, .voting .results .v-not-voted, .voting a.more2 {color:#780d23;}
+
+.voting {border-bottom-color: #780d23;}
+
+.voting .results, .voting .results .not-voted, div.home-votings, .voting .pol-results .not-voted, .sidebar .mod, span.not-voted, div.party-compare .medium, .sidebar .mod {background-color:#780d23;}
+
+.nav-parties ul.party li a img {border-color: #780d23;}
+
+
+
+/*  blauw  */
+
+h1,h2,h3,h4,h5,h6, a, .voting .results .v-pro, div.nav-mun ul li a:hover, .sidebar h1.blue a, a.back {color: #131a7d;}
+
+button, .voting-info h5.pro, .voting-info span.pro, .voting .results .pro, .voting .vote .vote-pro, .voting .pol-results .pro, .nav-parties a:hover, .nav-parties ul.party a:hover, .sidebar .nav-mun-info, span.pro, span.r1, div.party-compare .much, ul.results_ul li a:hover, #footer {background-color: #131a7d;}
+
+
+#header {border-color: #131a7d;}
+			
+
+/*  wit  */
+
+html, div.search label, div.filter .expand_filter, div.politician-info, div.voting-info, .voting-info h5.other, div.party-voting, .voting .results .verdict, div.home-votings .voting, .nav-parties li, .nav-parties ul.party li, a.party-photo, a.party-photo:hover, div.party-compare, div.party-compare .zero, ul.results_ul li a {background-color: #fafafc;}
+
+button, p.error, .branding h1, .branding a.choose, div.voting-info h5, .voting-info span.pro, .voting .vote .vote-pro, .voting-info span.contra, .voting .results .pro, .voting .results .contra, .voting .results .not-voted, .voting .vote .vote-contra, div.home-votings h2, div.home-votings a.mod-more-big, .voting .pol-results span, .sidebar .mod, .sidebar a, .nav-parties a.has-img, .nav-parties a:hover, .nav-parties ul.party a:hover, span.result, span.pro, span.contra, span.not-voted, div.party-compare .percentage, ul.results_ul li a:hover, .sidebar h3, #footer, #footer h4, #footer a, #footer .wrap .voting-behaviour h4, #footer .wrap .voting-behaviour h4 a {color: #fafafc;}
+
+.voting .results .contra, div.search label {border-left-color: #fafafc;}
+
+/* lichtblauw */
+
+#footer .wrap ul.extra_links li:hover {background-color: #414696;}
+#footer .wrap ul.extra_links li {border-bottom-color: #414696;}
+
+/* highlights */
+
+div.search label span, div.search label.overlay span { color: #c7c7c9; }
+
+/*   plaatjes   */
+
+div.filter a.advanced {background-image:url(./arrow-d-blue-md.png);}
+a.back {background-image: url(./arrow-l-blue-md.png);}
+.voting .vote {background-image:url(./arrow-l-blue-xbg.png);}
+.branding a.choose {background-image:url(./arrow-l-white-bg.gif);}
+div.more_results a {background-image: url(./arrow-r-blue-md.png);}
+a.more {background-image:url(./arrow-r-blue-md.png);}
+a.mod-more-big {background-image:url(./arrow-r-blue-md.png);}
+a.more_link {background-image:url(./arrow-r-blue-md.png);}
+a.mod-more {background-image:url(./arrow-r-blue-xbg.png);}
+.nav-parties li {background-image:url(./arrow-r-blue-xbg.png);}
+.nav-parties ul.party li {background-image:url(./arrow-r-blue-xbg.png);}
+.nav-breadcrumbs li.root {background-image:url(./arrow-r-brown-bg.png);}
+.voting a.more2 {background-image:url(./arrow-r-brown-bg.png);}
+.nav-breadcrumbs li {background-image:url(./arrow-r-brown-sm.png);}
+div.search a.more {background-image:url(./arrow-r-brown-sm.png);}
+div.home-votings a.mod-more-big {background-image:url(./arrow-r-white-md.gif);}
+.nav-parties a:hover {background-image: url(./arrow-r-white-xbg.png);}
+.nav-parties ul.party a:hover {background-image: url(./arrow-r-white-xbg.png);}
+.nav-breadcrumbs {background-image:url(./breadcrumbs.gif);}
+h2 a.remove-filter {background-image: url(./close.png);}
+#header {background-image:url(./header.png);}
+#footer {background-image:url(./footer.png);}
+#footer .wrap .voting-behaviour {background-image:url(./footer_text_bg.gif);}
+.branding h1 .wsmr {background-image:url(/files/T8rh1mJDO3JKmLItqb4xqgeffH99XG1G.jpg); width:290px;}

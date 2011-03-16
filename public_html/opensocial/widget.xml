@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <!-- title_url should point to page explaining the gadget -->
+  <ModulePrefs title="Watstemtmijnraad.nl" title_url="http://www.watstemtmijnraad.nl" 
+height="350" author="Getlogic B.V." author_email="wietse.vanderwal@accepte.nl" 
+summary="Deze widget kan raadstukken van gemeenten, partijen of politici uit 
+de watstemtmijnraad website weergeven." description="Deze widget kan raadstukken van 
+gemeenten, partijen of politici uit de watstemtmijnraad website weergeven." 
+thumbnail="http://www.watstemtmijnraad.nl/opensocial/images/thumbnail.png" 
+screenshot="http://www.watstemtmijnraad.nl/opensocial/images/screenshot.png" >
+  	<!-- hyves supported -->
+    <Require feature="opensocial-0.7"/>
+    <!-- Some prefferences can not be changed by user directly. -->
+    <Require feature="setprefs"/>
+    <!-- used to adjust height dynamically -->
+    <Optional feature="window"/>
+  </ModulePrefs>
+  
+  
+  <Content type="html" preferred_height="350">
+    <![CDATA[
+<!-- ======================- CONFIG -========================== -->
+	<!-- ensure all paths are correct -->
+    <script type="text/javascript" src="http://watstemtmijnraad.nl/opensocial/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://watstemtmijnraad.nl/opensocial/stylesheet.css" type="text/css" />
+      
+	<script type="text/javascript">
+        //our service responding with JSON
+    	var service_urls = {
+    		//tree with all regions (provincial+)
+    		region_tree: "http://watstemtmijnraad.nl/opensoc?regionlist=1",
+    		//list of active parties of a specific region
+    		party_list: "http://watstemtmijnraad.nl/opensoc?partylist=1&regionid=@@id@@",
+    		//list active politicians within a party (local party)
+    		politician_list: "http://www.watstemtmijnraad.nl/opensoc/?pollist=1&partyid=@@id@@",
+    		
+    		//select raadstukken in a spcific region
+    		raadsstukken_region: "http://www.watstemtmijnraad.nl/opensoc/?raadsstukken=1&regionid=@@id@@&limit=@@limit@@",
+    		//voted by members of a specific party
+    		raadsstukken_party: "http://www.watstemtmijnraad.nl/opensoc/?raadsstukken=1&partyid=@@id@@&limit=@@limit@@",
+    		//voted by specific politician
+    		raadsstukken_politician: "http://www.watstemtmijnraad.nl/opensoc/?raadsstukken=1&polid=@@id@@&limit=@@limit@@",
+    	}
+    </script>
+      
+      
+<!-- ===============- Do not edit bellow this line -================= -->
+    <script type="text/javascript">
+    	var last_region = null;
+    	var last_party = null;
+        
+    	/** entry point */
+    	function init() {
+    		//reset config controls
+    		$('#configure_platf .instelset').css('display', 'block');
+            $('#configure_platf .instelcancel').css('display', 'none');
+
+    		//look up the config
+    		//unfortunatelly gadget.prefs are viewer bound, while we need config owner bound
+    		//let use app. data instead.
+    		var req = opensocial.newDataRequest();
+    		req.add(req.newFetchPersonRequest('OWNER'), 'owner');
+    		req.add(req.newFetchPersonAppDataRequest('OWNER', '*'), 'owner_prefs');
+  			req.send(function(data) {
+  				//onwer info should always be available
+  				if(data.get('owner').hadError()) return showError('no_owner', init);
+  				var owner = data.get('owner').getData();
+  				var prefs = data.get('owner_prefs').hadError()? null: data.get('owner_prefs').getData();
+  				prefs = (prefs != null && (owner.getId() in prefs))? prefs[owner.getId()]: null;
+
+  				//fail if we have no access to config and this is not owner
+  				if(prefs == null && !owner.isViewer()) return showError('not_configured', init);
+               
+				var theme = prefs && 'theme' in prefs? prefs['theme']: 'dark';
+				var limit = prefs && 'limit' in prefs? parseInt(prefs['limit']): 5;
+				limit = limit > 0? limit: 5;
+
+    			var wsmrdata = prefs && 'wsmrdata' in prefs? prefs['wsmrdata'].split(':::'): [null, null];
+    			var wsmrowner = wsmrdata[0];
+    			var wsmrownerid = wsmrdata[1];
+
+	    		//change theme
+    			$('#main').addClass(theme == 'light'? 'light': 'dark');
+    	
+    			//show config controls
+    			if(owner.isViewer()) $('#configure_platf').show();
+
+    			if(wsmrowner == 'politician') { //from politician perspective
+  					var url = service_urls.raadsstukken_politician.replace(/@@([a-z]+)@@/g, function(str, tag) {
+  						return tag == 'id'? wsmrownerid: limit;
+  					});
+  					
+  					//fetch the data
+                	var params = {}; params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+                	gadgets.io.makeRequest(url, function(raddata) {
+                    	if(raddata.data && !isError(raddata.data)) renderPolitician(raddata.data);
+                    	else return showError('raadsstuk_fetch_failed', init);
+                	}, params);
+  				} else if(wsmrowner == 'party') { //party view
+  					var url = service_urls.raadsstukken_party.replace(/@@([a-z]+)@@/g, function(str, tag) {
+  						return tag == 'id'? wsmrownerid: limit;
+  					});
+  					
+  					//fetch the data
+                	var params = {}; params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+                	gadgets.io.makeRequest(url, function(raddata) {
+                    	if(raddata.data && !isError(raddata.data)) renderParty(raddata.data);
+                    	else return showError('raadsstuk_fetch_failed', init);
+                	}, params);
+  				} else if(wsmrowner == 'region') { //regional view
+  					var url = service_urls.raadsstukken_region.replace(/@@([a-z]+)@@/g, function(str, tag) {
+  						return tag == 'id'? wsmrownerid: limit;
+  					});
+  					
+  					//fetch the data
+                	var params = {}; params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+                	gadgets.io.makeRequest(url, function(raddata) {
+                    	if(raddata.data && !isError(raddata.data)) renderRegion(raddata.data);
+                    	else return showError('raadsstuk_fetch_failed', init);
+                	}, params);
+  				} else { //not configured
+  					if(owner.isViewer()) return configRegions(); //gadget is not yet configured
+  					else return showError('not_configured');
+  				}
+  			});
+    	}
+    
+    	/** Check server side error. */
+    	function isError(data) {
+    		return ('error' in data);
+    	}
+    	
+    	/** Show error screen. */
+    	function showError(type, againfunc) {
+    		//no_owner, raadsstuk_fetch_failed, not_configured, region_fetch_failed, party_fetch_failed, politician_fetch_failed
+    		$('#main .widget .screen, #errors .escreen').hide(); // hide all screens
+    		$('#errors, #errors .' + type).show(); //show error error screen
+    		
+    		$('#errors .' + type + ' .again').unbind('click');
+    		if(againfunc) {
+    			$('#errors .' + type + ' .again').show().click(againfunc);
+    		} else {
+    			$('#errors .' + type + ' .again').hide();
+    		}
+    		return false;
+    	}
+    	
+    	/** Render politician profile and raadsstukken */
+    	function renderPolitician(data) {
+    		//create header
+    		var pol = data.politician;
+    		var rad = data.raadsstukken;
+    		var html = 	'<div class="top">' + 
+            			'	<img id="profile_image" src="' + encodeURI(pol.photo) + '" width="40" height="46" alt="' + pol.name + '" />' +
+            			'	<div class="politician">' + 
+                		'		<h1>' + pol.name + '</h1>' +
+      (rad.length == 0? '		<p>' + pol.name + ' heeft nog niet gestemd</p>':
+      (rad.length == 1? '		<p>Dit is de laatste raadsstuk waarop ' + pol.name + ' heeft gestemd</p>':
+                		'		<p>Dit zijn de laatste ' + rad.length + ' raadstukken waarop ' + pol.name + ' heeft gestemd</p>')) + 
+            			'	</div>' + 
+            			'	<a href="http://watstemtmijnraad.nl" class="logo">WSMR</a>' + 
+        				'</div>';
+        				
+
+        	//politician vote
+        	var votemap = {
+  				'pro': 'Stemde <span class="pro">voor</span>',
+    			'contra': 'Stemde <span class="contra">tegen</span>',
+    			'abstain': '<span class="abstain">Heeft zich onthouden</span>',
+    			'absent': '<span class="absent">Was afwezig</span>'
+    		};
+            // raadsstuk result
+            var voteresult = {
+                'new': '<span class="result new">Niet gestemd</span>',
+                'pro': '<span class="result pro">Aangenomen</span>',
+                'contra': '<span class="result contra">Afgewezen</span>'
+            };
+            
+			var rhtml = '<ul>';
+			if(rad.length == 0) {
+				rhtml +='	<li class="first">'+
+            			'		<h4 style="text-align: center;">Geen raadsstukken gevonden</h4>' + 
+            			'	</li>';
+			} else {
+				for(var i = 0; i < rad.length; i++) {
+					var rd = rad[i];
+        			rhtml +='	<li ' + (i == 0? 'class="first"': '') + '>' + 
+        					'		<span class="pol_voted">' + votemap[rd.polvote] + '</span>' + voteresult[rd.result] + 
+	            			'		<a href="' + encodeURI(rd.view_url) + '" target="_blank">' +             			
+    	            		'			<h2>' + rd.title + '</h2>' + 
+        	            	'			<p>' + rd.summary + '</p>' +
+            	    		'		</a>' + 
+            				'	</li>';
+        		}
+        	}
+        	rhtml += '</ul>';
+        	
+        	$('#main .widget .screen').hide(); // hide all screens
+        	$('#contplatf').html(html + rhtml).show(); //fill and show the content screen
+    	}
+    	
+    	/** Render party profile and raadsstukken */
+    	function renderParty(data) {
+    		//create header
+    		var party = data.party;
+    		var rad = data.raadsstukken;
+    		
+    		var html = 	'<div class="top">' +
+            			'	<div class="politician" style="padding-left: 10px;">' +
+                		'	<h1>' + party.name + '</h1>' +
+      (rad.length == 0? '		<p>' + party.name + ' heeft nog niet gestemd</p>':
+      (rad.length == 1? '		<p>Dit is de laatste raadsstuk waarop ' + party.name + ' heeft gestemd</p>':
+                		'		<p>Dit zijn de laatste ' + rad.length + ' raadstukken waarop ' + party.name + ' heeft gestemd</p>')) +
+            			'	</div>' +
+            			'	<a href="http://watstemtmijnraad.nl" class="logo">WSMR</a>' +
+        				'</div>';
+
+            // raadsstuk result
+            var voteresult = {
+                'new': '<span class="result new">Niet gestemd</span>',
+                'pro': '<span class="result pro">Aangenomen</span>',
+                'contra': '<span class="result contra">Afgewezen</span>'
+            };
+            
+			var rhtml = '<ul>';
+			if(rad.length == 0) {
+				rhtml +='	<li class="first">'+
+            			'		<h4 style="text-align: center;">Geen raadsstukken gevonden</h4>' + 
+            			'	</li>';
+			} else {
+				for(var i = 0; i < rad.length; i++) {
+					var rd = rad[i];
+        			rhtml +='	<li ' + (i == 0? 'class="first"': '') + '>' + 
+      				(rd.party_vote_pro == rd.party_vote_contra? 	'<span class="abstain">Heeft zich onthouden</span>':
+      					(rd.party_vote_pro > rd.party_vote_contra?  'Stemde <span class="pro">voor</span>':
+      																'Stemde <span class="contra">tegen</span>')) + voteresult[rd.result] +
+	            			'		<a href="' + encodeURI(rd.view_url) + '" target="_blank">' +             			
+    	            		'			<h2>' + rd.title + '</h2>' + 
+        	            	'			<p>' + rd.summary + '</p>' +
+            	    		'		</a>' + 
+            				'	</li>';
+        		}
+        	}
+        	rhtml += '</ul>';
+        	
+        	$('#main .widget .screen').hide(); // hide all screens
+        	$('#contplatf').html(html + rhtml).show(); //fill and show the content screen
+    	}
+    	
+    	/** Render region profile and raadsstukken */
+    	function renderRegion(data) {
+    		//create header
+    		var region = data.region;
+    		var rad = data.raadsstukken;
+        
+    		var html = 	'<div class="top">' +
+            			'	<div class="politician" style="padding-left: 10px;">' +
+                		'	<h1>' + region.name + '</h1>' +
+      (rad.length == 0? '		<p>Er zijn nog geen raadsstukken gepubliceerd in ' + party.name + '</p>':
+      (rad.length == 1? '		<p>Dit is de laatste raadsstuk gepubliceerd in ' + region.name + '</p>':
+                		'		<p>Dit zijn de laatste ' + rad.length + ' raadstukken gepubliceerd in ' + region.name + '</p>')) +
+            			'	</div>' +
+            			'	<a href="http://watstemtmijnraad.nl" class="logo">WSMR</a>' +
+        				'</div>';
+
+            // raadsstuk result
+            var voteresult = {
+                'new': '<span class="result new">Niet gestemd</span>',
+                'pro': '<span class="result pro">Aangenomen</span>',
+                'contra': '<span class="result contra">Afgewezen</span>'
+            };
+            
+			var rhtml = '<ul>';
+			if(rad.length == 0) {
+				rhtml +='	<li class="first">'+
+            			'		<h4 style="text-align: center;">Geen raadsstukken gevonden</h4>' + 
+            			'	</li>';
+			} else {
+				for(var i = 0; i < rad.length; i++) {
+					var rd = rad[i];
+        			rhtml +='	<li ' + (i == 0? 'class="first"': '') + '>' + voteresult[rd.result] +
+	            			'		<a href="' + encodeURI(rd.view_url) + '" target="_blank">' +             			
+    	            		'			<h2>' + rd.title + '</h2>' + 
+        	            	'			<p>' + rd.summary + '</p>' +
+            	    		'		</a>' + 
+            				'	</li>';
+        		}
+        	}
+        	rhtml += '</ul>';
+        	
+        	$('#main .widget .screen').hide(); // hide all screens
+        	$('#contplatf').html(html + rhtml).show(); //fill and show the content screen
+    	}
+    	
+    	
+    	/** Update config */
+    	function updateConfig(wsmrowner, wsmrownerid) {
+    		//hyves handles multiple updates incorrectly, it allows only one update at a time
+    		//we have to serialize all settings into one var here.
+    		var req = opensocial.newDataRequest();
+    		req.add(req.newUpdatePersonAppDataRequest('VIEWER', 'wsmrdata', wsmrowner + ':::' + wsmrownerid));
+  			req.send(function() {
+    			$('#main .widget .screen, #configplatf .cscreen').hide(); // hide all screens
+    			init(); //re-init
+    		});
+    	}
+    		
+    	
+    	/** Show page with regions. */
+    	function configRegions() {
+    		//show cancel button
+            $('#configure_platf .instelset').css('display', 'none');
+           	$('#configure_platf .instelcancel').css('display', 'block');
+    		
+    		//fetch regions
+            var params = {}; params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+            gadgets.io.makeRequest(service_urls.region_tree, function(data) {
+            	if(data.data && !isError(data.data)) { //show regions
+            		function renreg(list) {
+            			var rhtml = '';
+            			for(var k = 0; k < list.length; k++) {
+            				var r = list[k];
+            				rhtml += '<li>' + 
+									 '	<a href="javascript: void(0);" onclick="configParties(' + r.id + ')" class="sub">Partijen</a>' +
+            				         r.name +
+									 '	<a href="javascript: void(0);" onclick="configUseRegion(' + r.id + ')">Kies deze regio</a>' +
+            					     (r.children && r.children.length  > 0? renreg(r.children): '') +
+            				         '</li>';
+            			}
+            			return rhtml;
+            		}
+            		
+            		var html = renreg(data.data);
+            		$('#region_list').html(html);
+    				$('#main .widget .screen, #configplatf .cscreen').hide(); // hide all screens
+    				$('#configplatf, #conf_regions').show(); //show regions screen
+                } else return showError('region_fetch_failed', configRegions);
+            }, params);
+    	}
+    	
+    	/** Use selected region. */
+    	function configUseRegion(regionid) {
+    		updateConfig('region', regionid);
+    	}
+    	
+    	/** Show page with parties. */
+    	function configParties(regionid) {
+    		if(regionid) {
+    			last_region = regionid;
+    		} else {
+    			if(last_region) regionid = last_region;
+    			else return configRegions(); //region not selected, should not happen, jump back
+    		}
+    		
+    		//fetch parties
+    		var url = service_urls.party_list.replace('@@id@@', regionid);
+            var params = {}; params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+            gadgets.io.makeRequest(url, function(data) {
+            	if(data.data && !isError(data.data)) { //show parties
+            		var html = '';
+            		for(var k = 0; k < data.data.length; k++) {
+            			var p = data.data[k];
+            			html += '<li>' + 
+            			         '	<a href="javascript: void(0);" onclick="configPoliticians(' + p.local_id + ')" class="sub">Politici</a>' +
+								 p.name +
+								 '	<a href="javascript: void(0);" onclick="configUseParty(' + p.local_id + ')">Kies deze partij</a>' +
+           				         '</li>';
+           			}
+            		
+            		$('#party_list').html(html);
+    				$('#main .widget .screen, #configplatf .cscreen').hide(); // hide all screens
+    				$('#configplatf, #conf_parties').show(); //show parties screen
+    				
+                } else return showError('party_fetch_failed', function() { configParties(regionid) });
+            }, params);
+    	}
+    	
+    	/** Use selected party. */
+    	function configUseParty(partyid) {
+    		updateConfig('party', partyid);
+    	}
+    	
+    	/** Show page with politicians. */
+    	function configPoliticians(partyid) {
+    		if(partyid) {
+    			last_party = partyid;
+    		} else {
+    			if(last_party) partyid = last_party;
+    			else return configParties(); //party not selected, should not happen, jump back
+    		}
+    		
+    		//fetch politicians
+    		var url = service_urls.politician_list.replace('@@id@@', partyid);
+            var params = {}; params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+            gadgets.io.makeRequest(url, function(data) {
+            	if(data.data && !isError(data.data)) { //show politicians
+            		var html = '';
+            		for(var k = 0; k < data.data.length; k++) {
+            			var p = data.data[k];
+            			html += '<li>' + p.name +
+            			         '	<a href="javascript: void(0);" onclick="configUsePolitician(' + p.id + ')">Kies deze politicus</a>' +
+								 '</li>';
+           			}
+            		
+            		$('#politician_list').html(html);
+    				$('#main .widget .screen, #configplatf .cscreen').hide(); // hide all screens
+    				$('#configplatf, #conf_politicians').show(); //show parties screen
+    				
+                } else return showError('politician_fetch_failed', function() { configPoliticians(partyid) });
+            }, params);
+    	}
+    	
+    	/** Use selected politician. */
+    	function configUsePolitician(politicianid) {
+    		updateConfig('politician', politicianid);
+    	}
+        
+    	/** Close config screen, show content */
+    	function configCancel() {
+    		$('#main .widget .screen').hide(); // hide all screens
+        	$('#contplatf').show(); //show the content screen
+        	init(); //re-init to be sure of no errors
+    	}
+    	
+    	/** re-init gadget */
+        gadgets.util.registerOnLoadHandler(init);
+      </script>
+      
+    <div id="main" style="overflow: auto; height: 100%;">
+		<div class="widget">
+			<!-- we also need a kind of a general loading screen. used when loading configuration data. -->
+		
+			<!-- error pages, only one shown at a time -->
+			<div class="screen" id="errors" style="display: none;">
+				<div style="display: none;" class="no_viewer no_owner escreen">
+					<!-- shown if we have no permission to fetch VIEWER or OWNER info (should not happen) -->
+					<h2 class="error">Geen toegang to relevante profile informatie.</h2>
+                    <p>[help info]</p>
+					<button class="again">Probeer opnieuw</button>
+				</div>
+				
+				<div style="display: none;" class="raadsstuk_fetch_failed escreen">
+					<!-- shown if request to our severs is failed -->
+					<h2 class="error">Het ophalen van de raadsstukken is mislukt.</h2>
+                    <p>[help info]</p>
+					<button class="again">Probeer opnieuw</button>
+				</div>
+				
+				<div style="display: none;" class="region_fetch_failed party_fetch_failed escreen">
+					<!-- shown when config data (regions, parties, politicians) can not be loaded -->
+					<h2 class="error">Het ophalen van configuratie data is mislukt.</h2>
+                    <p>[help info]</p>
+					<button class="again">Probeer opnieuw</button>
+				</div>
+				
+				<div style="display: none;" class="not_configured escreen">
+					<!-- shown to visitors if widget is not configured -->
+					<h2 class="error">Het gadget is niet geconfigureerd.</h2>
+                    <p>[help info]</p>
+				</div>
+			</div>
+			
+			<div class="screen" id="configplatf" style="display: none;">
+				<!-- shows regions in tree, allows user to choose region or go further to parties -->
+				<div id="conf_regions" class="cscreen">
+					<!-- icontjes nodig!!! -->
+                    <h2>Kies een regio of klik door naar de partijen</h2>
+                    <p>Kies een regio om de raadsstukken van die regio te tonen. Of kies <em>Partijen</em> om te partijen voor de regio te bekijken.</p>
+					   
+					<ul id="region_list">
+						<!-- will be populated with li/ul region tree -->
+                   	</ul>
+				</div>
+				
+				<!-- shows parties of specific region. allows user to choose the party or go further to politicians -->
+				<div id="conf_parties" class="cscreen">
+                	<button onclick="configRegions()" class="back">Terug</button>
+                	<h2>Kies een partij of klik door naar de politici</h2>
+					<p>Kies een partij om de raadsstukken voor die partij te tonen. Of kies <em>Politici</em> om de politici van de partij te bekijken.</p>
+					   
+					<ul id="party_list">
+						<!-- will be populated with li parties -->
+					</ul>
+					<button onclick="configRegions()" class="back">Terug</button>
+				</div>
+				
+				<!-- shows politicians. user can select one of them -->
+				<div id="conf_politicians" class="cscreen">
+                	<button onclick="configParties()" class="back">Terug</button>
+                	<h2>Kies een politicus</h2>
+					<p>Kies een politicus om de raadsstukken voor deze politicus te tonen.</p>
+					   
+					<ul id="politician_list">
+						<!-- will be populated with li politicians -->
+                    </ul>
+					<button onclick="configParties()" class="back">Terug</button>
+				</div>
+			</div>
+			
+			<div style="display: block;" class="screen" id="contplatf">
+				<!-- initial content, shown when widget is not fully loaded -->
+				<h2 class="welcome">Welkom in de gadget van <em>Wat stemt mijn raad</em></h2>
+			</div>
+			
+        	<div style="clear: both;"></div>
+        	<div id="configure_platf" style="display: none;">
+        		<!-- shown if viewer == owner. better to show small line here, with hover opening the buttons -->
+        		<a onclick="configRegions();" class="config instelset" href="#">Instellingen</a>
+        		<a onclick="configCancel();" class="config  instelcancel" href="#" style="display: none">Annuleren</a>
+        	</div>
+    	</div>
+	</div>  
+	
+    ]]>
+  </Content>
+</Module>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<skin>
+	<recolor name="arrow-d-blue-md.png"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="arrow-l-blue-md.png"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="arrow-l-blue-xbg.png"><background>$blu</background><value>$white</value></recolor>
+	<recolorTruecolor name="arrow-l-white-md.png"><value>$white</value></recolorTruecolor>
+	<recolor name="arrow-r-blue-md.png"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="arrow-r-blue-xbg.png"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="arrow-r-brown-bg.png"><background>$brown</background><value>$white</value></recolor>
+	<recolor name="arrow-r-brown-sm.png"><background>$brown</background><value>$white</value></recolor>
+	<recolorTruecolor name="arrow-r-white-md.png"><value>$white</value></recolorTruecolor>
+	<recolorTruecolor name="arrow-r-white-xbg.png"><value>$white</value></recolorTruecolor>
+	<recolor name="breadcrumbs.gif"><value>$white</value></recolor>
+	<recolor name="closed.gif"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="close.png"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="contra_border.gif"><value>$white</value></recolor>
+	<recolor name="footer.png"><value>$blu</value></recolor>
+	<recolor name="footer_text_bg.gif"><background>interpolate($blu, $white, 0.7)</background><value>$white</value></recolor>
+	<recolor name="header.png"><value>$grey</value></recolor>
+	<recolor name="nav-parties-bg.gif"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="nav-parties-bg-hover.gif"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="nav-parties-bottom.gif"><value>$white</value></recolor>
+	<recolor name="nav-parties-top.gif"><value>$white</value></recolor>
+	<recolor name="nav-party-bg.gif"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="nav-party-bg-hover.gif"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="open.png"><background>$blu</background><value>$white</value></recolor>
+	<recolor name="pro_border.gif"><value>$white</value></recolor>
+	<recolor name="results_border.gif"><value>$white</value></recolor>
+	<recolor name="results_border-home.gif"><value>$white</value></recolor>
+	<recolor name="verdict_bg.gif"><value>$white</value></recolor>
+	<stylesheet name="skin.css"/>
+	<stylesheet name="skin_ie.css"/>
+</skin>
+

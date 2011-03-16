@@ -1,0 +1,117 @@
+{pofile template}
+{pofile form}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/png" href="/images/favicon.png" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/libraries.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/css.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/grids.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/mod.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/base.css" media="screen" />
+{if $skin}<link rel="stylesheet" type="text/css" href="/images/skins/custom/{$skin}/skin.css" media="screen" />{/if}
+
+	<!--[if lte IE 7]>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/ie67.css" media="screen" />
+		{if $skin}<link rel="stylesheet" type="text/css" href="/images/skins/custom/{$skin}/skin_ie.css" media="screen" />{/if}
+	<![endif]-->
+    
+	<!--[if IE 6]>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/ie6.css" media="screen" />
+	<![endif]-->
+
+		<script src="/javascripts/govvid.js" type="text/javascript"></script>
+		<script src="/javascripts/mootools/moo.tools.v1.11.js" type="text/javascript"></script>
+		<script type="text/javascript" src="/javascripts/jquery.js"></script>
+		{*if !$region_page*}<script type="text/javascript" src="/javascripts/main.js"></script>{*/if*}
+		<script type="text/javascript" src="/javascripts/Swiff.base.js"></script>
+                <script type="text/javascript" src="/javascripts/autocomplete.js"></script>
+		<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+
+		{if $smartyData.headerFile != ''}{include file=$smartyData.headerFile}{/if}
+
+        
+<title>##template.title##</title>
+
+</head>
+<body>
+
+<div id="pushFooter">
+    <div id="header">
+        <div class="mod branding">
+            <h1 class="groningen">
+            	<a href="http://www.watstemtmijnraad.nl" class="wsmr">WSMR</a>
+            	{if $header}
+            		<a href="/" class="wsmr-header">{$header}</a>
+            	{else}	
+            		<a href="/" class="wsmr-logo">Wat stemt mijn raad</a>
+            	{/if}
+            
+            </h1>
+        </div>
+    
+        <div class="mod nav-breadcrumbs">
+            {if $crumbs}
+                <ul>
+                    <li class="root"><a href="http://{$smarty.server.HTTP_HOST|regex_replace:'/^.*?\./':'www.'}/">Wat stemt mijn raad</a></li>
+                    {foreach from=$crumbs key=k item=page name=crumbs}
+                        {if $smarty.foreach.crumbs.last || $page.title eq 'Zoekresultaten'}
+                            <li>{$page.title}</li>
+                        {else}
+                            <li><a href="http://{$smarty.server.HTTP_HOST|regex_replace:'/^.*?\./':'www.'}{$page.url}">{$page.title}</a></li>
+                        {/if}
+                    {/foreach}
+                </ul>
+            {/if}
+        </div>
+    </div>
+    <div id="body">
+        {include file=$smartyData.contentFile}
+    </div>
+</div>
+<div id="footer">
+	<div class="wrap">
+    	<div class="col size1of4">
+            <ul class="extra_links">
+                <li class="first"><h4>Aanvullende informatie</h4></li>
+                {foreach from=$footer_pages item=page}
+					<li><a href="http://{$global->subdomain}.{$global->domain}.{$global->tld}/page/{$page->region}/{$page->url}" title="{$page->title|htmlspecialchars}">{$page->linkText|default:$page->title|default:$page->url|htmlspecialchars}</a></li>
+				{/foreach}
+            </ul>
+        </div>
+    	<div class="col size1of4">
+            <ul class="extra_links">
+                <li class="first"><h4>Overig</h4></li>
+                <li><a href="/rss/"><img style="float:left;margin:3px 3px 0 0;" src="/images/rss_feed_icon.png" width="12" height="12" alt="RSS Feed" /> RSS feed</a></li>
+                <li><a href="http://www.watstemtmijnraad.nl/page/2/widget">Hyves widget</a></li>
+
+            </ul>
+        </div>
+        <div class="col size2of4">
+
+           
+            <div class="voting-behaviour">
+                <h4>Wilt u stemuitslagen laten zien op uw hyves pagina - installeer dan <a href="http://www.watstemtmijnraad.nl/page/2/widget">deze</a> widget</h4>
+            </div>
+            
+            <p style="margin-top:15px;">Wat Stemt Mijn Raad is (door) ontwikkeld door het ICTU-programma <a href="http://www.burgerlink.nl" target="_blank">Burgerlink</a>, in opdracht van het <a href="http://www.minbzk.nl" target="_blank">ministerie van Binnenlandse Zaken en Koninkrijksrelaties</a>.</p>
+            
+            <a class="drempelvrij" href="http://www.qualityhouse.nl/index.php?pageId=95" alt="www.watstemtmijnraad.nl drempelvrij">www.watstemtmijnraad.nl drempelvrij</a>
+            
+<!--            <a class="logo" href="http://www.burgerlink.nl" target="_blank"><img src="#" width="" height="" /></a>
+-->
+        </div>
+
+    </div>
+</div>
+<script src="https://www.google-analytics.com/ga.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+  var pageTracker = _gat._getTracker("UA-5098830-1");
+  pageTracker._setDomainName("{$smarty.server.HTTP_HOST|regex_replace:'/^.*?\./':'www.'}");
+  pageTracker._trackPageview();
+</script> 
+</body>
+</html>

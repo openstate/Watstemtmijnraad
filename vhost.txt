@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+	DocumentRoot	/Users/[username]/Sites/watstemtmijnraad/trunk/public_html
+	ServerName	watstemtmijnraad.gl
+	ServerAlias	*.watstemtmijnraad.gl
+
+	RewriteEngine	On
+
+	RewriteRule	^/images/filler.gif$ /antispam.php [L]
+
+	RewriteCond %{IS_SUBREQ} false
+	RewriteRule ^/(images|stylesheets) /redirect.php [L]
+
+	RewriteRule ^/(flash|files|images|library|javascripts|stylesheets|tinymce) - [L]
+	RewriteRule ^. /index.php [QSA,L]
+
+</VirtualHost>

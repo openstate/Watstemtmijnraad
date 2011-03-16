@@ -1,0 +1,236 @@
+/*   basic styling    */
+
+body {
+	font-family:"Trebuchet MS",Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin:0;
+	padding:0;
+	}
+
+.widget {
+	display:block;
+	padding: 11px 0px 0;
+	margin:0;
+	}
+
+	.widget .top {
+		display:block;
+		}
+
+	.widget img {
+		float:left;
+		margin:0 10px 10px 10px;
+		}
+
+	.widget .politician {
+		float:left;
+		width: 72%;
+		}
+
+		.widget .politician h1 {
+			margin:-3px 0 0 0;
+			padding:0;
+			font-size: 1.7em;
+			font-weight: bold;
+			display: block;
+			}
+
+		.widget .politician p {
+			margin:0;
+			padding:0;
+			font-size: 1.1em;
+			line-height: 12px;
+			}
+
+		.widget a.logo {
+			background: url(/images/iframe/wsmr_logo.png) no-repeat;
+			display:block;
+			height:44px;
+			width:44px;
+			text-indent:-9999px;
+			float:right;
+			margin-right:10px;
+			}
+
+		.widget ul {
+			clear:both;
+			margin:0;
+			padding:0 10px 27px;
+			}
+
+			.widget ul li {
+				list-style-type: none;
+				list-style-position:outside;
+				padding:10px 0;
+				margin:0;
+				}		
+
+			.widget ul li:hover {
+				margin:-1px -10px 0;
+				padding:10px 10px;
+				}
+
+				.widget ul li a {
+					text-decoration: none;
+					display:block;
+					width:80%;
+					}
+
+				.widget ul li a:hover {
+					text-decoration: underline;
+					}
+
+				.widget ul li a h2 {
+					margin:0;
+					padding:0;
+					}
+
+				.widget ul li a p {
+					margin:0;
+					padding:0;
+					}
+
+				.widget ul li span.pol_voted {
+					float:right;
+					margin-top:6px;
+					}
+
+				.widget ul li span.result {
+					clear:both;
+					float:right;
+					margin-top:7px;
+					}
+
+				.widget ul li span.pro {
+					background: #04B2D9;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+				
+				.widget ul li span.contra {
+					background: #999966;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+                
+                /* politician didn't vote explicitly */
+                .widget ul li span.abstain {
+					background: #cfb62e;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+                
+                /* politician didn't vote, was absent */
+                .widget ul li span.absent {
+					background: #a9a9a9;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+                
+                /* new raadsstuk (no votes), currently not used. */
+                .widget ul li span.new {
+					background: #91cf2e;
+					text-transform: uppercase;
+					margin-left:5px;
+					padding: 1px 5px;
+					color: #fff;
+					}
+
+				.accent_top {
+					background: #04b2d9;
+					height: 8px;
+					}													
+/*   widgetbox dark    */
+
+div.dark {
+	background: #666255 url(/images/iframe/widget_bg.png) repeat-x top left;
+	color: #fff;
+	}
+
+    div.dark .error {
+        font-size: 1.5em;
+        color: red;
+        }
+        
+	div.dark .widget img {
+		border:1px solid #c5c5c4;
+		}
+
+		div.dark .widget ul {
+			background: none;
+			}
+
+			div.dark .widget ul li {
+				border-bottom:1px solid #8e8a7c;
+				}
+			
+			div.dark .widget ul li.first {
+				border-top:1px solid #8e8a7c;
+				}
+
+			div.dark .widget ul li:hover {
+				background: url(images/hover_light.png) repeat;
+				border-top:1px solid #8e8a7c;
+				}
+
+				div.dark .widget ul li a {
+					color: #fff;
+					}
+
+				div.dark .widget ul li span.contra {
+					background: #999966;
+					}
+
+
+/*   widgetbox light    */
+
+div.light {
+	background: #fff url(/images/iframe/widget_bg.png) repeat-x top left;
+	color: #363636;
+	}
+	
+    div.light .error {
+        font-size: 1.5em;
+        color: red;
+        }
+        
+	div.light .widget img {
+		border:1px solid #a1a1a1;
+		}
+
+		div.light .widget ul {
+			background:url(/images/iframe/bg_bottom_light.gif) repeat-x bottom left;
+			}
+
+			div.light .widget ul li {
+				border-bottom:1px solid #dddddd;
+				}
+
+			div.light .widget ul li.first {
+				border-top:1px solid #dddddd;
+				}
+
+			div.light .widget ul li:hover {
+				background: url(images/hover_dark.png) repeat;
+				border-top:1px solid #dddddd;
+				}
+
+				div.light .widget ul li a {
+					color: #363636;
+					}
+
+				div.light .widget ul li a:hover {
+					text-decoration: underline;
+					}
+				
+				div.light .widget ul li span.contra {
+					background: #666558;
+					}

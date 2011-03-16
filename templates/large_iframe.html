@@ -1,0 +1,44 @@
+{pofile template}
+{pofile form}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/libraries.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/grids.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/mod.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/base.css" media="screen" />
+{if $skin}<link rel="stylesheet" type="text/css" href="/images/skins/custom/{$skin}/skin.css" media="screen" />{/if}
+
+	<!--[if lte IE 7]>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/ie67.css" media="screen" />
+		{if $skin}<link rel="stylesheet" type="text/css" href="/images/skins/custom/{$skin}/skin_ie.css" media="screen" />{/if}
+	<![endif]-->
+    
+	<!--[if IE 6]>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/ie6.css" media="screen" />
+	<![endif]-->
+
+
+		<script src="/javascripts/mootools/moo.tools.v1.11.js" type="text/javascript"></script>
+		<script type="text/javascript" src="/javascripts/jquery.js"></script>
+		{*if !$region_page*}<script type="text/javascript" src="/javascripts/main.js"></script>{*/if*}
+		<script type="text/javascript" src="/javascripts/Swiff.base.js"></script>
+                <script type="text/javascript" src="/javascripts/autocomplete.js"></script>
+		<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+
+		{if $smartyData.headerFile != ''}{include file=$smartyData.headerFile}{/if}
+
+        
+<title>##template.title##</title>
+
+</head>
+<body>
+
+<div id="body">
+	{include file=$smartyData.contentFile}
+</div>
+
+</body>
+</html>
