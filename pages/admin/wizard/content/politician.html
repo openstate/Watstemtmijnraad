@@ -1,0 +1,80 @@
+<script type="text/javascript">{literal}
+function toggle(el) {
+	el = $(el);
+	var row = el.getParent().getParent();
+	var row2 = row.getNext();
+	var img = el.getFirst();
+	if (row.hasClass('hover')) {
+		row.removeClass('hover');
+		row.addClass('fold');
+		row2.style.display = '';
+		img.src = img.src.replace('expand', 'collapse');
+	} else {
+		row.addClass('hover');
+		row.removeClass('fold');
+		row2.style.display = 'none';
+		img.src = img.src.replace('collapse', 'expand');
+	}
+	return false;
+}
+{/literal}</script>
+<h2>Wizard stap 2</h2>
+
+<div class="wizard">
+   	<ul class="steps">
+        <li><a href="/wizard/party">1: partijen</a></li>
+        <li><a class="active">2: politici</a></li>
+        <li><a>3: logo</a></li>
+    </ul>
+    
+    <div class="content">
+        <h3>Welke politici zitten er in uw gemeenteraad?</h3>
+		<form action="" method="post">
+		<table class="list">
+			{foreach from=$parties item=p}
+				{assign var=count value=0}
+				{capture assign=pols}
+					<tr class="strong"><td>Naam</td><td>Categorie</td><td>Aanvang</td><td>Einde</td><td width="15px">&nbsp;</td></tr>
+					{assign var=last value=''}
+					{foreach from=$appointments item=a}
+						{if $a->party == $p->party}
+							{assign var=count value=$count+1}
+							{assign var=id value=$a->politician}
+							<tr>
+								<td><a href="/politicians/profile/{$politicians.$id->id}">{assign var=name value=$politicians.$id->formatName()|htmlspecialchars}{if $name != $last}{$name}{assign var=last value=$name}{else}&#160;{/if}</a></td>
+								<td>{$a->cat_name|htmlspecialchars}</td>
+								<td>{if $a->time_start == '-infinity'}geen{else}{$a->time_start|date_format:'%e %B %Y'}{/if}</td>
+								<td>{if $a->time_end == 'infinity'}geen{else}{$a->time_end|date_format:'%e %B %Y'}{/if}</td>
+								<td class="right"><a href="/appointments/delete/{$politicians.$id->id}?localparty={$p->id}"><img src="/images/delete.png" alt="##form_delete##" title="##form_delete##" border="0" /></a></td>
+							</tr>
+						{/if}
+					{/foreach}
+				{/capture}
+	        	<tr class="{if $open == $p->party}fold{else}hover{/if}{cycle values=' alt,'}">
+	        		<td width="15px"><a href="#" onclick="toggle(this);"><img src="/images/{if $open == $p->party}collapse{else}expand{/if}.gif" width="16" height="16" /></a></td>
+	        		<td><a href="#">{$p->party_name|htmlspecialchars}{if $p->party_short} ({$p->party_short|htmlspecialchars}){/if}</a></td>
+	        		<td class="right">{if $count == 0}nog geen{else}{$count}{/if} politic{if $count == 1}us{else}i{/if}</td>
+	        		<td width="120px" class="right"><a class="add" href="/wizard/newPolitician/?party={$p->party}">Toevoegen</a></td>
+	        	</tr>
+	        	<tr class="fold"{if $open != $p->party} style="display:none;"{/if}>
+					<td colspan="4">
+	                 	<table>
+							{$pols}
+							{*
+	                        <tr><td colspan="5" align="center"><a href="">Toon aanstellingen in het verleden</a></td></tr>
+	                        <tr><td colspan="3"><a class="add_party" href="/wizard/newPolitician/?party={$p->party}">Politicus toevoegen</a></td>
+	                        <td colspan="2" class="right"><a href="#">Partijgegevens aanpassen</a></td></tr>
+							*}
+	                    </table>
+                 	</td>
+	             </tr>
+			 {/foreach}
+        </table>       
+        
+        <div class="buttons">
+        	<button class="prev" name="prev" type="submit">Terug naar partijen</button>
+            <button class="next" name="next" type="submit">Volgende stap</button>
+        </div>
+		</form>
+    </div>
+</div>

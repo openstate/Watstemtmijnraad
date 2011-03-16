@@ -1,0 +1,180 @@
+{literal}
+<script>
+jQuery(document).ready(function(){
+	handleTextFields(jQuery('form#search_rs input'));
+
+        // if Javascript is enabled hide the dropdowns
+        jQuery(".advanced_first").hide();
+        jQuery(".advanced_second").hide();
+
+        jQuery("#first").click(function () {
+            if(jQuery(".advanced_first").is(":hidden")) {
+               jQuery(".advanced_first").css({
+                   background : '#fff',
+                   border : '1px solid #000',
+                   position : 'absolute'
+               });
+               jQuery("#first").css({
+                   background : 'transparent url(/images/closed.gif) no-repeat scroll right 0.3em'
+               })
+               if(jQuery(".advanced_second").is(":show")) {
+                jQuery(".advanced_second").hide();
+               }
+                jQuery(".advanced_first").show();
+                return false;
+            }
+            if(jQuery(".advanced_first").is(":show")) {
+               jQuery("#first").css({
+                   background : 'transparent url(/images/arrow-d-blue-md.png) no-repeat scroll right 0.3em'
+               })
+                jQuery(".advanced_first").hide();
+                return false;
+            }
+        });
+
+
+        jQuery("#second").click(function () {
+            if(jQuery(".advanced_second").is(":hidden")) {
+               jQuery(".advanced_second").css({
+                   background : '#fff',
+                   border : '1px solid #000',
+                   position : 'absolute'
+               });
+               jQuery("#second").css({
+                   background : 'transparent url(/images/closed.gif) no-repeat scroll right 0.3em'
+               })
+               if(jQuery(".advanced_first").is(":show")) {
+                jQuery(".advanced_first").hide();
+               }
+               jQuery(".advanced_second").show();
+               return false;
+            }
+            
+            if(jQuery(".advanced_first").is(":show")) {
+               jQuery("#second").css({
+                   background : 'transparent url(/images/arrow-d-blue-md.png) no-repeat scroll right 0.3em'
+               })
+                jQuery(".advanced_second").hide();
+                return false;
+            }
+        });
+
+});
+</script>
+{/literal}
+<div class="line">
+<div class="col size3of4">
+    <div class="line">
+        <div class="col size2of3">
+            <div class="mod politician">
+                <h1>{$politician->formatName()}</h1>
+                {if $stats.votes == 0}
+                    <p>Heeft niet gestemd in deze regio</p>
+                {elseif $stats.real_votes == 0}
+                    <p>Heeft geen stemmen in deze regio van totaal {$stats.votes} stemmen</p>
+                {else}
+                    <p>Heeft gestemd op {$stats.real_votes} van de {$stats.votes} voorstellen</p>
+                {/if}
+                <p>Heeft {if $stats.submits > 0}{$stats.submits}{else}geen{/if} voorstellen ingediend</p>
+            </div>
+        </div>
+        <div class="col size1of3">
+            <div class="mod politician-info">
+                <h5>Foto</h5>
+                {if $member->photo neq NULL}
+                	{assign var=img_file value=$member->photo}
+                	{html_image file="images/$img_file" maxwidth="80" maxheight="92" alt="Foto van $politician->formatName()"}
+                {else}
+                	<img height="92" width="80" src="/images/empty_photo.gif" alt="Geen foto beschikbaar" />
+                {/if}
+                <p><strong>Partij</strong>: {$party->name}</p>
+                {if $member_since}<p><strong>Lid sinds</strong>: {$member_since|date_format:"%B %Y"}</p>{/if}
+            </div>
+        </div>
+    </div>
+
+    <div class="line">
+    
+        <div class="col size2of3">
+    
+            <div class="mod votings pol-votings">
+                <h2>
+                	{if $filter_cat}
+						Raadsstukken met het beleidsveld {$filter_cat->name} <a href="/politicians/politician/{$politician->id}{if $region->id}?region={$region->id}{/if}" class="remove-filter">Verwijder filter</a>
+					{elseif $filter_tag}
+						Raadsstukken met de tag {$filter_tag->name} <a href="/politicians/politician/{$politician->id}{if $region->id}?region={$region->id}{/if}" class="remove-filter">Verwijder filter</a>
+					{else}
+						Recente onderwerpen
+					{/if}
+                </h2>
+                {foreach from=$votings item=voting}
+                    {assign var=voting_id value=$voting->id}
+                    <div class="voting">
+                        {include file=`$smartyData.contentDir`/../../raadsstukken/includable/voting.html}
+                    </div>
+                {foreachelse}
+                    {if $filter_cat || $filter_tag}
+						Er zijn geen raadstukken gevonden met het huidige filter.
+					{else}
+						{$politician->formatName()} heeft nog niet gestemd.
+					{/if}
+                {/foreach}
+                {if $votings|@count >= $max_rs_count}<a class="mod-more-big" href="/search{$extra_url_params}/politician_id/{$politician->id}/region/{$region->id}/q/-all/submit/Link">Meer recente stemmingen</a>{/if}
+            </div>
+        </div>
+        
+        <div class="col size1of3">
+            <div class="mod search pol-search-small">
+                <h2>Zoek raadstukken<span style="display:block;font-size:0.45em;">waar deze politicus op heeft gestemd</span></h2>
+                <form method="post" action="/search/" id="search_rs">
+                    <div class="field">
+                        <label for="title"><span>Onderwerp (stuk van titel)</span></label>
+                        <input type="text" class="text" name="q" id="title" />
+                        <input type="hidden" name="politician_id" value="{$politician->id}" />
+                        {if $region}<input type="hidden" name="region" value="{$region->id}" />{/if}
+                        {if $party}<input type="hidden" name="party" value="{$party->id}" />{/if}
+                    </div>
+                    <button type="submit" id="submit" name="submit" class="polsearch" value="Zoek">Zoek</button>
+                </form>
+            </div>
+            <div class="mod filter">
+                <a href="#" class="advanced" id="first">Kies een beleidsveld</a>
+                            <div class="advanced_first" style="z-index: 10;">
+                                <ul>
+                                    <li style="list-style-type: none;"><a href="?region={$region->id}" {if !$cur_category}class="current"{/if}>Alle categorien</a></li>
+                                    {foreach item=category from=$categories}
+                                        <li style="list-style-type: none;"><a href="?region={$region->id}&amp;category={$category->id}" {if $cur_category == $category->id}class="current"{/if}>{$category->name}</a></li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+    
+                <a href="#" class="advanced" id="second">Kies een tag</a>
+                            <div class="advanced_second" style="z-index: 10;">
+                                <ul>
+                                    <li style="list-style-type: none;"><a href="?region={$region->id}" {if !$cur_tag}class="current"{/if}>Alle tags</a></li>
+                                    {foreach item=tag from=$tags}
+                                        <li style="list-style-type: none;"><a href="?region={$region->id}&amp;tag={$tag.id}" {if $cur_tag == $tag.id}class="current"{/if}>{$tag.name}</a></li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+ 
+ 
+    
+	<div class="col size1of4 sidebar">
+
+		{include file=`$smartyData.contentDir`/../../regions/includable/sb_mun_branding.html}
+		{include file=`$smartyData.contentDir`/../../parties/includable/sb_list.html}
+        <div class="mod nav-parties">
+            <h3>Extra's</h3>
+            <ul class="party">
+                <li><a href="/iframe/explanation/?politician={$politician->id}{if $region->id}&region={$region->id}{/if}" target="_blank">Raadsstukken op uw website</a></li>
+            </ul>
+        </div>
+	</div>
+
+</div>

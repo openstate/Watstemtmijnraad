@@ -1,0 +1,147 @@
+<h2>Wizard stap 0</h2>
+
+<div class="wizard">
+    
+    <div class="content">
+        <h3>Deze wizard stelt uw gemeenteraad opnieuw in.</h3>
+        <p>Alle bestaande aanstellingen worden op de door u opgegeven datum stopgezet. Met deze wizard kunt u de situatie vanaf die datum instellen.</p>
+        
+        <form action="" class="date">
+        <h4 style="margin-top:20px;">Ingangsdatum</h4>
+            <input class="text" type="text" />
+        <p>Op deze datum stoppen alle bestaande aanstellingen en starten de door u ingestelde nieuwe aanstellingen</p>
+            <label for="checkbox_step0"><input class="checkbox" type="checkbox" id="checkbox_step0" name="akkoord" value="1" />Ik ga ermee akkoord dat op de bovengenoemde datum (Datum XXX) alle huidige aanstellingen stopgezet worden</label>
+        <div class="buttons">
+            <!--<button class="next" type="submit">Start de wizard</button>-->
+            <input type="submit" value="Start de wizard" class="next">
+
+        </div>
+        </form>
+    </div>
+</div>
+
+<br /><br />
+
+<h2>Wizard stap 1</h2>
+
+<div class="wizard">
+   	<ul class="steps">
+        <li><a class="active" href="#">1: partijen</a></li>
+        <li><a href="#">2: politici</a></li>
+        <li><a href="#">3: logo</a></li>
+    </ul>
+    
+    <div class="content">
+        <h3>Welkom bij <strong>Wat stemt mijn raad</strong></h3>
+        <p>Welke politieke partijen zitten er in uw gemeenteraad?</p>
+        
+        <form action="" class="checkbox">
+            <div class="checkbox"><label for="CDA"><input type="checkbox" id="CDA" name="political party" value="CDA" />Christen-Democratisch App&egrave;l (CDA)</label></div>
+            <div class="checkbox"><label for="ChristenUnie"><input type="checkbox" id="ChristenUnie" name="political party" value="ChristenUnie" />ChristenUnie</label></div>
+            <div class="checkbox"><label for="D66"><input type="checkbox" id="D66" name="political party" value="D66" />D66</label></div>
+            <div class="checkbox"><label for="GroenLinks"><input type="checkbox" id="GroenLinks" name="political party" value="GroenLinks" />GroenLinks</label></div>
+            <div class="checkbox"><label for="PVDA"><input type="checkbox" id="PVDA" name="political party" value="Partij van de Arbeid (PVDA)" />Partij van de Arbeid (PVDA)</label></div>
+            <div class="checkbox"><label for="SP"><input type="checkbox" id="SP" name="political party" value="Socialistische Partij (SP)" />Socialistische Partij (SP)</label></div>
+            <div class="checkbox"><label for="Stadspartij"><input type="checkbox" id="Stadspartij" name="political party" value="Stadspartij" />Stadspartij</label></div>
+            <div class="checkbox"><label for="VVD"><input type="checkbox" id="VVD" name="political party" value="Volkspartij voor Vrijheid en Democratie (VVD)" />Volkspartij voor Vrijheid en Democratie (VVD)</label></div>
+
+        <a class="add" href="#">Andere partij toevoegen</a>
+        
+        <div class="buttons">
+            <button class="next" type="submit">Volgende stap</button>
+        </div>
+        </form>
+
+    </div>
+</div>
+
+<br /><br />
+
+<h2>Wizard stap 2</h2>
+
+<div class="wizard">
+   	<ul class="steps">
+        <li><a href="#">1: partijen</a></li>
+        <li><a class="active" href="#">2: politici</a></li>
+        <li><a href="#">3: logo</a></li>
+    </ul>
+    
+    <div class="content">
+        <h3>Welke politieke partijen zitten er in uw gemeenteraad?</h3>
+		<form>       
+		<table class="list">
+        
+        	<tr class="hover alt"><td width="15px"><a href=""><img src="../images/fold_closed.gif" width="12" height="12" /></a></td><td><a href="#">Christen-Democratisch App&egrave;l (CDA)</a></td><td class="right">4 politici</td><td width="120px" class="right"><a class="add_party" href="#">Politicus toevoegen</a></td></tr>
+            
+             <tr class="hover"><td><a href=""><img src="../images/fold_closed.gif" width="12" height="12" /></a></td><td><a href="#">ChristenUnie</a></td><td class="right">4 politici</td><td class="right"><a class="add_party" href="#">Politicus toevoegen</a></td></tr>
+
+        	<tr class="hover alt"><td><a href=""><img src="../images/fold_closed.gif" width="12" height="12" /></a></td><td><a href="#">D66</a></td><td class="right">4 politici</td><td class="right"><a class="add_party" href="#">Politicus toevoegen</a></td></tr>
+            
+             <tr class="hover"><td><a href=""><img src="../images/fold_closed.gif" width="12" height="12" /></a></td><td><a href="#">GroenLinks</a></td><td class="right">4 politici</td><td class="right"><a class="add_party" href="#">Politicus toevoegen</a></td></tr>
+
+        	<tr class="hover alt"><td><a href=""><img src="../images/fold_closed.gif" width="12" height="12" /></a></td><td><a href="#">Partij van de Arbeid (PVDA)</a></td><td class="right">4 politici</td><td class="right"><a class="add_party" href="#">Politicus toevoegen</a></td></tr>
+            
+             <tr class="hover"><td><a href=""><img src="../images/fold_closed.gif" width="12" height="12" /></a></td><td><a href="#">Socialistische Partij (SP)</a></td><td class="right">4 politici</td><td class="right"><a class="add_party" href="#">Politicus toevoegen</a></td></tr>
+
+        	<tr class="hover alt"><td><a href=""><img src="../images/fold_closed.gif" width="12" height="12" /></a></td><td><a href="#">Stadspartij</a></td><td class="right">4 politici</td><td class="right"><a class="add_party" href="#">Politicus toevoegen</a></td></tr>
+            
+             <tr class="fold"><td><a href=""><img src="../images/fold_open.gif" width="12" height="12" /></a></td><td><a href="#">Volkspartij voor Vrijheid en Democratie (VVD)</a></td><td class="right">4 politici</td><td class="right"><a class="add_party" href="#">Politicus toevoegen</a></td></tr>
+             <tr class="fold">
+                 <td colspan="4">
+                 	<table>
+                    	<tr class="strong"><td>Naam</td><td>Categorie</td><td>Aanvang</td><td>Einde</td><td width="15px">&nbsp;</td></tr>
+
+                    	<tr><td><a href="#">B.G. de Boer</a></td><td>Economische zaken en Werkgelegenheid</td><td>16 maart 2006</td><td>10 maart 2010</td><td class="right"><a href="#"><img src="../images/ban.png" width="16" height="16" /></a></td></tr>
+                        
+                        <tr><td><a href="#">J. Evenhuis</a></td><td>Wonen en nog iets</td><td>16 maart 2006</td><td>10 maart 2010</td><td class="right"><a href="#"><img src="../images/ban.png" width="16" height="16" /></a></td></tr>
+                        <tr><td><a href="#">&nbsp;</a></td><td>Andere categorie</td><td>16 maart 2006</td><td>10 maart 2010</td><td class="right"><a href="#"><img src="../images/ban.png" width="16" height="16" /></a></td></tr>
+                        
+                    	<tr><td><a href="#">D. Jager</a></td><td>Categorie</td><td>16 maart 2006</td><td>10 maart 2010</td><td class="right"><a href="#"><img src="../images/ban.png" width="16" height="16" /></a></td></tr>
+                        
+                    	<tr><td><a href="#">J.M. van Keulen</a></td><td>Categorie</td><td>20 juni 2007</td><td>10 maart 2010</td><td class="right"><a href="#"><img src="../images/ban.png" width="16" height="16" /></a></td></tr>
+                        <tr><td colspan="5" align="center"><a href="">Toon aanstellingen in het verleden</a></td></tr>
+                        <tr><td colspan="3"><a class="add_party" href="#">Politicus toevoegen</a></td><td colspan="2" class="right"><a href="#">Partijgegevens aanpassen</a></td></tr>
+                    </table>
+                 </td>
+             </tr>
+             
+        </table>       
+        
+        <div class="buttons">
+        	<button class="prev" type="submit">Terug naar partijen</button>
+            <button class="next" type="submit">Volgende stap</button>
+        </div>
+		</form>
+    </div>
+</div>
+
+<br /><br />
+
+<h2>Wizard stap 3</h2>
+
+<div class="wizard">
+   	<ul class="steps">
+        <li><a href="#">1: partijen</a></li>
+        <li><a href="#">2: politici</a></li>
+        <li><a class="active" href="#">3: logo</a></li>
+    </ul>
+    
+    <div class="content">
+        <h3>Het logo van uw gemeente</h3>
+        <p>Voor de herkenbaarheid van uw gemeente op onze site, vragen wij u om het logo van uw gemeente.</p>
+        <p>U kunt het gemeentelogo ook later uploaden. U vind deze optie in het menu 'Opmaak'.</p>
+
+		<h4 style="margin-top:20px;">Gemeente logo</h4>               
+        <form action="" class="logo">
+			<input type="file" />
+        
+            <p>Deze bestandsformaten worden geaccepteerd: <strong>jpg, gif, png</strong></p>
+            
+            <div class="buttons">
+                <button class="prev" type="submit">Terug naar politici</button>         
+                <button class="next" type="submit">Voltooien</button>
+                <button class="next" type="submit">Deze stap overslaan</button>
+            </div>
+       	</form>
+    </div>
+</div>

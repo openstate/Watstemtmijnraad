@@ -1,0 +1,65 @@
+<script src="/javascripts/mooRainbow.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/stylesheets/mooRainbow.css" type="text/css" />
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+{literal}
+
+
+window.addEvent('domready', function() {
+	var r1 = new MooRainbow('myRainbow1', {
+		'id': 'mr1',
+		'startColor': [0, 0, 0],
+		'wheel': true,
+		'onComplete': function(color) {
+			$('color1').value = color.hex.substring(1);
+			$('color1preview').style.background = color.hex;
+
+			update_thumb($('color1').value, $('color2').value, $('color3').value, $('color4').value);
+		}
+	});
+
+	var r2 = new MooRainbow('myRainbow2', {
+		'id': 'mr2',
+		'startColor': [0, 0, 0],
+		'wheel': true,
+		'onComplete': function(color) {
+			$('color2').value = color.hex.substring(1);
+			$('color2preview').style.background = color.hex;
+
+			update_thumb($('color1').value, $('color2').value, $('color3').value, $('color4').value);
+		}
+	});
+
+	var r3 = new MooRainbow('myRainbow3', {
+		'id': 'mr3',
+		'startColor': [0, 0, 0],
+		'wheel': true,
+		'onComplete': function(color) {
+			$('color3').value = color.hex.substring(1);
+			$('color3preview').style.background = color.hex;
+
+			update_thumb($('color1').value, $('color2').value, $('color3').value, $('color4').value);
+		}
+	});
+
+	var r4 = new MooRainbow('myRainbow4', {
+		'id': 'mr4',
+		'startColor': [0, 0, 0],
+		'wheel': true,
+		'onComplete': function(color) {
+			$('color4').value = color.hex.substring(1);
+			$('color4preview').style.background = color.hex;
+
+			update_thumb($('color1').value, $('color2').value, $('color3').value, $('color4').value);
+		}
+	});
+
+	r1.manualSet('{/literal}#{$formdata.color1}{literal}', 'hex');
+	r2.manualSet('{/literal}#{$formdata.color2}{literal}', 'hex');
+	r3.manualSet('{/literal}#{$formdata.color3}{literal}', 'hex');
+	r4.manualSet('{/literal}#{$formdata.color4}{literal}', 'hex');
+
+});
+{/literal}
+//--><!]]>
+</script>

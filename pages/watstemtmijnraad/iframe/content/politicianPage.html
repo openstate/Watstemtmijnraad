@@ -1,0 +1,43 @@
+
+<div id="main" class="{$theme|default:'dark'}">
+	<div class="widget">
+    	<div class="top">
+            <img id="profile_image" src="{$politician->photo|default:'/images/iframe/profile_empty.png'}" width="40" height="46" alt="Foto van {$politician->formatName()}" />
+            <div class="politician">
+                <h1>{$politician->formatName()}</h1>
+                <p>Dit zijn de laatste {$num} raadstukken waarop {$politician->formatName()} heeft gestemd</p>
+            </div>
+            <a href="http://watstemtmijnraad.nl" class="logo">WSMR</a>
+        </div>
+            
+        <ul>
+        {foreach from=$raadsstukken item=rad name=radlist}
+        	<li {if $smarty.foreach.radlist.first}class="first"{/if}>
+        		<span class="pol_voted">
+        			{if $rad->polvote == 0}Stemde <span class="pro">voor</span>
+        			{elseif $rad->polvote == 1}Stemde <span class="contra">tegen</span>
+        			{elseif $rad->polvote == 2}<span class="abstain">Heeft zich onthouden</span>
+        			{else}<span class="absent">Was afwezig</span>
+        			{/if}
+        		</span>
+        	
+        		{if $rad->result == 0}<span class="result new">Niet gestemd</span>
+        		{elseif $rad->result == 1}<span class="result pro">Aangenomen</span>
+        		{else}<span class="result contra">Afgewezen</span>
+        		{/if}
+        	
+            	<a href="/raadsstukken/raadsstuk/{$rad->id}" target="_blank">
+                	<h2>{$rad->title|htmlentities:2:'UTF-8'}</h2>
+                    <p>{$rad->summary|strip_tags|truncate:110:'...':1}</p>
+                </a>
+            </li>
+        {foreachelse}
+        	<li class="first">
+            	<h4 style="text-align: center;">Geen raadsstukken gevonden</h4>
+            </li>
+        {/foreach}
+        </ul>
+        
+        <div style="clear: both"></div>
+    </div>
+</div>

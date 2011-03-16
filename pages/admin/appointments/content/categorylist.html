@@ -1,0 +1,5 @@
+{pofile appointments}
+<option label="Geen" value="-1">Geen</option>
+{foreach name=categoryloop from=$categories item=category}
+<option label="{$category->name}" value="{$category->id}">{$category->name}</option>
+{/foreach}

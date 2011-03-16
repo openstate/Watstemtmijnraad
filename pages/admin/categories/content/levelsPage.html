@@ -1,0 +1,20 @@
+<a name="CategoryLevelList"></a><a href="/categories/"><img src="/images/arrow_turn_up.png" alt="Terug" border="0" /></a>
+<h2>{$category->name}</h2>
+<div class="message">{if $message}<span class="message">{$message}</span>{/if}</div>
+<form action="" name="CategoryLevelList" method="post" enctype="multipart/form-data">
+	<table class="list">
+		<tr>
+			<th></th>
+			<th>Niveau</th>
+			<th>Omschrijving</th>
+		</tr>
+		{foreach from=$levels item=level}
+		<tr>
+			<td><input type="checkbox" name="check[{$level.level}]" id="check{$level.level}" {if isset($level.description)}checked="checked" {/if}/></td>
+			<td>{$level.level_name}</td>
+			<td><textarea name="desc[{$level.level}]" id="desc{$level.level}" rows="0" cols="20">{$level.description}</textarea></td>
+		</tr>
+		{/foreach}
+	</table>
+	<div class="container-buttons"><button class="submit" type="submit">Verstuur</button></div>
+</form>

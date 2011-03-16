@@ -1,0 +1,26 @@
+<div class="line">
+    <div class="col size3of4">
+        <div class="mod search_results">
+			<h1>{$region->name}</h1>
+			
+            <p class="head">Resultaten</p>
+
+			{foreach from=$children item=child}
+			{assign var=child_id value=$child->id}
+            <div class="search-results">
+                <a href="/regions/region/{$child->id}">{$child->level_name} {$child->name}</a>
+                {if $voting_count}
+                <table>
+                    <tr><th>Stemmingen afgelopen maand</th><td>{$voting_count.$child_id}</td></tr>
+                </table>
+                {/if}
+            </div>
+			{foreachelse}
+				Deze {$region->level_name|lower} heeft geen actieve {$child_level->name|lower}.
+			{/foreach}
+		</div>
+	</div>
+	<div class="col size1of4">
+		{include file=`$smartyData.contentDir`/../includable/sb_mun_branding.html}
+	</div>
+</div>

@@ -1,0 +1,136 @@
+{pofile raadsstuk}
+{pofile index}
+{literal}
+<script>
+jQuery(document).ready(function(){
+	handleTextFields(jQuery('form#search_rs input'));
+});
+</script>
+{/literal}
+<div class="line">
+    <div class="col size3of4">
+        <div class="mod searchform">
+            {if $fts && !$searchAll}
+            <h2 class="no-underline">Zoekopdracht</h2>
+            <div id="searchBlock" class="search contentBlock searchResultContainer">
+                <form method="post" action="/search/" id="search_rs">
+                	<div class="field">
+                        <label for="terms"><span>Onderwerp of beleidsveld</span></label>
+                        <input type="text" id="terms" name="q" class="text" value="{$search_params.q}"/>
+                        
+                        {foreach from=$search_params item=par key=parnam}
+		        			{if $parnam != q}<input type="hidden" name="{$parnam}" value="{$par}" />{/if}
+		        		{/foreach}
+                    </div>
+                    <button type="submit" id="submit" name="submit" value="Zoek">Zoek</button>
+                </form>
+                
+                <a class="more" href="/search{if $region}/region/{$region->id}{/if}{if $party}/party/{$party->id}{/if}{if $politician}/politician_id/{$politician->id}{/if}/submit/1">Uitgebreid zoeken</a>
+            </div>
+            {elseif $searchAll}
+            {else}
+            <h2 id="search_toggle">Wijzig zoekopdracht <img id="searchImage"  style="display: none;"alt="Zoekformulier open/sluiten" /></h2>
+            {include file=`$smartyData.contentDir`/../../advsearch/content/search.html}
+            {/if}
+        </div>
+    
+	
+    {if $stats.count}
+    <div class="mod results">
+		{if $searchAll}
+			<h2>Alle raadstukken van    
+        	{if $focus == 'par'}
+        		{$party->name}
+        	{elseif $focus == 'pol'}
+        		{$politician->formatName()}
+        	{elseif $focus == 'reg'}
+        		de {$region->level_name|lower} {$region->name}
+        	{/if}
+        	</h2>
+        {else}
+        	<h2>Zoekresultaten {$stats.start+1}-{$stats.end} van {$stats.count}</h2>
+        {/if}
+		
+		    
+        {if $warning}<div class="warning"><p>##index.maxresults##</p></div>{/if}
+        {if $sheader}
+        <div class="contentBlock result">
+            <p>{$sheader.0}</p>
+            <div class="title">{$sheader.1}</div>
+            {assign var=sheader value=$sheader|@array_slice:2}
+            {"\n"|implode:$sheader|htmlspecialchars|nl2br}
+        </div>
+        <hr class="filter"/>
+        {/if}
+
+        {foreach from=$formdata item=voting name=result_loop}
+        	{assign var=id value=$voting->id}
+            <div class="voting">
+            
+            {if $focus == 'par'}
+            	{if $voting->result > 0}
+					<div class="votes">
+						<div class="vote">
+							<h5 class="party">
+                                {if $party->short_form}
+                                    <abbr title="{$party->name}">{$party->short_form}</abbr>
+                                {else}
+                                    <abbr title="{$party->name}">{$party->name}</abbr>
+                                {/if}
+							</h5>
+							<p>
+								{if $total_votes.$id == 0 || (($voting->vote_0 + $voting->vote_1) == 0)}
+									Geen van de leden heeft gestemd
+								{elseif $voting->vote_0 == $total_votes.$id}
+									Alle {$total_votes.$id} leden stemden <span class="vote-pro">voor</span>
+								{elseif $voting->vote_1 == $total_votes.$id}
+									Alle {$total_votes.$id} leden stemden <span class="vote-contra">tegen</span>
+								{elseif $voting->vote_1 gt $voting->vote_0}
+									{$voting->vote_1} van {$total_votes.$id} leden stemden <span class="vote-contra">tegen</span>
+								{else}
+									{$voting->vote_0} van {$total_votes.$id} leden stemden <span class="vote-pro">voor</span>
+								{/if}
+							</p>
+						</div>
+						<a class="more" href="/raadsstukken/raadsstuk/{$voting->id}">Bekijk alle stemmingen</a>
+					</div>
+				{/if}
+            {/if}
+            {include file=`$smartyData.contentDir`/../../raadsstukken/includable/voting.html}           
+            </div>
+        {/foreach}
+    </div>
+    {if $pager}<p class="pager">{$pager}</p>{/if}
+    </div>
+    
+    {else}
+	    <div class="mod results">
+        	<h5>##index.noresults##</h5>
+    	</div>
+    </div>
+    {/if}
+    
+    {if $focus == 'par'}
+        <div class="col size1of4 sidebar">
+            {if $region || $region_id}{include file=`$smartyData.contentDir`/../../regions/includable/sb_mun_branding.html}{/if}
+            {include file=`$smartyData.contentDir`/../../parties/includable/sb_list.html}
+        </div>
+    {elseif $focus == 'pol'}
+        <div class="col size1of4 sidebar">
+            {include file=`$smartyData.contentDir`/../../regions/includable/sb_mun_branding.html}
+            {include file=`$smartyData.contentDir`/../../parties/includable/sb_list.html}
+        </div>
+    {elseif $focus == 'reg' && !$no_region_bar}
+        <div class="col size1of4 sidebar">
+            {include file=`$smartyData.contentDir`/../../regions/includable/sb_mun_branding.html}
+            <div class="mod nav-parties">
+                {include file=`$smartyData.contentDir`/../../regions/includable/sb_mun_parties.html}
+            </div>
+        </div>
+    {else}
+        <div class="col size1of4">
+        </div>
+    {/if}
+    
+    </div>
+</div>

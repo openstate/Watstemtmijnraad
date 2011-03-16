@@ -1,0 +1,42 @@
+<h1>Partij toevoegen</h1>
+
+<form method="POST" action="">
+    <table class="form">
+
+        <tbody id="extrainfo">
+            <tr><th>Naam van de partij: </th><td><input type="text" name="party_new"/></td></tr>
+            <tr><th>Heeft de partij een afkorting?</th><td><input type="radio" name="short" value="0"/>Nee &nbsp;<input type="radio" name="short" value="1"/>Ja namelijk: <input type="text" name="short_form"/></td></tr>
+            <tr><th>Is de partij een combinatie partij?</th><td><input type="radio" name="combination" id="combi_0" value="0"/>  Nee &nbsp;<input type="radio" id="combi_1" name="combination" value="1"/>Ja </td></tr>
+        </tbody>
+
+        <tbody id="combi">
+            <tr><th>De partij is een cominatie van:</th>
+                <td>
+                    <select name="combi[]">
+                        {foreach from=$parties item=party key=k}
+                        <option value="{$party->party}">{$party->party_name}</option>
+                        {/foreach}
+                    </select>
+                </td>
+            </tr>
+            <tr id="combination">
+                <th></th>
+                <td>
+                    <select name="combi[]">
+                        {foreach from=$parties item=party key=k}
+                            <option value="{$party->party}">{$party->party_name}</option>
+                        {/foreach}
+                    </select><br/>
+                    
+                </td>
+            </tr>
+            <tr><th></th><td>
+            <a href="#" id="addMoreParents"/>Nog een relatie toevoegen</a></td></tr>
+        </tbody>
+
+        <tbody>
+            <tr><td><input type="hidden" name="region" value="{$region}"/><input type="submit" value="Verzenden"></td></tr>
+        </tbody>
+        
+    </table>
+</form>

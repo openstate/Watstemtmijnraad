@@ -1,0 +1,187 @@
+{literal}
+<script>
+jQuery(document).ready(function(){
+	handleTextFields(jQuery('form#search_rs input'));
+
+        // if Javascript is enabled hide the dropdowns
+        jQuery(".advanced_first").hide();
+        jQuery(".advanced_second").hide();
+
+        jQuery("#first").click(function () {
+            if(jQuery(".advanced_first").is(":hidden")) {
+               jQuery(".advanced_first").css({
+                   background : '#fff',
+                   border : '1px solid #000',
+                   position : 'absolute'
+               });
+               jQuery("#first").css({
+                   background : 'transparent url(/images/closed.gif) no-repeat scroll right 0.3em'
+               })
+               if(jQuery(".advanced_second").is(":show")) {
+                jQuery(".advanced_second").hide();
+               }
+                jQuery(".advanced_first").show();
+                return false;
+            }
+            if(jQuery(".advanced_first").is(":show")) {
+               jQuery("#first").css({
+                   background : 'transparent url(/images/arrow-d-blue-md.png) no-repeat scroll right 0.3em'
+               })
+                jQuery(".advanced_first").hide();
+                return false;
+            }
+        });
+
+
+        jQuery("#second").click(function () {
+            if(jQuery(".advanced_second").is(":hidden")) {
+               jQuery(".advanced_second").css({
+                   background : '#fff',
+                   border : '1px solid #000',
+                   position : 'absolute'
+               });
+               jQuery("#second").css({
+                   background : 'transparent url(/images/closed.gif) no-repeat scroll right 0.3em'
+               })
+               if(jQuery(".advanced_first").is(":show")) {
+                jQuery(".advanced_first").hide();
+               }
+               jQuery(".advanced_second").show();
+               return false;
+            }
+
+            if(jQuery(".advanced_first").is(":show")) {
+               jQuery("#second").css({
+                   background : 'transparent url(/images/arrow-d-blue-md.png) no-repeat scroll right 0.3em'
+               })
+                jQuery(".advanced_second").hide();
+                return false;
+            }
+        });
+});
+</script>
+{/literal}
+
+<div class="line">
+	<div class="col size2of4">
+		<div class="mod search">
+			<h2>Zoek naar een onderwerp</h2>
+			<form method="post" action="/search/" id="search_rs">
+              	<div class="field">
+      	        	<label for="terms"><span>Onderwerp of beleidsveld</span></label>
+	                <input type="text" id="terms" name="q" class="text" />
+	                <input type="hidden" name="party" value="{$party->id}" />
+	                {if $region}<input type="hidden" name="region" value="{$region->id}" />{/if}
+                </div>
+				<button type="submit" id="submit" name="submit" value="Zoek">Zoek</button>
+			</form>
+			<a class="more" href="/search/party/{$party->id}/region/{$region->id}/submit/1">Uitgebreid zoeken</a>
+		</div>
+	</div>
+	<div class="col size1of4">
+		<div class="mod filter">
+			{if $categories}
+			<a href="#" class="advanced" id="first">Kies een beleidsveld</a>
+                        <div class="advanced_first" style="z-index: 10;">
+                            <ul>
+                            	<li style="list-style-type: none;"><a href="?region={$region->id}" {if !$cur_category}class="current"{/if}>Alle categorien</a></li>
+                                {foreach item=category from=$categories}
+                                    <li style="list-style-type: none;"><a href="?region={$region->id}&amp;category={$category.id}" {if $cur_category == $category.id}class="current"{/if}><span style="float: right;">{$category.count}</span> {$category.name}</a></li>
+                                {/foreach}
+                            </ul>
+                        </div>
+                        
+            {else}
+            	<a href="#" class="advanced" style="background: transparent url(/images/closed.gif) no-repeat scroll right 0.3em; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;">Geen beleidsvelden</a>
+            {/if}
+            
+            {if $tags}
+			<a href="#" class="advanced" id="second">Kies een tag</a>
+                        <div class="advanced_second" style="z-index: 10;">
+                            <ul>
+                                <li style="list-style-type: none;"><a href="?region={$region->id}" {if !$cur_tag}class="current"{/if}>Alle tags</a></li>
+                                {foreach item=tag from=$tags}
+                                    <li style="list-style-type: none;"><a href="?region={$region->id}&amp;tag={$tag.id}" {if $cur_tag == $tag.id}class="current"{/if}><span style="float: right;">{$tag.count}</span> {$tag.name}</a></li>
+                                {/foreach}
+                            </ul>
+                        </div>
+                        
+            {else}
+            	<a href="#" class="advanced" style="background: transparent url(/images/closed.gif) no-repeat scroll right 0.3em; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;">Geen tags</a>
+            {/if}
+		</div>
+	</div>
+	{if $region}
+	<div class="col size1of4">
+		{include file=`$smartyData.contentDir`/../../regions/includable/sb_mun_branding.html}
+	</div>
+	{/if}
+</div>
+
+<div class="line">
+	<div class="col size3of4">
+		<div class="mod votings">
+			<h2>
+				{if $filter_cat}
+					Raadsstukken met het beleidsveld {$filter_cat->name} <a href="/parties/party/{$party->id}{if $region->id}?region={$region->id}{/if}" class="remove-filter">Verwijder filter</a>
+				{elseif $filter_tag}
+					Raadsstukken met de tag {$filter_tag->name} <a href="/parties/party/{$party->id}{if $region->id}?region={$region->id}{/if}" class="remove-filter">Verwijder filter</a>
+				{else}
+					Recente onderwerpen
+				{/if}
+			</h2>
+			{foreach from=$votings item=voting}
+				{assign var='id' value=$voting->id}
+				<div class="voting">
+					{if $voting->result > 0}
+					<div class="votes">
+						<div class="vote">
+							<h5 class="party">
+								<abbr title="{$party->name}">{$party->short_form}</abbr>
+							</h5>
+							<p>
+								{if $total_votes.$id == 0 || (($party_pro.$id + $party_contra.$id) == 0)}
+									Geen van de leden heeft gestemd
+								{elseif $party_pro.$id == $total_votes.$id}
+									Alle {$total_votes.$id} leden stemden <span class="vote-pro">voor</span>
+								{elseif $party_contra.$id == $total_votes.$id}
+									Alle {$total_votes.$id} leden stemden <span class="vote-contra">tegen</span>
+								{elseif $party_contra.$id gt $party_pro.$id}
+									{$party_contra.$id} van {$total_votes.$id} leden stemden <span class="vote-contra">tegen</span>
+								{else}
+									{$party_pro.$id} van {$total_votes.$id} leden stemden <span class="vote-pro">voor</span>
+								{/if}
+
+							</p>
+						</div>
+						
+					</div>
+                    <a class="more2" href="/raadsstukken/raadsstuk/{$voting->id}/?party={$party->id}">Bekijk alle stemmingen</a>
+					{/if}
+					{include file=`$smartyData.contentDir`/../../raadsstukken/includable/voting.html}
+				</div>
+			{foreachelse}
+				{if $filter_cat || $filter_tag}
+					Geen raadstukken gevonden met het huidige filter
+				{else}
+					Nog geen stemmen uitgebracht
+				{/if}
+			{/foreach}
+			{if $votings|@count >= $max_rs_count}
+				<a class="mod-more-big" href="/search{$extra_url_params}/q/-all/party/{$party->id}/{if $region}region/{$region->id}/{/if}submit/Link">Bekijk alle raadsstukken</a>
+			{/if}
+		</div>
+	</div>
+	<div class="col size1of4 sidebar">
+		{include file=`$smartyData.contentDir`/../../parties/includable/sb_correlate.html}
+		{include file=`$smartyData.contentDir`/../../parties/includable/sb_list.html}
+       <div class="mod nav-parties">
+                <h3>Extra's</h3>
+                <ul class="party">
+                    <li><a href="/iframe/explanation/?party={$party->id}{if $region->id}&region={$region->id}{/if}" target="_blank">Raadsstukken op uw website</a></li>
+                </ul>
+            </div>
+        </div>
+		{include file=`$smartyData.contentDir`/../../regions/includable/sb_mun_pages.html}
+	</div>
+</div>

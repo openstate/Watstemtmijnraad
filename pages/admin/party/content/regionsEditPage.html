@@ -1,0 +1,44 @@
+<h2>Regio wijzigen</h2>
+<form id="prsEditForm" method="post" action="">
+<input type="hidden" name="region" value="{$id}" />
+<input type="hidden" name="id" value="{$formdata.id}" />
+<table class="form"><tr>
+	<th>Regio</th>
+	<td>
+		{if $superAdmin}
+			{html_options options=$regions name=region selected=$formdata.region}
+		{else}
+			{$bound_region}
+		{/if}
+	</td>
+</tr>
+	{if $errors.range_error}<tr><td colspan="2" style="text-align: center;"><span style="color: red; font-size: 1.2em">Verkeerd datum</span></td></tr>{/if}
+	<tr>
+		<th>Aanvangsdatum</th>
+		<td>{html_select_date name="time_start" time=$formdata.time_start field_order='DMY' prefix="TS_" day_empty="" month_empty="" year_empty="" start_year=-5 end_year=+5} <span class="error" id="_err_time_start_invalid" style="{if !$formerrors.time_start_invalid}display:none{/if}">##form_validDate##</span></td>
+	</tr>
+	<tr>
+		<th>Einddatum</th>
+		<td>{html_select_date name="time_end" time=$formdata.time_end field_order='DMY' prefix="TE_" day_empty="" month_empty="" year_empty="" start_year=-5 end_year=+5} <span class="error" id="_err_time_end_invalid" style="{if !$formerrors.time_end_invalid}display:none{/if}">##form_validDate##</span></td>
+	</tr>
+<tr>
+	<td colspan="2" class="no-underline"><div class="container-buttons"><button class="submit" type="submit" name="edit">Wijzigen</button></div></td>
+</tr></table>
+
+{if not empty($constrained)}<div style="margin-top: 20px;" cellpadding="3">
+<p><span style="color: darkred">Kan de regio niet wijzigen, de volgende aanstellingen laten dat niet toe:</span></p>
+
+<table style="width: 100%">
+<tr><th>Partij</th><th>Regio</th><th>Aanvangsdatum</th><th>Einddatum</th></tr>
+{foreach from=$constrained item=app}
+	<tr><td>{$app->party_name}</td>
+		<td>{$app->region_name}</td>
+		<td>{if $app->time_start == $smarty.const.NEG_INFINITY}Geen{else}{$app->time_start|date_format:"%e %B %Y"}{/if}</td>
+		<td>{if $app->time_end == $smarty.const.POS_INFINITY}Geen{else}{$app->time_end|date_format:"%e %B %Y"}{/if}</td></tr>
+{/foreach}
+</table>
+
+<p style="margin-top: 20px;">Als u verder wilt gaan wordt de datum-range gekozen die bovengenoemde aanstellingen het best omvat.</p>
+<div class="container-buttons"><button class="submit" type="submit" name="commit">Verder gaan</button></div>
+</div>{/if}
+</form>

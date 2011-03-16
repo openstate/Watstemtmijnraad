@@ -1,0 +1,27 @@
+<h2>Wizard stap 1</h2>
+
+<div class="wizard">
+   	<ul class="steps">
+        <li><a class="active">1: partijen</a></li>
+        <li><a>2: politici</a></li>
+        <li><a>3: logo</a></li>
+    </ul>
+    
+    <div class="content">
+        <h3>Welkom bij <strong>Wat stemt mijn raad</strong></h3>
+        <p>Welke politieke partijen zitten er in uw gemeenteraad?</p>
+        
+        <form action="" class="checkbox" method="post">
+			{foreach from=$parties item=p}
+            <div class="checkbox"><label for="p{$p->id}"><input type="checkbox" id="p{$p->id}" name="party[]" value="{$p->id}"{if $p->id|in_array:$current} checked="checked"{/if} />{$p->name|htmlspecialchars}{if $p->short_form} ({$p->short_form|htmlspecialchars}){/if}</label></div>
+			{/foreach}
+
+        <a class="add" href="/wizard/addParty">Andere partij toevoegen</a>
+        
+        <div class="buttons">
+            <button class="next" type="submit">Volgende stap</button>
+        </div>
+        </form>
+
+    </div>
+</div>

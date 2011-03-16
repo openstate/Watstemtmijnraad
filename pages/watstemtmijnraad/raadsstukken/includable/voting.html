@@ -1,0 +1,59 @@
+{if !$id}
+{assign var='id' value=$voting->id}
+{/if}
+{if $region eq 'test'}<p class="plaatsnaam">{$voting->region_name}</p>{/if}
+<h4>{$voting->title}</h4>
+<span class="date">Stemdatum: {$voting->vote_date|date_format:"%A %e %B %Y"}</span>
+
+<p>
+	{$voting->summary|strip_tags|truncate:110:'...':1} <a href="/raadsstukken/raadsstuk/{$id}/{if $party}?party={$party->id}{/if}" class="more">Lees meer</a>
+</p>
+
+
+{if $politician}
+	{* there is always a vote in politiican view, otherwise the raadsstuk will not be selected *}
+		<div class="pol-results">
+			{if is_null($voting->polvote)}
+				{if $voting->vote_0}
+					<span class="pol-vote pro">{$politician->formatName()} stemde voor</span>
+				{elseif $voting->vote_1}
+					<span class="pol-vote contra">{$politician->formatName()} stemde tegen</span>
+				{else}
+					<span class="pol-vote not-voted">{$politician->formatName()} stemde niet</span>
+				{/if}
+			{elseif $voting->polvote == 0}
+				<span class="pol-vote pro">{$politician->formatName()} stemde voor</span>
+			{elseif $voting->polvote == 1}
+				<span class="pol-vote contra">{$politician->formatName()} stemde tegen</span>
+			{else}
+				<span class="pol-vote not-voted">{$politician->formatName()} stemde niet</span>
+			{/if}
+			
+			{if $voting->result == 1}
+				<span class="verdict pro">{$voting->getResultTitle()}</span>
+			{elseif $voting->result == 2}
+				<span class="verdict contra">{$voting->getResultTitle()}</span>
+			{/if}
+		</div>
+        <div class="more_link">
+			<a class="more_link" href="/raadsstukken/raadsstuk/{$id}">Bekijk alle stemmen</a>
+        </div>
+	{*
+    	<div class="results-position">
+            <div class="results">
+                <span class="verdict v-not-voted">Niet gestemd</span>
+            </div>
+        </div>
+	*}
+{else}
+    <div class="results-position">
+        <div class="results">
+            {if $voting->result > 0}
+                <span class="pro all">{$voting->vote_0} voor</span>
+                
+                <span class="contra all" style="max-width: 80%; width: {$bar_width.$id}%;">{$voting->vote_1} tegen</span>
+            {/if}
+            <span class="verdict {if $voting->result == 0}v-not-voted{elseif $voting->result == 1}v-pro{else}v-contra{/if}">{$voting->getResultTitle()}</span>
+        </div>
+    </div>
+{/if}

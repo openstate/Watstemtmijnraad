@@ -1,0 +1,5 @@
+{pofile votes}
+<input type="hidden" name="{$prefix}" class="{$class} vote" value="{$set}"/>
+<input type="hidden" name="message_{$prefix}" class="{$class}" value="{$message|htmlspecialchars}" />
+<div style="float: right; top:2px;position: relative; {if !$message} display: none;{/if}"{if $message} title="{$message|htmlspecialchars}"{/if}><img style="border: 0px" width="16" height="16" src="/images/info.png" alt="information" /></div>
+<div class="{$class} vote-item undefined" style="position:relative;"{if $message} title="{$message|htmlspecialchars}"{/if}><span class="vote-text">Kies een stem</span></div>

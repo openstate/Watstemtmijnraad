@@ -1,0 +1,39 @@
+{* included recursively, context vars: nodes -- list of subtrees, level -- current level starting from 1 *}
+
+
+{foreach from=$nodes item=region}
+	{if $region.show}
+		<tr id="region_{$region.id}" class="{if $level > 3}collapsed{/if} {$parent_path} par_{$parent}">
+		<td class="level{$region.level}">
+			{if ($level >= 3) AND ($region.children|@count > 0)}
+				<span>
+					<a class="party_folding" href="javascript: void(0);" onclick="return toggleRegion({$region.id});">
+						<img src="/images/expand.gif" id="image_{$region.id}" class="cross_image" width="16" height="16" />
+					</a>
+				</span>
+			{else}
+				<span></span>
+			{/if}
+							
+			{if $region.show_link}
+				<a href="/selection/region/{$region.id}">{$region.name}</a>
+				</td><td class="options">
+				<a class="edit" href="/regions/edit/{$region.id}"><img src="/images/edit.png" alt="Edit" title="Edit" border="0" /></a>
+				{if $global->user->isSuperAdmin()}
+					<a class="delete" href="/regions/delete/{$region.id}" onclick="return confirm('Weet u zeker dat u de regio {$region.name|escape:'quotes'} wilt verwijderen?');">
+						<img src="/images/delete.png" alt="Verwijderen" title="Verwijderen" border="0" />
+					</a>
+				{/if}
+			{else}
+				<span></span>
+				{$region.name}
+				</td><td>
+			{/if}
+		</td>
+		</tr>
+		
+		{if $region.children}
+			{include file=$template_path|cat:'recur_indexPage.html' nodes=$region.children level=`$level+1` child=$region.id parent_path=$parent_path|cat:' allpar_'|cat:$region.id parent=$region.id}
+		{/if}
+	{/if}
+{/foreach}

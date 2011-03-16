@@ -1,0 +1,84 @@
+<h2>Regio's voor {$party->name}</h2>
+{pofile form}
+{if not empty($constrained)}<div style="margin-top: 20px;" cellpadding="3">
+<p><span style="color: darkred">Kan de geselecteerde regio's niet verwijderen, de volgende aanstellingen laten dat niet toe:</span></p>
+
+<table style="width: 100%">
+<tr><th>Partij</th><th>Regio</th><th>Aanvangsdatum</th><th>Einddatum</th><th>Go to</th></tr>
+{foreach from=$constrained item=app}
+	<tr><td>{$app->party_name}</td>
+		<td>{$app->region_name}</td>
+		<td>{if $app->time_start == $smarty.const.NEG_INFINITY}Geen{else}{$app->time_start|date_format:"%e %B %Y"}{/if}</td>
+		<td>{if $app->time_end == $smarty.const.POS_INFINITY}Geen{else}{$app->time_end|date_format:"%e %B %Y"}{/if}</td>
+		<td><a href="/appointments/{$app->politician}?all" title="Naar appointment: {$app->id}"><img src="/images/page_white_go.png" border="0" alt="Go to {$app->id}"></a></tr>
+{/foreach}
+</table>
+
+<p style="margin-top: 20px;">U moet eerst de bovengenoemd aanstellingen verwijderen.</p>
+</div>{/if}
+
+
+<p>
+	<a href="/party/"><img src="/images/arrow_turn_up.png" title="Terug" alt="Terug" border="0" /></a>&nbsp;{$party->name}
+</p>
+<form id="partyListForm" method="post" action="">
+<table class="list"><tr>
+	<th>&nbsp;</th>
+	<th>Regio</th>
+	<th>Aanvangsdatum</th>
+	<th>Einddatum</th>
+	{*<th>Partijsecretaris</th>*}
+	<th>Opties</th>
+</tr>
+{foreach from=$prs item=pr key=id}
+<tr class="link{cycle values=", alt"}">
+	<td><input type="checkbox" name="prs[{$pr->id}]" value="{$pr->id}" class="checkbox" {if isset($formdata.prs.$id)}checked = "checked"{/if}/></td>
+	<td>{$pr->formatRegionName()}</td>
+	{*<td>{assign var=user value=$pr->bo_user}{$bo_users_show.$user}</td>*}
+	<td>{if $pr->time_start == $smarty.const.NEG_INFINITY}Geen{else}{$pr->time_start|date_format:"%e %B %Y"}{/if}</td>
+	<td>{if $pr->time_end == $smarty.const.POS_INFINITY}Geen{else}{$pr->time_end|date_format:"%e %B %Y"}{/if}</td>
+	<td>
+		<a href="?edit={$pr->id}" class="edit"><img src="/images/edit.png" title="##form_edit##" alt="##form_edit##" border="0"/></a>
+		<a href="/appointments/createParty/{$pr->id}"><img src="/images/add.png" border="0" alt="Aanstelling toevoegen" title="Aanstelling toevoegen" /></a>
+	</td>
+</tr>
+{foreachelse}
+<tr class="link"><td>&nbsp;</td><td>Geen regio's aanwezig</td></tr>
+{/foreach}
+</table>
+<div style="margin:5px 0 10px;" id="selects_java"></div>
+<div class="container-buttons">
+<button class="submit" type="submit" name="delete">Verwijder selectie</button>
+</div>
+</form>
+<br/><br/>
+<form id="prsAddForm" method="post" action="">
+<table class="form">
+	<tr>
+	<th>Regio</th>
+	<td>
+		{if $superAdmin}
+			{html_options options=$regions name=region selected=$formdata.region}
+		{else}
+			{$bound_region}
+		{/if}
+	</td>
+	</tr>
+{*<tr>
+	<td>Partijsecretaris</td>
+	<td>
+		{html_options options=$bo_users id="secretary" name=secretary selected=$formdata.secretary}
+	</td>
+</tr>*}
+	<tr>
+		<th>Aanvangsdatum</th>
+		<td>{html_select_date name="time_start" time=$formdata.time_start field_order='DMY' prefix="TS_" day_empty="" month_empty="" year_empty="" start_year=-5 end_year=+5} <span class="error" id="_err_time_start_invalid" style="{if !$errors.time_start_invalid}display:none{/if}">##form_validDate##</span></td>
+	</tr>
+	<tr>
+		<th>Einddatum</th>
+		<td>{html_select_date name="time_end" time=$formdata.time_end field_order='DMY' prefix="TE_" day_empty="" month_empty="" year_empty="" start_year=-5 end_year=+5} <span class="error" id="_err_time_end_invalid" style="{if !$errors.time_end_invalid}display:none{/if}">##form_validDate##</span></td>
+	</tr>
+<tr>
+	<td colspan="2" class="no-underline"><div class="container-buttons"><button class="submit" type="submit" name="add">Toevoegen</button></div></td>
+</tr></table>
+</form>

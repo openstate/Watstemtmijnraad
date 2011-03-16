@@ -1,0 +1,7 @@
+<h2>Rollen toekennen</h2>
+Gebruiker: {$user->username}<br/>
+<form method="post" action="">
+<input type="hidden" name="userid" value="{$userid}" />
+{html_checkboxes options=$roles name='roles' selected=$selectedRoles labels=true}
+<div class="container-buttons"><button class="submit" type="submit" name="submit">Verstuur</button></div>
+</form>

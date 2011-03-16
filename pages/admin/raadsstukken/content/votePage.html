@@ -1,0 +1,114 @@
+{pofile form}
+{pofile votes}
+{pofile vote_form}
+{pofile raadsstuk}
+
+<h2>Stemming invoeren</h2>
+<div id="vote-box" style="display: none; border: 1px solid black; padding: 2px; background-color: #fff; ">
+        <div style="margin-bottom: 10px;">&#160;</div>
+        <div class="vote-box-item voor border" id="box-voor"><input type="radio" name="vote" value="0"/><span class="vote-text">##votes.voor##</span></div>
+        <div class="vote-box-item tegen border" id="box-tegen" style="padding-bottom: 10px;"><input type="radio" name="vote" value="1"/><span class="vote-text">##votes.tegen##</span></div>
+        <div class="vote-box-item onthouden border" id="box-onthouden"><input type="radio" name="vote" value="2"/><span class="vote-text">##votes.onthouden##</span></div>
+        <div class="vote-box-item afwezig" id="box-afwezig" style="padding-bottom: 10px;"><input type="radio" name="vote" value="3"/><span class="vote-text">##votes.afwezig##</span></div>
+        <div class="vote-box-item afwezig" id="box-afwezig" style="padding-bottom: 10px;"><input type="radio" name="vote" value="4"/><span class="vote-text">##votes.delete##</span></div>
+        <div id="vote_message_link"><a href="#" onclick="return showMessageInput();">Stemverklaring opgeven</a></div>
+        <div id="vote_message" style="display: none;">
+                Stemverklaring<br />
+                <textarea cols="22" rows="5" id="vote_message_input"></textarea><br />
+                <button id="vote_message_ok">OK</button>
+                <button id="vote_message_cancel">Annuleren</button>
+        </div>
+</div>
+<div id="result-box" style="display: none; z-index: 42; border: 1px solid black; margin-top: -70px; padding: 2px; background-color: #fff; ">
+        <div class="result-box-item voor border" id="box-accept"><input type="radio" name="result-radio" id="result-box-item-1" value="1"/><span class="vote-text">##raadsstuk.accepted##</span></div>
+        <div class="result-box-item tegen border" id="box-reject"><input type="radio" name="result-radio" id="result-box-item-2" value="2"/><span class="vote-text">##raadsstuk.rejected##</span></div>
+        <div class="result-box-item notVoted" id="box-notVoted"><input type="radio" name="result-radio" id="result-box-item-0" value="0"/><span class="vote-text">##raadsstuk.notvoted##</span></div>
+</div>
+
+<div class="forms">
+	{if !$create}
+   	<ul class="steps">
+        <li><a href="/raadsstukken/edit/{$raadsstuk->id}">Gegevens</a></li>
+        <li><a class="active" href="#">Stemmingen</a></li>
+    </ul>
+	{/if}
+    <div class="leftcol">
+		<form action="" method="post" id="voteForm" style="position: relative;">
+		<div class="block" style="padding-right: 10px;">
+            <h4 class="margin">voor {$raadsstuk->type_name|strtolower} '{$raadsstuk->title|htmlspecialchars}'</h4>
+            <p>Datum: {$raadsstuk->vote_date|date_format:'%e %B %Y'}</p>
+            <p style="border-bottom:1px solid #d2d2d2;">Code: {$raadsstuk->code|htmlspecialchars}</p>
+			<table id="council">
+				<tr>
+					<td class="space"><h1><span id="resultCaption">Stemming</span></h1></td>
+					<td class="space width">
+						<input type="hidden" id="result" name="result" value="{$raadsstuk->result}"/>
+						<div class="result-item notVoted" style="z-index: 100; position: relative;">
+							<h3><span class="vote-text">##raadsstuk.notvoted##</span></h3>
+						</div>
+					</td>
+				</tr>
+                <tr>
+                    <td class="space"><h1><span id="resultCaption">Consensus</span></h1></td>
+                    <td class="space width">
+                        {html_options name=consensus options=$consensus selected=$consensus_selected}
+                    </td>
+                </tr>
+
+				<tr class="border">
+					<td class="space2"><h3><span>{$region->level_name} {$region->name}</span></h3></td><td class="space2 width">{include file=`$smartyData.contentDir`options.html prefix='council' class="raad" set=$council.vote message=$raadsstuk->vote_message}</td>
+				</tr>
+            </table>
+           	<table class="list">
+				{foreach from=$council item=party key=partyName}
+				{capture assign=pname}party[{$party.id}]{/capture}
+				{assign var=pid value=$party.id}{assign var=msg value=$partyMessages.$pid}
+				{if $msg}{assign var=msg value=$msg->message}{else}{assign var=msg value=''}{/if}
+				<tr class="hover alt" party="{$party.id}" status="closed" onclick="return toggleParty(this);">
+					<td width="15px">
+                    
+                    <a class="party_folding"><img src="/images/expand.gif" class="image_{$party.id}" width="16" height="16" /></a></td><td>
+                    <strong><span class="party-name">{$partyName}{if $party.short_form} ({$party.short_form|htmlspecialchars}){/if}</span></strong> ({$party.politicians|@count} stem{if $party.politicians|@count != 1}men{/if})</td><td class="width">{include file=`$smartyData.contentDir`options.html prefix=$pname class="party" set=$party.vote message=$msg}</td>
+				</tr>
+				{foreach from=$party.politicians item=politician key=politicianId}
+				{capture assign=poname}politician[{$politicianId}]{/capture}
+				<tr class="party_{$party.id}" style="display: none;">
+					{if is_null($politician.vote->vote) && $absents[$politicianId]}
+						<td width="15px">&nbsp;</td><td><span>{$politician.name}</span></td><td class="width">{include file=`$smartyData.contentDir`options.html prefix=$poname class="$pname politician" set=3
+						message=$politician.vote->message}</td>
+					{else}
+						<td width="15px">&nbsp;</td><td><span>{$politician.name}</span></td><td class="width">{include file=`$smartyData.contentDir`options.html prefix=$poname class="$pname politician" set=$politician.vote->vote
+						message=$politician.vote->message}</td>
+					{/if}
+				</tr>
+				{/foreach}
+				{/foreach}
+				
+				{foreach from=$voting_parties item=party key=partyName}
+					{capture assign=pname}party[{$party.id}]{/capture}
+				<tr>
+					<td><span class="party-name">{$partyName}</span></td>
+					<td class="width">{include file=`$smartyData.contentDir`options.html prefix=$pname class="party" set=$party.vote}</td>
+				</tr>
+				{/foreach}
+			</table>
+		</div>
+		<div style="padding:10px;" class="block">
+			<div style="margin:0;" class="buttons">
+				<button class="next" type="submit" name="show" value="1">Stemming publiceren</button>
+				<button class="next" type="submit" name="show" value="0">Opslaan als concept</button>
+				<button class="prev" type="submit" name="cancel">Annuleren</button>
+			</div>
+		</div>
+	</div>
+        <div class="rightcol">
+            <p>Bij deze stap vult u alle gegevens over de stemming in.</p>
+            <p><strong>Tip 1:</strong> Door te kiezen voor 'in behandeling' kunt u het raadsvoorstel publiceren zonder de stemming</p>
+            <p><strong>Tip 2:</strong> Om de stemming dus daadwerkelijk te publiceren dient u te selecteren of het voorstel is aangenomen of afgewezen</p>
+            <p><strong>Tip 3:</strong> Het systeem onthoudt gedurende de gehele sessie welke personen u op afwezig heeft gezet. Als deze aanwezigheid per raadsstuk verschilt, dient u deze dus handmatig te wijzigen.</p>
+            <p><strong>Tip 4:</strong> Als personen op 'afwezig' staan, worden ze niet 'meegenomen' als u voor de gehele gemeente of per partij 'voor' of 'tegen' selecteert.</p>
+    </div>
+</div>
+<div id="spacer" style="height: 6em"/>
+</form>
+

@@ -1,0 +1,38 @@
+{if sizeof($corr_info)}
+<div class="mod nav-parties">
+
+	<h3>Het stemgedrag komt overeen met</h3>
+
+	<div class="party-compare">
+	{foreach from=$corr_info item=fit}
+		{if $fit.fit > 75}
+			{assign var=barclass value='much'}
+		{elseif $fit.fit > 50}
+			{assign var=barclass value='medium'}
+		{elseif $fit.fit > 0}
+			{assign var=barclass value='little'}
+		{else}
+			{assign var=barclass value='zero'}
+		{/if}
+	
+		<div class="block">
+        {assign var=image_file value=$fit.image}
+        	<div class="party">{if $image_file}{html_image file="parties/$image_file" maxwidth="57" maxheight="20" alt="image"}{/if}</div>
+        	<div class="compare-width">
+        		{if $fit.fit}
+	        		<div style="width: {$fit.fit}%" class="percentage {$barclass}">
+	        			{if $fit.fit > 20}{$fit.fit}%{/if}
+	        		</div>
+	        		{if $fit.fit <= 20}<div class="percentage_label">{$fit.fit}%</div>{/if}
+	        	{else}
+	        		<div class="no-data">Geen gegevens voor vergelijking</div>
+        		{/if}
+        	</div>
+        	
+        	
+        	<p>{$fit.name|htmlentities:2:'UTF-8'}</p>
+    	</div>
+    {/foreach}
+	</div>
+</div>
+{/if}

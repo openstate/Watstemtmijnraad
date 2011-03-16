@@ -1,0 +1,19 @@
+<div class="line">
+    <div class="col size4of4">
+        <div class="mod search_results">
+			<h1>Kies een regio:</h1>
+			{foreach from=$regions item=region}
+            {assign var=id value=$region->id}
+            <div class="search-results">
+                <a href="/regions/region/{$region->id}">{$region->level_name} {$region->name}</a>
+                <table>
+                    <tr><th>Aantal raadsleden</th><td>{if $councillor_counts.$id neq 0}{$councillor_counts.$id}{else}0{/if}</td></tr>
+                    <tr><th>Stemmingen afgelopen maand</th><td>{if $vote_counts.$id neq 0}{$vote_counts.$id}{else}0{/if}</td></tr>
+                </table>        
+            </div>
+			{foreachelse}
+				Op deze zoekterm zijn geen regio's gevonden
+			{/foreach}
+		</div>
+	</div>
+</div>

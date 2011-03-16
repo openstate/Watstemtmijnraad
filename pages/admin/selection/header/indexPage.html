@@ -1,0 +1,29 @@
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+{literal}
+
+function toggleRegion(id) {
+	if(jQuery('#region_' + id).hasClass('child_open')) {
+		jQuery('#region_' + id + ', .allpar_' + id).removeClass('child_open');
+		jQuery('.allpar_' + id).addClass('collapsed');
+		jQuery('#image_' + id + ', .allpar_' + id + ' .cross_image').attr('src', '/images/expand.gif');
+	} else {
+		jQuery('#region_' + id).addClass('child_open');
+		jQuery('.par_' + id).removeClass('collapsed');
+		jQuery('#image_' +  id).attr('src', '/images/collapse.gif');
+	}
+}
+
+{/literal}
+//--><!]]>
+</script>
+
+{literal}
+<style type="text/css">
+
+.collapsed {
+	display: none;
+}
+</style>
+{/literal}
+

@@ -1,0 +1,36 @@
+{pofile form}
+{* {if $ct_children}<img height="16" width="16" class="cross_image" onclick="return toggleParty(this)" src="/images/expand.gif"/>{/if} *}		
+		{foreach from=$parties item=party key=party_id}
+			{assign var=ct_children1 value=$appointments.$party_id.current|@count}
+			{assign var=ct_children2 value=$appointments.$party_id.expired|@count}
+			{assign var=ct_children value=`$ct_children1+$ct_children2`}
+		
+		<tbody class="party_row party_{$class}">
+            <tr class="alt">
+                <td {if $ct_children}class="cross_image" onclick="return toggleParty(this)"{/if}></td>
+                <td {if $ct_children}onclick="return toggleParty(this)"{/if}>{$party->party_name|htmlentities:2:'UTF-8'|nl2br} {if $global->user->isSuperAdmin()} <a href="/party/edit/{$party->party}">wijzigen</a> <a href="/party/delete/{$party->party}">verwijderen</a>{/if}</td>
+                <td>{if $ct_children == 0} Nog geen politici {else}{if $ct_children1 == 0}Geen{else}{$ct_children1}{/if} actieve {if $ct_children2 > 0}en {$ct_children2} inactieve {/if}politici{/if}</td>
+                <td></td>
+                <td></td>
+                <td><a class="add" href="../createParty/?localparty={$party->id}">Toevoegen</a></td>
+            </tr>
+
+            {if $ct_children > 0}
+                <tr class="party_content">
+                    <th></th><th>Politicus</th><th>Categorie</th><th>Aanvang</th><th>Einde</th><th>Acties</th>
+                </tr>
+                
+            	{include file=$template_path|cat:'inc_app_regionPage.html' appointments=$appointments.$party_id.current party_class=$class class='current' }
+            
+            	{include file=$template_path|cat:'inc_app_regionPage.html' appointments=$appointments.$party_id.expired party_class=$class class='expired'}
+            	
+            	<tr class="party_content">
+            		<td colspan="6" style="text-align: center;">
+            			<a class="atvie_toggle" href="javascript: void(0);">Toon inactive aanstellingen</a>
+						<a class="expired_toggle" href="javascript: void(0);" style="display: none;">Verberg inactive aanstellingen</a>
+            		</td>
+            	</tr>
+            {/if}
+        </tbody>
+        
+		{/foreach}

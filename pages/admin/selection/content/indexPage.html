@@ -1,0 +1,15 @@
+{pofile selection} {pofile politician} {pofile localparty} {pofile region}
+
+<h2>##selection.title##</h2>
+
+{if $global->user->isSuperAdmin()}
+	<p><a class="add" href="/regions/create/">Toevoegen</a></p>
+{/if}
+
+<h4 class="listTop">Selecteer eerst uw provincie, vervolgens uw gemeente waar u in wilt werken</h4>
+<table class="list selection">
+
+{include file=$template_path|cat:'recur_indexPage.html' nodes=$regions level=1 parent_path='' parent='_'}
+
+
+</table>

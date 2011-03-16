@@ -1,0 +1,201 @@
+{literal}
+<script>
+jQuery(document).ready(function(){
+	handleTextFields(jQuery('form#search_rs input'));
+
+        // if Javascript is enabled hide the dropdowns
+        jQuery(".advanced_first").hide();
+        jQuery(".advanced_second").hide();
+
+        jQuery("#first").click(function () {
+            if(jQuery(".advanced_first").is(":hidden")) {
+               jQuery(".advanced_first").css({
+                   background : '#fff',
+                   border : '1px solid #000',
+                   position : 'absolute'
+               });
+               jQuery("#first").css({
+                   background : 'transparent url(/images/closed.gif) no-repeat scroll right 0.3em'
+               })
+               if(jQuery(".advanced_second").is(":show")) {
+                jQuery(".advanced_second").hide();
+               }
+                jQuery(".advanced_first").show();
+                return false;
+            }
+            if(jQuery(".advanced_first").is(":show")) {
+               jQuery("#first").css({
+                   background : 'transparent url(/images/arrow-d-blue-md.png) no-repeat scroll right 0.3em'
+               })
+                jQuery(".advanced_first").hide();
+                return false;
+            }
+        });
+
+
+        jQuery("#second").click(function () {
+            if(jQuery(".advanced_second").is(":hidden")) {
+               jQuery(".advanced_second").css({
+                   background : '#fff',
+                   border : '1px solid #000',
+                   position : 'absolute'
+               });
+               jQuery("#second").css({
+                   background : 'transparent url(/images/closed.gif) no-repeat scroll right 0.3em'
+               })
+               if(jQuery(".advanced_first").is(":show")) {
+                jQuery(".advanced_first").hide();
+               }
+               jQuery(".advanced_second").show();
+               return false;
+            }
+
+            if(jQuery(".advanced_first").is(":show")) {
+               jQuery("#second").css({
+                   background : 'transparent url(/images/arrow-d-blue-md.png) no-repeat scroll right 0.3em'
+               })
+                jQuery(".advanced_second").hide();
+                return false;
+            }
+        });
+});
+</script>
+{/literal}
+<div class="line">
+	<div class="col size2of4">
+		<div class="mod search">
+			<h2>Zoek naar een onderwerp</h2>
+			<form method="post" action="/search/" id="search_rs">
+              	<div class="field">
+      	        	<label for="terms"><span>Onderwerp</span></label>
+	                <input type="text" id="terms" name="q" class="text" />
+	                <input type="hidden" name="region" value="{$region->id}" />
+                </div>
+				<button type="submit" id="submit" name="submit" value="Zoek">Zoek</button>
+			</form>
+			<a class="more" href="/search/region/{$region->id}/submit/1">Uitgebreid zoeken</a>
+		</div>
+	</div>
+	<div class="col size1of4">
+		<div class="mod filter">
+			{if $categories}
+				<a href="#" class="advanced" id="first">Kies een beleidsveld</a>
+                        <div class="advanced_first">
+                            <ul>
+                                <li style="list-style-type: none;"><a href="?region={$region->id}" {if !$cur_category}class="current"{/if}>Alle categorien</a></li>
+                                {foreach item=category from=$categories}
+                                    <li style="list-style-type: none;"><a href="?region={$region->id}&amp;category={$category.id}" {if $cur_category == $category.id}class="current"{/if}><span style="float: right;">{$category.count}</span> {$category.name}</a></li>
+                                {/foreach}
+                            </ul>
+                        </div>
+            {else}
+            	<a href="#" class="advanced" style="background: transparent url(/images/closed.gif) no-repeat scroll right 0.3em; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;">Geen beleidsvelden</a>
+            {/if}
+            
+            {if $tags}
+				<a href="#" class="advanced" id="second">Kies een tag</a>
+                        <div class="advanced_second">
+                            <ul>
+                                <li style="list-style-type: none;"><a href="?region={$region->id}" {if !$cur_tag}class="current"{/if}>Alle tags</a></li>
+                                {foreach item=tag from=$tags}
+                                    <li style="list-style-type: none;"><a href="?region={$region->id}&amp;tag={$tag.id}" {if $cur_tag == $tag.id}class="current"{/if}><span style="float: right;">{$tag.count}</span> {$tag.name}</a></li>
+                                {/foreach}
+                            </ul>
+                        </div>
+            {else}
+            	<a href="#" class="advanced" style="background: transparent url(/images/closed.gif) no-repeat scroll right 0.3em; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;">Geen tags</a>
+            {/if}
+		</div>
+	</div>
+	<div class="col size1of4">
+		{include file=`$smartyData.contentDir`/../includable/sb_mun_branding.html}
+	</div>
+</div>
+<div class="line">
+	<div class="col size3of4">
+		<div class="mod votings">
+			<h2>
+				{if $filter_cat}
+					Raadsstukken met het beleidsveld {$filter_cat->name} <a href="/regions/region/{$region->id}" class="remove-filter">Verwijder filter</a>
+				{elseif $filter_tag}
+					Raadsstukken met de tag {$filter_tag->name} <a href="/regions/region/{$region->id}" class="remove-filter">Verwijder filter</a>
+				{else}
+					Recente onderwerpen
+				{/if}
+			</h2>
+				{foreach from=$raadsstukken item=voting}
+					{assign var='id' value=$voting->id}
+					<div class="voting">
+                    	{if $voting->result > 0}
+                        {assign var='vote_total_pro' value=$votes_pro.$id->vote_0+$votes_pro.$id->vote_1+$votes_contra.$id->vote_2+$votes_pro.$id->vote_3}
+                        {assign var='vote_total_contra' value=$votes_contra.$id->vote_0+$votes_contra.$id->vote_1+$votes_contra.$id->vote_2+$votes_contra.$id->vote_3}
+                        {assign var='party_pro' value=$votes_pro.$id->party}
+                        {assign var='party_contra' value=$votes_contra.$id->party}
+						<div class="votes">
+                            {if $votes_pro.$id->vote_0 neq null}
+							<div class="vote">
+								<h5 class="party">
+	                                <abbr title="{$votes_pro.$id->party_name}">{if $votes_pro.$id->party_short_name != ''}{$votes_pro.$id->party_short_name}{else}{$votes_pro.$id->party_name}{/if}</abbr>
+								</h5>
+								<p>
+                                    {if $votes_pro.$id->vote_0 == '0'}
+                                        Geen van de politici stemden <span class="vote-contra"> tegen</span>
+                                    {elseif $votes_pro.$id->vote_0 == $vote_total_pro}
+                                        Alle politici stemden <span class="vote-pro"> voor</span>
+                                    {else}
+                                            {$votes_pro.$id->vote_0} van de {$vote_total_pro} politici waren <span class="vote-pro">voor</span>
+                                    {/if}
+								</p>
+							</div>
+                            {/if}
+                            {if $votes_contra.$id->vote_1 neq null}
+	                        <div class="vote">
+	                            <h5 class="party">
+	                                <abbr title="{$votes_contra.$id->party_name}">{if $votes_contra.$id->party_short_name != ''}{$votes_contra.$id->party_short_name}{else}{$votes_contra.$id->party_name}{/if}</abbr>
+	                            </h5>
+	                            <p>
+                                    {if $votes_contra.$id->vote_1 == '0'}
+                                        Geen van de politici stemden <span class="vote-contra"> tegen</span>
+                                    {elseif $votes_contra.$id->vote_1 == $vote_total_contra}
+                                        Alle politici stemden <span class="vote-contra"> tegen</span>
+                                    {else}
+                                            {$votes_contra.$id->vote_1} van de {$vote_total_contra} politici waren <span class="vote-contra">tegen</span>
+                                    {/if}
+	                            </p>
+	                        </div>
+							{/if}
+						</div>
+	                    <a class="more2" href="/raadsstukken/raadsstuk/{$id}">Bekijk alle stemmingen</a>
+					{/if}
+					{include file=`$smartyData.contentDir`/../../raadsstukken/includable/voting.html}
+                    
+					</div>
+				{foreachelse}
+                   
+                    {if $filter_cat}
+                        Er zijn geen raadsstukken met beleidsveld {$filter_cat->name} gevonden.
+                    {elseif $filter_tag}
+                        Er zijn geen raadsstukken met tag {$filter_tag->name} gevonden.
+                    {else}
+                        Er zijn geen raadstukken gevonden.
+                    {/if}
+                    
+				{/foreach}
+				{if $raadsstukken|@count >= $max_rs_count}<a class="mod-more-big" href="/search/region/{$region->id}/">Alle raadsstukken van deze gemeente</a>{/if}
+		</div>
+	</div>
+            
+	<div class="col size1of4 sidebar">
+		<div class="mod nav-parties">
+			{include file=`$smartyData.contentDir`/../includable/sb_mun_parties.html}
+		</div>
+        <div class="mod nav-parties">
+            <h3>Extra's</h3>
+            <ul class="party">
+                <li><a href="/iframe/explanation/?region={$region->id}" target="_blank">Raadsstukken op uw website</a></li>
+                <li><a href="/page/2/widget/">Hyves widget</a></li>
+            </ul>
+        </div>
+		{include file=`$smartyData.contentDir`/../includable/sb_mun_pages.html}
+	</div>
+</div>

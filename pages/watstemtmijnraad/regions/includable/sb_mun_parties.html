@@ -1,0 +1,18 @@
+{* To be sure *}
+{if $sb_parties}
+	{assign var=parties value=$sb_parties}
+{/if}
+
+<h3>De gemeenteraad van <strong>{$region->name}</strong></h3>
+{assign var=imageUrl value='/images/parties/'}
+<ul>
+	{foreach from=$parties item=party}
+		{if $party->image neq NULL}
+			<li><a href="{'/parties/party/'}{$party->id}?region={$region->id}" class="has-img" title="{$party->name}"><img src="{$imageUrl}{$party->image}" alt="Logo van {$party->name}" />{if $party->short_form}{$party->short_form}{else}{$party->name|truncate:30}{/if}</a></li>
+		{else}
+			<li><a href="{'/parties/party/'}{$party->id}?region={$region->id}" title="{$party->name}">{if $party->short_form}{$party->short_form|truncate:30}{else}{$party->name|truncate:30}{/if}</a></li>
+		{/if}
+	{foreachelse}
+		<li><a>Geen partijen gevonden</a></li>
+	{/foreach}
+</ul>

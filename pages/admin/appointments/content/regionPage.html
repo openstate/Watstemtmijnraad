@@ -1,0 +1,32 @@
+{pofile form}
+<form action="" name="PartyList">
+<h2>Aanstellingen {$region->formatName()}</h2>
+<div class="big_button">
+    <a href="/appointments/addParty/?region={$region->id}">
+    <img border="0" title="Toevoegen" alt="Toevoegen" src="/images/add.png"/>
+    Voeg een partij toe
+    </a>
+</div>
+<p>&nbsp;</p>
+	<table class="list">
+		<tr>
+            <th>Lijst</th>
+            <th width="230px">Naam</th>
+            <th>Aantal politici</th>
+            <th></th>
+            <th></th>
+            <th width="90px">Acties</th>
+		</tr>
+		
+		{include file=$template_path|cat:'inc_regionPage.html' parties=$parties.current class='current'}
+		
+		<tr class="party_expired"><td colspan="6" style="text-align: center"><h3>Inactive partijen</h3></td></tr>
+		{include file=$template_path|cat:'inc_regionPage.html' parties=$parties.expired class='expired'}
+		
+		<tr>
+			<td colspan="6" style="text-align: center;">
+				<a id="party_atvie_toggle" href="javascript: void(0);" onclick="jQuery('.party_expired, #party_expired_toggle').show(); jQuery(this).hide();">Toon inactive partijen</a>
+				<a id="party_expired_toggle" href="javascript: void(0);" onclick="jQuery('.party_expired, #party_expired_toggle').hide(); jQuery('#party_atvie_toggle').show();" style="display: none;">Verberg inactive partijen</a>
+			</td>
+		</tr>
+	</table>

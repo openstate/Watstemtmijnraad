@@ -1,0 +1,28 @@
+<h2>Wizard stap 0</h2>
+
+<div class="wizard">
+    
+    <div class="content">
+        <h3>Deze wizard stelt uw gemeenteraad opnieuw in.</h3>
+        <p>Alle bestaande aanstellingen worden op de door u opgegeven datum stopgezet. Met deze wizard kunt u de situatie vanaf die datum instellen.</p>
+        
+        <form action="" class="date" method="post">
+        <h4 style="margin-top:20px;">Ingangsdatum</h4>
+        <div>
+             
+            <input class="text calendar" id="delivery_date" type="text" maxlength="20" readonly="" name="date" value="{$post.date|htmlspecialchars}" />
+
+			{if $error.date}<div class="error">Dit veld is verplicht</div>{/if}
+			{if $error.date_invalid}<div class="error">De opgegeven datum is ongeldig</div>{/if}
+            <button class="calendar" type="button" style="display: none;"> </button>
+        </div>
+        <p>Op deze datum stoppen alle bestaande aanstellingen en starten de door u ingestelde nieuwe aanstellingen</p>
+            <label for="checkbox_step0"><input class="checkbox" type="checkbox" id="checkbox_step0" name="check" value="1" />Ik ga ermee akkoord dat op de bovengenoemde datum alle huidige aanstellingen stopgezet worden</label>
+			{if $error.check}<div class="error">U dient met het bovenstaande akkoord te gaan</div>{/if}
+        <div class="buttons">
+
+            <button class="next" type="submit">Start de wizard</button>
+        </div>
+        </form>
+    </div>
+</div>

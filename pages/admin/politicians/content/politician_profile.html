@@ -1,0 +1,40 @@
+<h2>{$politician->formatName()}</h2>
+
+{* <!-- <div class="politician-photo">
+	<img src="/files/{$politician->photo}" alt="{$politician->formatName(false)}" height="92" width="80" />
+</div>  --> *}
+<h3>Persoonsgegevens<a class="fontsize" href="/politicians/edit/{$politician->id}">Wijzigen</a></h3>
+<table style="margin-bottom:20px;">
+    <tr><th>Naam</th><td>{$politician->formatName(false)}</td></tr>
+    <tr><th>Geslacht</th><td>{if $politician->gender_is_male}Man{else}Vrouw{/if}</td></tr>
+    <tr><th>Emailadres</th><td>{$politician->email}</td></tr>
+    <tr><th>Extern ID</th><td>{$politician->extern_id}</td></tr>
+</table>
+<br clear="all" />
+<h3>Aanstellingen van {$politician->formatName(false)}</h3>
+<div>
+    <a class="add" style="float:left; margin-right:5px;" href="/appointments/create/?politician={$politician->id}">Aanstelling toevoegen</a>
+    {* <!-- <p style="float:right;">Sorteer op <a href="#">datum</a><a href="#"><img style="margin-left:5px;" src="../images/sort.gif" width="7" height="12" alt="" /></a></p> --> *}
+</div>
+<div class="pol-appointments">
+    
+
+	{foreach from=$appointments item=appointment}
+	{assign var=app_id value=$appointment->id}
+		<div class="pol-appointment">
+            <h3>{$appointment->level_name} {$appointment->region_name}</h3>
+	    	<p>{$appointment->party_name}{if $app_parties.$app_id->short_form} ({$app_parties.$app_id->short_form}){/if}</p>
+	        <p><strong>{$appointment->time_start|date_format:'%e %B %Y'} - {$appointment->time_end|date_format:'%e %B %Y'}: </strong>{$appointment->cat_name}</p>
+	        {if $role eq $appointment->region}
+                <a style="margin-right:20px;" class="edit" href="/appointments/edit/{$appointment->id}?localparty={$appointment->party}">Aanstelling wijzigen</a>
+                <a class="remove" href="/appointments/delete/{$appointment->id}?localparty={$appointment->party}">Aanstelling verwijderen</a>
+            {/if}
+	    </div>
+    {foreachelse}
+    	Geen aanstellingen gevonden
+    {/foreach}
+</div>
+
+<div style="margin-top:5px;">
+    <a class="add" style="float:left; margin-right:5px;" href="/appointments/create/?politician={$politician->id}">Aanstelling toevoegen</a>
+</div>

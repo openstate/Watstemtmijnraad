@@ -1,0 +1,179 @@
+<h2>Een politicus toevoegen aan</h2>
+<h4>de {if $party->short_form}{$party->short_form|htmlspecialchars}{else}{$party->name|htmlspecialchars}{/if}-fractie in de {$region->level_name|strtolower|htmlspecialchars} {$region->name|htmlspecialchars}</h4>
+<div class="forms">
+    <div class="leftcol">
+		<form action="" method="post">
+			<div class="block">
+				<h1>1. De politicus</h1>
+            	<div class="field field-achternaam">
+                    <label for="name">Typ de achternaam van de politicus</label>
+                    <input id="name" name="last_name" type="text" maxlength="255" value="{$post.last_name|htmlspecialchars}" />
+					<input id="politician_id" name="politician_id" type="hidden" value="{$post.politician_id|htmlspecialchars}" />
+					{if $error.last_name}<div class="error">Dit veld is verplicht</div>{/if}
+					<script type="text/javascript" src="/javascripts/mootools/moo.tools.v1.11.js"></script>
+					<script type="text/javascript" src="/javascripts/mootools/Observer.js"></script>
+					<script type="text/javascript" src="/javascripts/mootools/Autocompleter.js"></script>
+					<script type="text/javascript">{literal}
+						window.addEvent('domready', function() {
+							autocomplete = new Autocompleter.Ajax.Json('name', '/wizard/newPolitician', {
+								'postVar': 'autocomplete',
+								'injectChoice': function(choice, i) {
+									var el = new Element('li').setHTML(this.markQueryValue(choice.name+(choice.description ? ' ('+choice.description+')' : '')));
+									el.inputValue = choice.name;
+									el.id = choice.id
+									el.description = choice.description;
+									this.addChoiceEvents(el).injectInside(this.choices);
+								}
+							});
+							autocomplete.markQueryValue = function(txt) {
+								if (txt == ' (Nieuwe politicus toevoegen)') return 'Nieuwe politicus toevoegen';
+								return (this.options.markQuery && this.queryValue) ? txt.replace(new RegExp('(' + this.queryValue.escapeRegExp() + ')', 'i'), '<span class="autocompleter-queried">$1</span>') : txt;
+							}
+							autocomplete.choiceSelect = function(el) {
+								$('politician_id').value = el.id;
+								this.hideChoices();
+								if (el.inputValue)
+									this.observer.value = this.element.value = el.inputValue;
+								$('new').style.visibility = el.inputValue ? 'hidden' : '';
+								this.fireEvent('onSelect', [this.element], 20);
+							};
+							autocomplete.element.addEvent(window.ie ? 'keydown' : 'keypress', function(e) {
+								if (!e.shift && e.key == 'backspace' && $('politician_id').value != '') {
+									this.observer.value = this.element.value = '';
+									$('politician_id').value = '';
+								} else if ($('politician_id').value != '' && (e.shift || (e.key != 'enter' && e.key != 'up' && e.key != 'down' && e.key != 'esc'))) {
+									e.stop()
+								}
+							}.bindWithEvent(autocomplete));
+							autocomplete.element.addEvent('blur', function(e) {
+								if (this.selected)
+									this.choiceSelect(this.selected)
+								if (this.element.value && !$('politician_id').value)
+									$('new').style.visibility = '';
+							}.bindWithEvent(autocomplete));
+						});
+					{/literal}</script>
+    			</div>
+                <div id="new"{if $post.politician_id || !$post.last_name} style="visibility: hidden;"{/if}>
+					<div class="field field-voornaam">
+						<label for="voornaam">Voornaam</label>
+						<input id="voornaam" name="first_name" type="text" value="{$post.first_name|htmlspecialchars}" maxlength="255" />
+						{if $error.first_name}<div class="error">Dit veld is verplicht</div>{/if}
+					</div>
+					
+					<div class="field field-titel">
+						<label for="titel">Titel</label>
+						<input id="titel" name="title" type="text" value="{$post.title|htmlspecialchars}" maxlength="255" />
+					</div>       
+					
+					<div class="field field-geslacht">
+						<label for="geslacht">Geslacht</label>
+						<label class="geslacht" for="geslacht_m"><input class="radio" type="radio" id="geslacht_m" name="gender" value="m"{if $post.gender == 'm'} checked="checked"{/if} /> Man</label>     
+						<label class="geslacht" for="geslacht_v"><input class="radio" type="radio" id="geslacht_v" name="gender" value="f"{if $post.gender == 'f'} checked="checked"{/if} /> Vrouw</label>  
+						{if $error.gender}<div class="error">Dit veld is verplicht</div>{/if}
+					</div>    
+					
+					<div class="field field-email">           
+						<label for="email">Emailadres</label>
+						<input id="email" name="email" type="text" maxlength="255" value="{$post.email|htmlspecialchars}" /> 
+						{if $error.email}<div class="error">Dit veld is verplicht</div>{/if}
+						{if $error.email_invalid}<div class="error">Deze waarde is ongeldig</div>{/if}
+					</div>           
+					
+					<div class="field field-externid"> 
+						<label for="externid">Extern ID</label>
+						<input id="externid" name="extern_id" type="text" maxlength="10" value="{$post.extern_id|htmlspecialchars}" />  
+						{if $error.extern_id_invalid}<div class="error">Deze waarde is ongeldig</div>{/if}
+					</div>          
+				</div>
+			</div>
+			
+			<div class="block">
+				<h1>2. Het beleidsveld</h1>
+            
+				<p style="margin-top:5px;">Op welk beleidsveld is de politicus actief voor de {if $party->short_form}{$party->short_form|htmlspecialchars}{else}{$party->name|htmlspecialchars}{/if}-fractie in de {$region->level_name|strtolower|htmlspecialchars} {$region->name|htmlspecialchars}?</p>
+				<select style="height:25px; padding:3px;" name="category">
+					{foreach from=$categories key=key item=cat}
+                    <option value="{$key}"{if $post.category == $key} selected="selected"{/if}>{$cat->name|htmlspecialchars}</option>
+					{/foreach}
+                </select>
+				{if $error.category}<div class="error">Dit veld is verplicht</div>{/if}
+            {*
+				<h4>Specifieke onderwerpen?</h4>
+				<p>nog geen onderwerpen gekozen</p>
+				<a class="add" href="#">voeg een onderwerp toe</a>                          
+			*}
+			</div>
+
+			<div class="block">
+				<h1>3. De periode</h1>
+				<p style="margin-top:5px;">Voor welke periode heeft de politicus deze aanstellingen?</p>
+				<h4>Aanvangdatum</h4>
+                <div class="field field-kiesperiode">
+                	<table class="date">
+                        <tr>
+                            <td class="first">
+                                <label class="kiesperiode" for="kiesperiode"><input class="radio" type="radio" id="kiesperiode" name="time_start_default" value="1"{if $post.time_start_default} checked="checked"{/if} />aanvang kiesperiode</label>
+                            </td>
+                            <td>
+                    <strong>({$smarty.session.setup_wizard.date|date_format:'%e %B %Y'|trim})</strong>
+                            </td>
+                        
+                        
+                        </tr>
+                    </table>
+                </div>
+{*
+                <div class="field field-kiesperiode-date">
+
+                </div>
+*}                
+                <div class="field field-kiesperiode">
+                	<table class="date">
+                        <tr>
+                            <td class="first">
+                            <label class="kiesperiode" for="kiesperiode-other"><input class="radio" type="radio" id="kiesperiode-other" name="time_start_default" value="0"{if !$post.time_start_default} checked="checked"{/if}/>andere datum</label>
+                            </td>
+                            <td>
+                                <div>
+            		<input class="text calendar" type="text" name="time_start" id="delivery_date" readonly="" value="{$post.time_start|htmlspecialchars}" maxlength="10" />
+                    <button type="button" style="display:none;" class="calendar"> </button>
+					{if $error.time_start}<div class="error">Dit veld is verplicht</div>{/if}
+					{if $error.time_start_invalid}<div class="error">Deze waarde is ongeldig</div>{/if}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+				{if !$post.time_end}
+                <div class="field field-kiesperiode" id="time_end_link">
+					<a onclick="$('time_end_link').style.display = 'none'; $('time_end_input').style.display = ''; return false;" class="add" href="#">Ook een einddatum toevoegen</a>
+				</div>
+				{/if}
+           
+                <div class="field field-kiesperiode" id="time_end_input"{if !$post.time_end} style="display: none;"{/if}>
+					<h4>Einddatum</h4>
+
+					<input type="text" class="text calendar" id="delivery_date2" readonly="" name="time_end" value="{$post.time_end|htmlspecialchars}" maxlength="10" />
+                    <button type="button" style="display:none;" class="calendar"> </button>
+					{if $error.time_end_invalid}<div class="error">Deze waarde is ongeldig</div>{/if}
+				</div>
+				
+			</div>
+        
+			<div style="padding:10px;" class="block">
+				<div style="margin:0;" class="buttons">
+					<button type="submit" class="prev" name="prev">Terug naar partijen</button>
+					<button type="submit" class="next" name="next">Deze politicus toevoegen</button>
+				</div>
+			</div>
+		</form>
+        
+    </div>
+    
+    <div class="rightcol">
+        <p>Toelichting voor stap 1 Vestibulum ut porttitor mi. Sed suscipit, turpis at facilisis molestie, turpis nibh ultricies augue, sed hendrerit purus libero eu nisi.</p>
+        <p>Suspendisse id velit ac nibh consectetur pulvinar. Nulla at felis in lorem dignissim tristique. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+    </div>
+</div>

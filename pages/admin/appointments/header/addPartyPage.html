@@ -1,0 +1,23 @@
+{literal}<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+window.addEvent('domready', function() {
+
+    $('combi').setStyle('display', 'none');
+
+    $('combi_1').addEvent('click', function() {
+        $('combi').setStyle('display', '');
+    });
+
+    $('combi_0').addEvent('click', function() {
+        $('combi').setStyle('display', 'none');
+    });
+
+    $('addMoreParents').addEvent('click', function () {
+        $('combination').clone().inject('combination', 'after');
+        return false;
+    })
+
+});
+//--><!]]>
+</script>{/literal}

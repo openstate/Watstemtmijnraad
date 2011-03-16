@@ -1,0 +1,54 @@
+<h1>Raadstukken op uw pagina</h1>
+
+{if $filter.party eq null && $filter.politician eq null}
+    <p>&nbsp;</p>
+    <p>Om deze raadstukken op uw pagina te krijgen dient u onderstaande HTML code in uw HTML pagina te zetten:</p><br/>
+    <pre>
+        &lt;iframe src ="http://www.watstemtmijnraad.nl/iframe/region/{$filter.region}" width="600px" height="300px"&gt;
+            &lt;p&gt;Uw browser ondersteund geen iframes&lt;/p&gt;
+        &lt;/iframe&gt;
+    </pre><br/>
+    <p>U kunt de hoogte en breedte aanpassen door de eigenschappen 'width' en 'height' aan te passen zodat deze iframe in uw pagina past. Onderaan vind u een voorbeeld.</p>
+    <p>Ook kunt u het kleuren schema zelf uit kiezen in 2 verschillende schema's, namelijk donker en licht. Voeg onderstaande toe om uw schema zelf uit te kiezen:</p>
+    <ul>
+        <li>&theme=light - Voor een licht schema</li>
+        <li>&theme=dark - Voor een donker schema</li>
+    </ul>
+    <p>Ook kunt u het limiet van het aantal raadstukken aanpassen door '&limit=' toe te voegen aan het adres met daarachter het gewenste aantal. Bijvoorbeeld: '&limit=15' voor maximaal 15 raadstukken</p>
+{/if}
+
+{if $filter.party}
+    <p>&nbsp;</p>
+    <p>Om deze raadstukken op uw pagina te krijgen dient u onderstaande HTML code in uw HTML pagina te zetten:</p><br/>
+    <pre>
+        &lt;iframe src ="http://www.watstemtmijnraad.nl/iframe/party/{$filter.party}{if $filter.region}?region={$filter.region}{/if}" width="600px" height="300px"&gt;
+            &lt;p&gt;Uw browser ondersteund geen iframes&lt;/p&gt;
+        &lt;/iframe&gt;
+    </pre><br/>
+    <p>U kunt de hoogte en breedte aanpassen door de eigenschappen 'width' en 'height' aan te passen zodat deze iframe in uw pagina past. Onderaan vind u een voorbeeld.</p>
+    <p>Ook kunt u het kleuren schema zelf uit kiezen in 2 verschillende schema's, namelijk donker en licht. Voeg onderstaande toe om uw schema zelf uit te kiezen:</p>
+    <ul>
+        <li>&theme=light - Voor een licht schema</li>
+        <li>&theme=dark - Voor een donker schema</li>
+    </ul>
+    <p>Ook kunt u het limiet van het aantal raadstukken aanpassen door '&limit=' toe te voegen aan het adres met daarachter het gewenste aantal. Bijvoorbeeld: '&limit=15' voor maximaal 15 raadstukken</p>
+{/if}
+
+{if $filter.politician}
+    <p>&nbsp;</p>
+    <p>Om deze raadstukken op uw pagina te krijgen dient u onderstaande HTML code in uw HTML pagina te zetten:</p><br/>
+    <pre>
+        &lt;iframe src ="http://www.watstemtmijnraad.nl/iframe/politician/{$filter.politician}{if $filter.region}?region={$filter.region}{/if}" width="600px" height="300px"&gt;
+            &lt;p&gt;Uw browser ondersteund geen iframes&lt;/p&gt;
+        &lt;/iframe&gt;
+    </pre><br/>
+    <p>U kunt de hoogte en breedte aanpassen door de eigenschappen 'width' en 'height' aan te passen zodat deze iframe in uw pagina past. Onderaan vind u een voorbeeld.</p>
+    <p>Ook kunt u het kleuren schema zelf uit kiezen in 2 verschillende schema's, namelijk donker en licht. Voeg onderstaande toe om uw schema zelf uit te kiezen:</p>
+    <ul>
+        <li>&theme=light - Voor een licht schema</li>
+        <li>&theme=dark - Voor een donker schema</li>
+    </ul>
+    <p>Ook kunt u het limiet van het aantal raadstukken aanpassen door '&limit=' toe te voegen aan het adres met daarachter het gewenste aantal. Bijvoorbeeld: '&limit=15' voor maximaal 15 raadstukken</p>
+{/if}
+
+<p>&nbsp;</p>

@@ -1,0 +1,130 @@
+<div class="big_button"><a href="create/"><img src="/images/add.png" alt="##form_add##" title="##form_add##" border="0"/> Voeg een raadstuk toe</a></div>
+{if $archive}
+<div>
+    <a href=".">&lt; terug naar ongepubliceerde raadsstukken</a>
+</div>
+<h2>Raadsstukkenarchief</h2>
+{else}
+<h2>Ongepubliceerde raadsstukken</h2>
+<h3>en raadstukken zonder stemming</h3>
+{/if}
+{pofile form}
+{pofile raadsstuk}
+{pofile index}
+{if $pager}<p class="pager">{$pager}</p>{/if}
+
+<table class="list">
+	<tr>
+		{capture assign=query}{strip}
+			{if $archive}archive=1&amp;{/if}
+			{if $get.code}code={$get.code|urlencode}&amp;{/if}
+			{if $get.title}title={$get.title|urlencode}&amp;{/if}
+			{if $get.vote_date}vote_date={$get.vote_date|urlencode}&amp;{/if}
+			{if $get.category}category={$get.category|urlencode}&amp;{/if}
+			{if $get.summary}summary={$get.summary|urlencode}&amp;{/if}
+		{/strip}{/capture}
+		<th><a href="?{$query}sortcol=show&amp;sort={if $formsort.col=='show' and $formsort.dir=='asc'}desc{else}asc{/if}" class="{if $formsort.col=='show'}current {$formsort.dir}{else}asc{/if}">Status</a></th>
+		<th><a href="?{$query}sortcol=code&amp;sort={if $formsort.col=='code' and $formsort.dir=='asc'}desc{else}asc{/if}" class="{if $formsort.col=='code'}current {$formsort.dir}{else}asc{/if}">##raadsstuk.code##</a></th>
+		<th><a href="?{$query}sortcol=title&amp;sort={if $formsort.col=='title' and $formsort.dir=='asc'}desc{else}asc{/if}" class="{if $formsort.col=='title'}current {$formsort.dir}{else}asc{/if}">##raadsstuk.title##</a></th>
+		<th><a href="?{$query}sortcol=vote_date&amp;sort={if $formsort.col=='vote_date' and $formsort.dir=='asc'}desc{else}asc{/if}" class="{if $formsort.col=='vote_date'}current {$formsort.dir}{else}asc{/if}">##raadsstuk.vote_date##</a></th>
+		<th><a href="?{$query}sortcol=type_name&amp;sort={if $formsort.col=='type_name' and $formsort.dir=='asc'}desc{else}asc{/if}" class="{if $formsort.col=='type_name'}current {$formsort.dir}{else}asc{/if}">##raadsstuk.type##</a></th>
+		<th>##form_options##</th>
+	</tr>
+	{foreach from=$formdata item=datarow key=id title='dataloop'}
+	<tr class="link{cycle values=', alt'}">
+		<td>{if $datarow->show}gepubliceerd{else}ongepubliceerd{/if}</td>
+		<td>{$datarow->code|htmlentities:2:'UTF-8'|nl2br}</td>
+		<td><a href="/raadsstukken/edit/{$datarow->id}"><strong>{$datarow->title|truncate:120|htmlentities:2:'UTF-8'|nl2br}</strong></a></td>
+		<td>{$datarow->vote_date|date_format:"%e %B %Y"}</td>
+		<td>{$datarow->type_name|htmlentities:2:'UTF-8'|nl2br}</td>
+		<td>
+			<a class="vote" href="/raadsstukken/vote/{$datarow->id}">{if $datarow->result}{$datarow->vote_0} voor, {$datarow->vote_1} tegen
+			{elseif $datarow->showVotes()}stemming toevoegen{/if}</a>
+			<a href="/raadsstukken/edit/{$datarow->id}"><img src="/images/edit.png" alt="##form_edit##" title="##form_edit##" border="0" /></a>
+			{if !$datarow->show}<a href="/raadsstukken/delete/{$datarow->id}"><img src="/images/delete.png" alt="##form_delete##" title="##form_delete##" border="0" /></a>{/if}
+		</td>
+	</tr>
+	{foreachelse}
+	<tr><td colspan="2">##index.notfound##</td></tr>
+	{/foreach}
+</table>
+{if !$archive}
+<div class="bg-center">
+    <a class="big-font" href="?archive=1">Ga naar het archief</a>
+</div>
+{/if}
+{if $archive}
+<div><form action="" method="get">
+<script type="text/javascript">{literal}
+function removeFilter(name, select) {
+	$(name).style.display = '';
+	$(name+'_val').style.display = 'none';
+	if (select)
+		$(name+'_input').selectedIndex = 0;
+	else
+		$(name+'_input').value = '';
+	return false;
+}
+{/literal}</script>
+<input type="hidden" name="archive" val="1"/>
+<table>
+<tr>
+<td colspan="2">
+<h3>Filtering</h3>
+</td>
+</tr
+<tr>
+<td>
+Code:
+</td>
+<td>
+{if $get.code}<div id="code_val">{$get.code|htmlspecialchars} <a href="#" onclick="return removeFilter('code');">x</a></div>{/if}
+<div id="code"{if $get.code} style="display:none;"{/if}><input type="text" name="code" id="code_input" value="{$get.code|htmlspecialchars}" /></div>
+</td>
+</tr>
+<tr>
+<td>
+Titel:
+</td>
+<td>
+{if $get.title}<div id="title_val">{$get.title|htmlspecialchars} <a href="#" onclick="return removeFilter('title');">x</a></div>{/if}
+<div id="title"{if $get.title} style="display:none;"{/if}><input type="text" name="title" id="title_input" value="{$get.title|htmlspecialchars}" /></div>
+</td>
+</tr>
+<tr>
+<td>
+Datum: 
+</td>
+<td>
+{if $get.vote_date}<div id="vote_date_val">{$get.vote_date|htmlspecialchars} <a href="#" onclick="return removeFilter('vote_date');">x</a></div>{/if}
+<div id="vote_date"{if $get.vote_date} style="display:none;"{/if}><input type="text" name="vote_date" id="vote_date_input" value="{$get.vote_date|htmlspecialchars}" /></div>
+</td>
+</tr>
+<tr>
+<td>
+Categorie: 
+</td>
+<td>
+
+{if $get.category}<div id="category_val">{assign var=cat value=$get.category}{$categories.$cat->name|htmlspecialchars} <a href="/raadsstukken/?archive=1">x</a></div>{/if}
+<div id="category"{if $get.category} style="display:none;"{/if}><select name="category" id="category_input">
+	<option value="">&#160;</option>
+{foreach from=$categories item=cat key=key}
+	<option value="{$key}"{if $key == $get.category} selected="selected"{/if}>{$cat->name|htmlspecialchars}</option>
+{/foreach}
+</select></div>
+</td>
+</tr>
+<tr>
+<td>
+Woord(en) in samenvatting: 
+</td>
+<td>
+{if $get.summary}<div id="summary_val">{$get.summary|htmlspecialchars} <a href="#" onclick="return removeFilter('summary');">x</a></div>{/if}
+<div id="summary"{if $get.summary} style="display:none;"{/if}><input type="text" name="summary" id="summary_input" value="{$get.summary|htmlspecialchars}" /></div>
+</td>
+</tr>
+</table>
+<div class="container-buttons"><button class="submit" type="submit">Filteren</button></div>
+</form></div>
+{/if}

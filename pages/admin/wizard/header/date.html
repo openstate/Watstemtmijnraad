@@ -1,0 +1,18 @@
+<script type="text/javascript">
+<!--//--><![CDATA[//><!-- {literal}
+window.addEvent('domready', function() {
+    /* Used in '/bestelstatus/cart' */
+    if ($('delivery_date') && $('delivery_date').value == '') {
+        $$('div.delivery_date').setStyle('display', 'none'); // Hide by default, if no value pre-defined (posted)
+    }
+
+    // Adding a date picker with disabled weekends (0 - for Sunday and 6 for Saturday)
+    deliveryDate = new Calendar(
+        { delivery_date: 'd-m-Y' },
+        { blocked:  ['0 * * 0,6'],
+          tweak : {x: 180, y: -150},
+          days: ['Zondag', 'Mandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
+          months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']});
+}); {/literal}
+//--><!]]>
+</script>

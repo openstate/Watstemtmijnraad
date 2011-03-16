@@ -1,0 +1,21 @@
+<h2>Rollen voor {$user->username}<a class="back" href="/user/">Terug naar lijst met gebruikers</a></h2>
+<p></p>
+<form method="POST" action="">
+<h1>Selecteer een rol</h1>
+<div style="background: #EFEFEF;padding:10px; margin-bottom:10px;">
+    <input type="hidden" name="userid" value="{$user->id}" />
+    {html_checkboxes options=$roles name='roles' selected=$selectedRoles labels=true}
+</div>
+
+<h1>Selecteer griffies</h1>
+{if $errors}
+    <span style="color: #ff0000">Er moet minimaal 1 griffie worden geselecteerd</span>
+{/if}
+
+<table class="list selection">
+{include file=$template_path|cat:'recur_rolePage.html' nodes=$regions level=1 parent_path='' parent='_'}
+</table>
+
+    <div class="container-buttons"><input type="submit" value="Vestuur">{*<button value="Submit" class="submit" type="submit">Verstuur</button>*}</div>
+
+</form>

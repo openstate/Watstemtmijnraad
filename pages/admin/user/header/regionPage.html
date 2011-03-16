@@ -1,0 +1,36 @@
+{literal}<script type="text/javascript">
+<!--
+
+window.addEvent('domready', function() {
+	var togglers = $$('.toggler');
+	togglers.each(function(toggle, i) {
+		var num = toggle.id.split('_');
+		num = num[1];
+		var region = $('region_' + num);
+		if(region == undefined) {
+			toggle.setProperty('src', '/images/branch.gif');
+		} else {
+			toggle.addEvent('click', function(e) {
+				if(region.style.display == 'none') {
+					region.style.display = '';
+					toggle.setProperty('src', '/images/collapse.gif');
+				} else {
+					region.style.display = 'none';
+					toggle.setProperty('src', '/images/expand.gif');
+				}
+			});
+		}
+	});
+
+	$ES('input').each(function(el) {
+		if (el.getProperty('name') == 'regions[]')
+			el.addEvent('click', function() {
+				if (el.getProperty('checked') && $('region_'+el.getProperty('value')))
+					$ES('input', 'region_'+el.getProperty('value')).setProperty('checked', true);
+			});
+	});
+});
+
+
+// -->
+</script>{/literal}

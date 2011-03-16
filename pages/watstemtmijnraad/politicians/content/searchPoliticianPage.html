@@ -1,0 +1,47 @@
+<div class="line">
+    <div class="col size4of4">
+        <div class="mod search_results">
+        	<h1>Kies een politicus</h1>
+                <ul>
+                	<li class="first">
+                        <span class="pol_search_span"><strong>Politicus</strong></span>
+                        <span style="width:300px;"><strong>Partij</strong></span>
+                        <strong>Regio/Gemeente</strong>
+                    </li>
+                </ul>
+           		{foreach from=$politicians item=politician}
+           		{assign var=id value=$politician->id}
+           		{assign var=region value=$regions.$id}
+           		{assign var=party value=$parties.$id}
+				<ul>
+                	<li>
+                        <span class="pol_search_span">
+                                <a href="/politicians/politician/{$politician->id}">
+                                    {$politician->formatName()}
+                                </a>
+                        </span>
+                        <span style="width:300px;">
+                        	{if $party}
+                        		{if $region}
+                        			<a href="/parties/party/{$party->id}?region={$region->id}">{$party->name}</a>
+                        		{else}
+                        			{$party->name}
+                        		{/if}
+                        	{/if}
+                        </span>
+
+                       	{if $region} 
+                       		<a href="/regions/region/{$region->id}">
+								{$region->name}
+                       		</a> 
+                       	{else}
+                       		Niet actief
+                       	{/if}
+                    </li>
+                </ul>
+            {foreachelse}
+                Geen politici gevonden
+            {/foreach}
+		</div>
+	</div>
+</div>

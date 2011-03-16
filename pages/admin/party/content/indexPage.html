@@ -1,0 +1,26 @@
+<h2>Partijen</h2>
+{if $boundary_notice}<div style="color: darkred">{$boundary_notice}</div>{/if}
+
+<form method="get" action="/party/">
+<label for="region">Zoek in regio:</label>
+<select name="region" id="region">
+	<option value="-1"{if !isset($selectedRegion) || $selectedRegion == -1} selected="selected"{/if}>Alle partijen</option>
+	<option value="false"{if $selectedRegion == "false"} selected="selected"{/if}>Partijen zonder regio</option>
+{foreach from=$regions.root item=region}
+	<option value="{$region->id}"{if $selectedRegion == $region->id} selected="selected"{/if}>{$region->name}</option>
+{/foreach}
+{foreach from=$parents item=parent}
+	<optgroup label="{$parent->formatName()}">
+	{assign var=id value=$parent->id}
+	{foreach from=$regions.$id item=region}
+		<option value="{$region->id}"{if $selectedRegion == $region->id} selected="selected"{/if}>{$region->name}</option>
+	{/foreach}
+	</optgroup>
+{/foreach}
+</select>
+<button class="search" type="submit">Zoeken</button>
+</form>
+
+{if $pager}<p class="pager">{$pager}</p>{/if}
+<p><a class="add" href="./create/">Toevoegen</a></p>
+{include file="`$smartyData.contentDir`/indexPageBase.html"}

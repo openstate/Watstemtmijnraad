@@ -1,0 +1,17 @@
+<div class="line">
+    <div class="col size3of4">
+        <div class="mod search_results">
+			<h1>{$party->name}</h1>
+			
+            <p class="head">Kies een regio waar deze partij actief is</p>
+
+			{foreach from=$regions item=reg}
+            <div class="search-results">
+                <a href="/parties/party/4?region={$reg->id}">{$reg->formatName()}</a>
+            </div>
+			{foreachelse}
+				De partij {$party->name} is in geen enkele regio actief.
+			{/foreach}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,24 @@
+{if !$region_id}{assign var=region_id value=$region->id}{/if}
+
+<div class="mod nav-parties">
+	<h3>Leden van deze fractie:</h3>
+	<ul class="party">
+		{foreach from=$party_members item=member}
+		<li>
+			<a href="/politicians/politician/{$member->id}{if $region_id}?region={$region_id}{/if}">
+				{if $member->photo neq NULL}
+					{assign var=img_file value=$member->photo}
+					{html_image file="images/$img_file" maxwidth="38" maxheight="44" alt="Foto van $member->formatName()"}
+				{else}
+					<img height="44" width="38" src="/images/profile-photo-party.jpg" alt="Geen foto beschikbaar" />
+				{/if}
+				<p><strong>{$member->formatName()}</strong></p>
+			</a>
+		</li>
+		{foreachelse}
+		<li>
+			<span>Geen actieve leden.</span>
+		</li>
+		{/foreach}
+	</ul>
+</div>

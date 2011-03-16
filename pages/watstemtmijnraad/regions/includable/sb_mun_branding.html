@@ -1,0 +1,26 @@
+{* There is always a region object, but party and politician objects may not exist
+	If they do not exist, one may give an object_id to this page.
+ *}
+{if !$party_id}{assign var=party_id value=$party->id}{/if}
+{if !$politician_id}{assign var=politician_id value=$politician->id}{/if}
+
+<div class="mod mun-branding">
+	<h1 class="blue">
+        {if $party->image}
+            <img src="/images/parties/{$party->image}" alt="Logo van {$party->name}"/>
+        {elseif $party->name}
+            {$party->name}
+        {else}
+            {if !$iframe == 2}<a href="/regions/region/{$region->id}">{/if}
+                {if $region->getLogo()}
+                    <img src="/files/{$region->getLogo()}" alt="Logo {$region->level_name} {$region->name}" />
+                {else}
+                    {$region->level_name} {$region->name}
+                {/if}
+            {if !$iframe == 2}</a>{/if}
+        {/if}
+	</h1>
+	{if $show_region_link}<a class="back" href="/regions/region/{$region->id}">Terug naar de {$region->level_name|lower} pagina</a>{/if}
+	{if $show_party_link}<a class="back" href="/parties/party/{$party_id}/?region={$region->id}">Terug naar de partij pagina</a>{/if}
+	{if $show_politician_link}<a class="back" href="/politicians/politician/{$politician_id}/?region={$region->id}">Terug naar de politicus pagina</a>{/if}
+</div>

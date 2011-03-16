@@ -1,0 +1,10 @@
+{if $region AND $pages}
+<div class="mod nav-mun-info">
+	<h3>Meer informatie over deze gemeenteraad</h3>
+	<ul>
+	{foreach from=$pages item=page}
+		<li><a href="/page/{$region->id}/{$page->url}" title="{$page->title|htmlspecialchars}">{$page->linkText|default:$page->title|default:$page->url|htmlspecialchars}</a></li>
+	{/foreach}
+	</ul>
+</div>
+{/if}

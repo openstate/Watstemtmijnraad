@@ -1,0 +1,31 @@
+<h2>Statistieken</h2>
+
+<form action="" method="get">
+Startdatum: <input type="text" name="start" value="{$start|strtotime|date_format:'%d-%m-%Y'}" />
+Einddatum: <input type="text" name="end" value="{$end|strtotime|date_format:'%d-%m-%Y'}" />
+<div class="container-buttons">
+<button class="submit" type="submit">Instellen</button>
+<button class="submit" name="clear" type="submit">Verwijderen</button>
+</div>
+</form>
+
+<img src="/statistics/graph/?metric=visits&amp;start={$start|default:'-infinity'|urlencode}&amp;end={$end|default:'infinity'|urlencode}" />
+<img src="/statistics/graph/?metric=avg_time_on_site&amp;start={$start|default:'-infinity'|urlencode}&amp;end={$end|default:'infinity'|urlencode}" />
+
+<div style="width: 50%; float: left;">
+<table>
+<tr><th>Plaats</th><th>Aantal bezoekers</th></tr>
+{foreach from=$locations item=cnt key=loc}
+<tr><td>{$loc|replace:', (not set)':''|htmlspecialchars}</td><td>{$cnt}</td></tr>
+{/foreach}
+</table>
+</div>
+
+<div style="width: 50%; float: left;">
+<table>
+<tr><th>Pagina</th><th>Aantal bezoeken</th></tr>
+{foreach from=$pages item=cnt key=pg}
+<tr><td>{$pg|htmlspecialchars}</td><td>{$cnt}</td></tr>
+{/foreach}
+</table>
+</div>

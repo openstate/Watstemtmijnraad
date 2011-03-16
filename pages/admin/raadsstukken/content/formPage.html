@@ -1,0 +1,163 @@
+{pofile form}
+{pofile formpage}
+{pofile raadsstuk}
+<h2>{$form.header}</h2>
+<h4>{$form.note}</h4>
+
+<div class="forms">
+	{if !$create}
+   	<ul class="steps">
+        <li><a class="active" href="#">Gegevens</a></li>
+        <li><a href="/raadsstukken/vote/{$formdata.id}">Stemmingen</a></li>
+    </ul>
+	{/if}
+    <div class="leftcol">
+		<form action="" name="{$form.name}" method="post" onsubmit="return formSubmit(this)" enctype="multipart/form-data" id="rsForm">
+			<div class="block">
+				<h1>1. Basisinformatie</h1>
+				<div class="field">
+					<label for="title">Titel</label>
+					{if $form.freeze}{$formdata.title|htmlentities:2:'UTF-8'}{else}<input type="text" name="title" value="{$formdata.title}" id="title" class="large vld_required defErrorHandler" onkeyup="revalidate(this.form)" /> <div class="error" id="_err_title_required" style="{if !$formerrors.title_required}display:none{/if}">##form_required##</div>{/if}
+				</div>
+				<div class="field">
+					<label for="title">Subtitel</label>
+					{if $form.freeze}{$formdata.metainfo|htmlentities:2:'UTF-8'}{else}<input type="text" name="metainfo" value="{$formdata.metainfo}" id="metainfo" class="large defErrorHandler" onkeyup="revalidate(this.form)" /> <div class="error" id="_err_metainfo_required" style="{if !$formerrors.metainfo_required}display:none{/if}">##form_required##</div>{/if}
+				</div>
+				<div class="field" style="width: 60%; z-index:10;">
+					<label for="code">Code</label>
+					{if $form.freeze}{$formdata.code|htmlentities:2:'UTF-8'}{else}<input type="text" name="code" class="vld_required defErrorHandler" value="{$formdata.code}" onkeyup="revalidate(this.form)"/> <div class="error" id="_err_code_required" style="{if !$formerrors.code_required}display:none{/if}">##form_required##</div>{/if}
+				</div>
+				<div class="field" style="width: 40%; z-index:10;">
+					<label for="vote_date">Stemdatum</label>
+                    <div>
+                        <input class="text calendar" id="vote_date" type="text" maxlength="20"  name="vote_date" value="{$formdata.vote_date|date_format:'%e-%m-%Y'}" />
+                        <button class="calendar" type="button" style="display: none;"></button>
+                    </div>
+					{*{if $form.freeze}{$formdata.vote_date|date_format:"%e %B %Y"}{else}{html_select_date name="vote_date" time=$formdata.vote_date field_order='DMY' prefix="vote_" day_empty="" month_empty="" year_empty="" start_year=+5 end_year=-5} <span class="error" id="_err_date_invalid" style="{if !$errors.date_invalid}display:none{/if}">##form_validDate##</span>{/if}*}
+				</div>
+				<div class="field" style="clear: left;">
+					<label for="type">Soort stuk</label>
+					{if $form.freeze}{$formdata.type_name|htmlentities:2:'UTF-8'}{else}{html_options id="type" name="type" options=$types selected=$formdata.type} <div class="error" id="_err_type_invalid" style="{if !$formerrors.type_invalid}display:none{/if}">##form_regex##</div>{/if}
+				</div>
+				{if !$form.freeze}<div class="field" id="parent_row"{if $formdata.type != 3 && $formdata.type != 4} style="display: none"{/if}>
+					<label for="parent">##raadsstuk.parent##</label>
+					<span id="parent_el">
+						{html_options id="parent" name="parent" options=$rs_parents|truncate:80|htmlspecialchars selected=$formdata.parent}
+					</span>
+					<input type="checkbox" name="unrestrict_parent" id="unrestrict_parent"{if $formdata.unrestrict_parent} checked="checked"{/if} onchange="unrestrictParentOnChange();" />
+					Alle raadsstukken tonen
+				</div>{/if}
+				<div class="field" id="sub_el">
+					<label for="submitters">Ingediend door</label>
+					{if $form.freeze}
+						{if $formdata.submit_type == 3 OR $formdata.submit_type == 4}
+							{foreach from=$formdata.submitters name=foo item=i}
+								{if isset($councilMembers[$i])}{$councilMembers[$i]->formatName()}
+									{if !$smarty.foreach.foo.last}, {/if}
+								{/if}
+							{/foreach}
+						{else}{$formdata.submit_type_name}{/if}
+					{else}
+					<div id="sub_el_rs"{if $formdata.type != 1} style="display: none"{/if}>
+						{html_options id="submitters_rs" name="submitters" class="vld_required_select" options=$rs_submitters selected=$formdata.submit_type}
+					</div>
+					<div id="sub_el_members"{if $formdata.type != 2 AND $formdata.type != 3 AND $formdata.type != 4} style="display: none"{/if}>
+						{html_options id="submitters" name="submitters[]" class="vld_required_select idErrorHandler" multiple="multiple" size="16" options=$councilView selected=$formdata.submitters onclick="revalidate(this.form)"}
+					</div>
+					<div id="sub_el_citizen"{if $formdata.type != 5} style="display: none"{/if}><span class="non-select">Burger</span></div>
+					<div id="sub_el_onbekend"{if $formdata.type != 6} style="display: none"{/if}><span class="non-select">Onbekend</span></div>
+					<div class="error" id="_err_submitters_required" style="{if !$formerrors.submitters_required}display:none{/if}">##form_required##</div>
+					{/if}
+				</div>
+
+                <div class="field" id="sub_el">
+                    <label for="party">Ingediend door partij: </label>
+                    {html_options id="party" name="party" options=$list_parties selected=$selected_party}
+                </div>
+
+                <div class="field" id="sub_ext_url">
+                    <label for="sub_ext_url">Externe informatie over dit raadsstuk (webadres):</label>
+                    <input type="text"  size="40" value="{$ext_url_info}" name="ext_url"/>
+                </div>
+			</div>
+			<div class="block">
+				<h1>2. Beleidsvelden</h1>
+				<div class="field">
+					<label for="category">In welk(e) beleidsveld(en) valt het raadsstuk?</label>
+					{if $form.freeze}{', '|implode:$formdata.cats}{else}
+						{if !$formdata.cats}{assign var=cats value=''}{else}
+						{assign var=cats value=$formdata.cats|@array_keys}{/if}
+						{assign var=count value=$formdata.cats|@count|max:1}{assign var=count value=$count-1}
+						{foreach from=0|range:$count item=i}
+							{if $i == $count}<div id="cat_clone">{/if}<select class="select-margin" name="cats[]">
+								<option value="">&#160;</option>
+							{foreach from=$categories item=cat key=key}
+								<option value="{$key}"{if $key == $cats.$i} selected="selected"{/if}>{$cat|htmlspecialchars}</option>
+							{/foreach}
+							</select>{if $i == $count}</div>{/if}
+						{/foreach}
+						<span class="cat_add" id="cat_add">nog een beleidsveld toevoegen</span>
+						<div class="error" id="_err_category_invalid" style="{if !$formerrors.category_invalid}display:none{/if}">##form_regex##</div>
+					{/if}
+				</div>
+			</div>
+			<div class="block">
+				<h1>3. Onderwerpen</h1>
+				<div class="field">
+					<label for="tags">Welke specifieke onderwerpen heeft het raadsstuk?</label>
+					{if $form.freeze}{', '|implode:$formdata.tags}{else}
+						{assign var=count value=$formdata.tags|@count|max:1}{assign var=count value=$count-1}
+						{if !$formdata.tags}
+						<div id="tag_empty" class="tag_empty"><span class="non-select">Nog geen onderwerpen gekozen</span></div>
+						{/if}
+						{foreach from=0|range:$count item=i}
+							{if $i == $count}<div id="tag_clone"{if !$formdata.tags} style="display: none;"{/if}>{/if}
+							<input name="tags[]" class="large tag_autocomplete" type="text" value="{$formdata.tags.$i|htmlspecialchars}" />
+							{if $i == $count}</div>{/if}
+						{/foreach}
+					<span id="tag_add" class="tag_add">voeg een onderwerp toe</span>
+					{/if}
+				</div>
+			</div>
+			<div class="block">
+				<h1>4. Samenvatting</h1>
+				<div class="field">
+					{if $form.freeze}<div class="summary">{$formdata.summary}</div>{else}<textarea name="summary" class="richtext" rows="5" cols="40">{$formdata.summary|htmlspecialchars}</textarea> <div class="error" id="_err_summary_too_large" style="{if !$formerrors.summary_too_large}display:none{/if}">##form_toolarge##</div>{/if}
+				</div>
+			</div>
+			<div style="padding:10px;" class="block">
+				<div style="margin:0;" class="buttons">
+					{if !$form.freeze}
+					<button type="submit" class="next" name="show" value="1">Opslaan en publiceren</button>
+					<button type="submit" class="next" name="show" value="0">Opslaan als concept</button>
+					{else}
+					<button type="submit" class="next" name="submit">{$form.submitText}</button>
+					{/if}
+					{if strlen($form.extraButton)}
+					<button type="submit" class="next" name="submit_vote">{$form.extraButton}</button>
+					{/if}
+					<button type="submit" class="prev" name="cancel">Annuleren</button>
+				</div>
+			</div>
+		</form>
+        
+    </div>
+    
+    <div class="rightcol">
+        <p>
+            Stap 1: Bij de eerste stap vult u de algemene informatie met betrekking tot het raadsstuk in.
+            <br/><strong>Tip 1:</strong> Hou de titel kort en verwerk extra informatie in de subtitel
+            <br/><strong>Tip 2:</strong> In het veld "externe informatie" kunt u de link naar het stuk in uw raadssysteem opgeven
+        </p>
+        <p>
+            Stap 2: Hier kiest u debeleidsvelden. U kunt extra beleidsvelden toevoegen door op het 'plus'-teken te klikken.
+        </p>
+        <p>
+            Stap 3: Hier kiest u het relevante onderwerp. Met behulp van het 'plus'-teken kunt u meerdere onderwerpen toevoegen.
+            <br/><strong>Tip 3:</strong> Als u de eerste letter typt, laat het systeem vervolgens alle bijpassende suggesties in het systeem zien, deze kunt u aanklikken</p>
+        <p>
+            Stap 4: kunt de omschrijving van het raadsvoorstel invoeren. Met behulp van de beschikbare knoppen kunt u de tekst opmaken.
+            <br/><strong>Tip 4:</strong> Door een stukje tekst te selecteren en vervolgens op het koppelsymbool te klikken, kunt u een link toevoegen
+        </p>
+    </div>
+</div>

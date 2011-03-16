@@ -1,0 +1,58 @@
+<h2>Beleidsvelden</h2>
+
+{if $error}<p class="error">{$error}</p>
+{if $apps_del}
+<p>Volgende aanstellingen moeten worden verwijderd voordat deze categorie verwijderd mag worden.</p>
+<div style="margin-bottom: 20px;">
+	{foreach from=$apps_del item=app name=apps}
+		<div>{$smarty.foreach.apps.iteration}. <a href="/appointments/{$app.politician}?all" title="Naar appointment">{$app.party} in {$app.region}</a></div>
+	{/foreach}
+</div>
+{/if}
+{/if}
+
+<p><a class="add" href="create/">Toevoegen</a></p>
+
+<a name="CategoryList"></a>
+<form action="" name="CategoryList">
+	<div id="accordion">
+		<table class="list">
+			<tr>
+				<th><a href="?sortcol=name&amp;sort={if $formsort.col=='name' and $formsort.dir=='asc'}desc{else}asc{/if}" class="{if $formsort.col=='name'}current {$formsort.dir}{else}asc{/if}">Naam</a></th>
+				<th>Beschrijving</th>
+                <th>Niveau(s)</th>
+                <th>Aantal raadsstukken</th>
+				<th>Opties</th>
+			</tr>
+			{foreach from=$formdata item=datarow key=id name='dataloop'}
+			{if $datarow.id > 0}
+			<tr class="link{cycle values=', alt'}">
+				<td>{$datarow.category_name|htmlentities:2:'UTF-8'}</td>
+				<td>{$datarow.description|htmlentities:2:'UTF-8'|nl2br}</td>
+                <td>
+                    {if $levels[$datarow.id]|@count > 0}
+                        {foreach from=$levels[$datarow.id] item=level name=levels}
+                            {if $smarty.foreach.levels.last == false}
+                                {$level},
+                            {else}
+                                {$level}
+                            {/if}
+                        {/foreach}
+                    {else}
+                        {$levels[$datarow.id]}
+                    {/if}
+                </td>
+                <td>{$counts[$datarow.id]}</td>
+				<td>
+					<a href="edit/{$datarow.id}" class="edit"><img src="/images/edit.png" alt="Edit" title="Edit" border="0" /></a>
+                        {if !$counts.$id}
+                            <a href="delete/{$datarow.id}" onclick="return confirm('Weet u zeker dat u dit item wilt verwijderen?');"><img src="/images/delete.png" alt="Verwijderen" title="Verwijderen" border="0" /></a>
+                        {/if}
+					<a href="levels/{$datarow.id}"><img src="/images/page_white_text.png" border="0" alt="Wijzig Niveaus" title="Wijzig Niveaus" /></a>
+				</td>
+			</tr>
+			{/if}
+			{/foreach}
+		</table>
+	</div>
+</form>

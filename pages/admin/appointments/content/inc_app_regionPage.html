@@ -1,0 +1,16 @@
+{pofile form}
+{foreach from=$appointments item=politician}
+	<tr class="party_content pol_{$class} link">
+    	<td></td>
+        <td>{$politician.formated_name}</td>
+        <td>{$politician.cat_name}</td>
+        <td>{if $politician.time_start neq '-infinity'}{$politician.time_start|date_format:"%e %B %Y"}{else}geen{/if}</td>
+        <td>{if $politician.time_end neq 'infinity'}{$politician.time_end|date_format:"%e %B %Y"}{else}geen{/if}</td>
+		<td>
+			<a href="/politicians/profile/{$politician.id}" class="edit"><img src="/images/edit.png" alt="##form_edit##" title="##form_edit##" border="0" /></a>
+			<a href="../delete/{$politician.pid}?localparty={$party->id}"><img src="/images/delete.png" alt="##form_delete##" title="##form_delete##" border="0" /></a>
+			{* <a href="/appointments/{$politician.id}" class="app"><img src="/images/user_go.png" alt="Aanstellingen politicus" title="Aanstellingen politicus" border="0" /></a>
+			<a href="/politicians/edit/{$politician.id}"><img src="/images/user_edit.png" alt="Politicus aanpassen" title="Politicus aanpassen" border="0" /></a> *}
+		</td>
+	</tr>
+{/foreach}

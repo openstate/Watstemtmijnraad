@@ -1,0 +1,90 @@
+<h2>Een partij toevoegen aan</h2>
+<h4>de {$region->level_name|strtolower|htmlspecialchars} {$region->name|htmlspecialchars}</h4>
+<script type="text/javascript">{literal}
+	function toggleNew(el) {
+		if (el.selectedIndex == 1)
+			$('new').style.visibility = '';
+		else
+			$('new').style.visibility = 'hidden';
+	}
+
+	function toggleCombination(enable) {
+		if (enable)
+			$('combination').style.visibility = '';
+		else
+			$('combination').style.visibility = 'hidden';
+	}
+	
+	function addParent() {
+		var clone = $('combination_clone').clone();
+		$ES('select', clone).each(function (e) { e.selectedIndex = 0; });
+		clone.inject('inject_before', 'before');
+	}
+{/literal}</script>
+<div class="forms">
+    <div class="leftcol">
+		<form action="" method="post">
+			<div class="block">
+				<div class="field field-party">
+					<label for="party">Selecteer de partij die u wilt toevoegen</label>
+					<select id="party" name="party" onclick="toggleNew(this);">
+						<option value="">&gt; Selecteer een partij</option>
+						<option value="new"{if $post.party == 'new'} selected="selected"{/if}>Ik wil een andere partij toevoegen</option>
+					{foreach from=$parties item=p}
+						<option value="{$p->id}">{$p->name|htmlspecialchars}</option>
+					{/foreach}
+					</select>
+				</div>
+				<div id="new"{if $post.party != 'new'} style="visibility: hidden;"{/if}>
+					<div class="field field-name">
+						<label for="name">Hoe heet de partij?</label>
+						<input id="name" name="name" type="text" value="{$post.name|htmlspecialchars}" maxlength="255" />
+						{if $error.name}<div class="error">Dit veld is verplicht</div>{/if}
+					</div>
+					<div class="field field-short_form">
+						<label for="short_form">Heeft de partij een afkorting?</label>
+						<label><input type="radio" name="has_short_form" value="0"{if !$post.has_short_form} checked="checked"{/if} /> Nee</label>
+						<label><input type="radio" name="has_short_form" value="1"{if $post.has_short_form} checked="checked"{/if} /> Ja, namelijk:</label>
+						<input id="short_form" name="short_form" type="text" value="{$post.short_form|htmlspecialchars}" maxlength="255" />
+						<div>bijvoorbeeld: 'PvdA' of 'CDA'</div>
+						{if $error.short_form}<div class="error">Dit veld is verplicht</div>{/if}
+						{if $error.short_form_invalid}<div class="error">Deze waarde is te lang</div>{/if}
+					</div>
+					<div class="field field-combination">
+						<label>Is de partij een combinatiepartij?</label>
+						<label><input type="radio" name="combination" value="0"{if !$post.combination} checked="checked"{/if} onclick="toggleCombination(false);" /> Nee</label>
+						<label><input type="radio" name="combination" value="1"{if $post.combination} checked="checked"{/if} onclick="toggleCombination(true);" /> Ja</label>
+					</div>
+					<div class="field combination" id="combination"{if !$post.combination} style="visibility:hidden;"{/if}>
+						<label>De partij is een combinatie van:</label>
+						{assign var=count value=$post.parent|@count|max:2}{assign var=count value=$count-1}
+						{foreach from=0|range:$count item=i}
+							{if $i == $count}<div id="combination_clone">{/if}
+							{if $i > 0}<div>en</div>{/if}
+							<select name="parent[]">
+								<option value="">&gt; Selecteer een partij</option>
+							{foreach from=$parties item=p}
+								<option value="{$p->id}"{if $p->id == $post.parent.$i} selected="selected"{/if}>{$p->name|htmlspecialchars}</option>
+							{/foreach}
+							</select>
+							{if $i == $count}</div>{/if}
+						{/foreach}
+						<div id="inject_before"><a onclick="addParent(); return false;" href="#">nog een partij aan deze combinatie toevoegen</a></div>
+					</div>
+				</div>
+			</div>
+
+			<div style="padding:10px;" class="block">
+				<div style="margin:0;" class="buttons">
+					<button type="submit" name="next" class="next">Partij toevoegen</button>
+					<button type="submit" name="cancel" class="prev">Annuleren</button>
+				</div>
+			</div>
+        </form>
+    </div>
+    
+    <div class="rightcol">
+        <p>Toelichting voor stap 1 Vestibulum ut porttitor mi. Sed suscipit, turpis at facilisis molestie, turpis nibh ultricies augue, sed hendrerit purus libero eu nisi.</p>
+        <p>Suspendisse id velit ac nibh consectetur pulvinar. Nulla at felis in lorem dignissim tristique. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+    </div>
+</div>

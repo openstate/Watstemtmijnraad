@@ -1,0 +1,31 @@
+{* included recursively, context vars: nodes -- list of subtrees, level -- current level starting from 1 *}
+
+
+{foreach from=$nodes item=region}
+	{if $region.show}
+		<tr id="region_{$region.id}" class="{if $level > 3}collapsed{/if} {$parent_path} par_{$parent}">
+		<td class="level{$region.level}">
+			{if ($level >= 3) AND ($region.children|@count > 0)}
+				<span>
+					<a class="party_folding" href="javascript: void(0);" onclick="return toggleRegion({$region.id});">
+						<img src="/images/expand.gif" id="image_{$region.id}" class="cross_image" width="16" height="16" />
+					</a>
+				</span>
+			{else}
+				<span></span>
+			{/if}
+							
+				<input class="checkbox" type="checkbox" name="regions[]" value="{$region.id}" {if isset($selectedRegions[$region.id])}checked="checked" {/if}/><label>{$region.name}</label>
+				</td><td class="options">
+
+
+				</td><td>
+
+		</td>
+		</tr>
+		
+		{if $region.children}
+			{include file=$template_path|cat:'recur_rolePage.html' nodes=$region.children level=`$level+1` child=$region.id parent_path=$parent_path|cat:' allpar_'|cat:$region.id parent=$region.id}
+		{/if}
+	{/if}
+{/foreach}

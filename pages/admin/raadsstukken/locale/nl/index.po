@@ -1,0 +1,20 @@
+msgid "index.votes"
+msgstr "Stemming"
+
+msgid "index.notfound"
+msgstr "Geen raadsstukken gevonden"
+
+msgid "index.success"
+msgstr "Het raadsstuk is succesvol %s."
+
+msgid "index.error"
+msgstr "Het raadsstuk kon niet worden %s, probeer het later nog eens."
+
+msgid "index.action.create"
+msgstr "toegevoegd"
+
+msgid "index.action.edit"
+msgstr "gewijzigd"
+
+msgid "index.action.delete"
+msgstr "verwijderd"

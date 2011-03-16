@@ -1,0 +1,152 @@
+{pofile raadsstuk}
+{pofile index}
+{pofile votes}
+
+{literal}
+<script type="text/javascript">
+jQuery.noConflict();
+jQuery(document).ready(function(){
+	handleTextFields(jQuery('form#search_rs input'));
+});
+</script>
+{/literal}
+
+<div class="line">
+	<div class="col size3of4">
+		<div class="mod-raadsstuk-title">
+			<h2>{$raadsstuk->title|htmlentities:2:'UTF-8'}</h2>
+		</div>
+		<div class="col size2of3">
+		<div class="mod votings pol-votings">
+				<div class="voting">
+					<span class="meta-info">{$raadsstuk->metainfo}</span>
+					<span class="date">Stemdatum: {$raadsstuk->vote_date|date_format:"%A %e %B %Y"}</span>
+					<p>
+						{$raadsstuk->summary}
+					</p>
+				</div>
+			</div>
+			<div class="mod votings voting-details">
+           		<table>
+	                <tr><th class="bold">Onderwerp(en):</th><td>
+	                	{foreach from=$categories item=category key=k name=category_loop}	                		
+	                		<a href="/search{$extra_search_params}/category/{$k|urlencode}/submit/1">{$category}</a>
+	                		{if !$smarty.foreach.category_loop.last}, {/if}
+	                	{foreachelse}
+	                		Geen
+	                	{/foreach}</td></tr>
+	                <tr><th class="bold">Code:</th><td>{$raadsstuk->code}</td></tr>
+	                <tr><th class="bold">Soort:</th><td>{$raadsstuk->type_name}</td></tr>
+	                {if $raadsstuk->party}<tr><td class="bold">Ingediend door:</td><td><a href="/parties/party/{$raadsstuk->party}/?region={$raadsstuk->region}">{$raadsstuk->party_name}</a></td></tr>{/if}
+	                {if $submitters}
+	                	<tr><th class="bold">Ingediend door:</th>
+			                <td>{foreach from=$submitters item=sub key=party_id}
+			                <a href="/parties/party/{$party_id}/?region={$raadsstuk->region}">{$sub.name}</a>
+			                 - {foreach from=$sub.members item=name key=id}<a href="/politicians/politician/{$id}/?region={$raadsstuk->region}">{$name}</a>{/foreach}<br />
+			                {/foreach}
+						</td></tr>
+					{/if}
+	                <tr><th class="bold">Tags:</th><td>
+	                	{foreach from=$tags item=tag key=id}
+	                		<a href="/search{$extra_search_params}/tags/{$tag}/submit/1/">{$tag}</a>
+	                	{foreachelse}
+	                		Geen
+	                	{/foreach}
+	                </td></tr>
+	                {if $parent}
+	                	<tr><th class="bold">Raadsstuk:</th><td>
+	                		{* limiting by party is to complex, raadsstuk can have multiple submitting parties *}
+	                		{if ($iframe > 0) && ($parent->region != $raadsstuk->region)}
+	                			<span>{$parent->title|htmlentities:2:'UTF-8'|nl2br}</span>
+	                		{else}
+	                			<a href="/raadsstukken/raadsstuk/{$parent->id}">{$parent->title|htmlentities:2:'UTF-8'|nl2br}</a>
+	                		{/if}
+	                	</td></tr>
+	                {/if}
+                    {if $ext_url_info}
+                    <tr><th class="bold">Extra: </th><td>
+                            <a href="{$ext_url_info}">Externe informatie</a>
+                        </td>
+                    </tr>
+                    {/if}
+               </table>
+           </div>
+	</div>
+    
+	<div class="col size1of3 sidebar">
+		<div class="mod voting-info">
+           	<h5 class="{$verdict_class}" title="{$raadsstuk->vote_message|htmlspecialchars}">Dit raadstuk is {$raadsstuk->getResultTitle()|lower}</h5>
+			<span class="pro">{$raadsstuk->vote_0} voor</span>
+			<span class="contra">{$raadsstuk->vote_1} tegen</span>
+			<span class="other">
+			    <p>Niet gestemd: {$raadsstuk->vote_2}</p>
+			    <p>Afwezig: {$raadsstuk->vote_3}</p>
+			</span>
+			{assign var="count" value=0}
+			{foreach from=$data item=party_vote name=votings}
+             {if $smarty.foreach.votings.last}
+             	<div class="party-voting last-vote">
+             {else}
+             	<div class="party-voting">
+             {/if}
+					{if $party_vote->vote_0 gt 0}<span class="voted pro">{$party_vote->vote_0} voor</span>{/if}
+					{if $party_vote->vote_1 gt 0}<span class="voted contra">{$party_vote->vote_1} tegen</span>{/if}
+					<span class="this-party" id="this-party">
+						<a class="blaat" href="" >
+							{assign var=zaebalo value=$party_vote->party}
+							<abbr title="{$partyMessages.$zaebalo|htmlspecialchars}">
+								{if $party_vote->party_logo neq ''}
+									{assign var=img_file value=$party_vote->party_logo}
+									{html_image file="parties/$img_file" maxwidth="120" alt="$party_vote->party_name"}
+								{elseif $party_vote->party_short_name}
+									<span class="party-name-raadstuk">{$party_vote->party_short_name}</span>
+								{else}
+									<span class="party-name-raadstuk">{$party_vote->party_name}</span>
+								{/if}
+							</abbr>
+                            <span class="read-more">Lees meer...</span>
+						</a>
+					</span>
+					<div class="voteinfo">
+						<br/>
+                        
+						{assign var="partyid" value=$party_vote->party}
+
+                         {foreach from=$votes.$partyid item=vote key=k name=members}
+                            {if $vote.id eq $submitter_party.$partyid.id}
+                                <span class="pol-name"><a href="/politicians/politician/{$submitter_party.$partyid.id}?region={$raadsstuk->region}">{$submitter_party.$partyid.name}</a></span><span style="float: right; margin-top: 5px;"> {if $vote.vote eq '0'}<span class="voted pro">Voor</span>{elseif $vote.vote eq '1'}<span class="voted contra">Tegen</span>{elseif $vote.vote eq '2'}<span class="voted not-voted">Onthouden</span>{else}<span class="voted not-voted">Afwezig</span>{/if}</span><span style="display:block; border-bottom:1px solid #d2d2d2; clear:both; height:1px;"/>&nbsp;</span>
+                            {/if}
+                        {/foreach}
+                         {foreach from=$votes.$partyid item=vote key=k name=members}
+                         {assign var="submitter_id" value=$submitter_party.$partyid}
+                            {if $submitter_party.$partyid.id neq $vote.id}
+							<span class="pol-name" title="{$vote.message|htmlspecialchars}"><a href="/politicians/politician/{$vote.id}?region={$raadsstuk->region}">{$vote.first_name} {$vote.last_name}</a></span><span style="float:right; margin-top:5px;"> {if $vote.vote eq '0'}<span class="voted pro">Voor</span>{elseif $vote.vote eq '1'}<span class="voted contra">Tegen</span>{elseif $vote.vote eq '2'}<span class="voted not-voted">Onthouden</span>{else}<span class="voted not-voted">Afwezig</span>{/if}</span><span style="display:block; border-bottom:1px solid #d2d2d2; clear:both; height:1px;"/>&nbsp;</span>
+                            {/if}
+						{/foreach}
+					</div>
+	            </div>
+				{assign var="count" value="`$count+1`"}
+           	{/foreach}
+		</div>
+	</div>
+	</div>
+	<div class="col size1of4">
+		{include file=`$smartyData.contentDir`/../../regions/includable/sb_mun_branding.html}
+	</div>
+</div>
+
+{literal}
+<script type="text/javascript">
+jQuery.noConflict();
+jQuery(document).ready(function() {
+    jQuery(".voteinfo").css('display', 'none');
+
+    jQuery('.this-party').click(function(ev) {
+        var parent = jQuery(this).parent();
+        parent.children('.voteinfo').toggle('fast');
+        ev.preventDefault();
+        return false;
+    })
+});
+</script>
+{/literal}

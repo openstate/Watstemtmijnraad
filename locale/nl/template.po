@@ -1,0 +1,38 @@
+msgid "template.title"
+msgstr "Wat stemt mijn raad"
+
+msgid "template.header"
+msgstr "Wat stemt mijn raad?" 
+
+msgid "template.mailwizard"
+msgstr "Schrijf een E-mail"
+
+msgid "template.archive"
+msgstr "Vragenarchief"
+
+msgid "template.about"
+msgstr "Over watstemtmijnraad.nl"
+
+msgid "template.login"
+msgstr "Inloggen"
+
+msgid "template.logout"
+msgstr "Uitloggen"
+
+msgid "template.loggedinas"
+msgstr "Ingelogd als: %s"
+
+msgid "template.next"
+msgstr "Volgende"
+
+msgid "template.prev"
+msgstr "Vorige"
+
+msgid "template.cancel"
+msgstr "Annuleren"
+
+msgid "template.finish"
+msgstr "Voltooien"
+
+msgid "template.raadsstukken"
+msgstr "Raadsstukken"
